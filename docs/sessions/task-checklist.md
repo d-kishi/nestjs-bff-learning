@@ -16,13 +16,20 @@
 ## 次回タスク（Phase 1準備）
 
 ### Rules/Skills作成
-- [ ] CLAUDE.mdからRulesに移動（アーキテクチャ設計、APIレスポンスフォーマット）
-- [ ] AskUserQuestion使用ルール追加
+- [ ] CLAUDE.mdからRulesに移動（アーキテクチャ設計、APIレスポンスフォーマット）→ **後日検討**
+- [x] AskUserQuestion使用ルール追加 → CLAUDE.mdに追記済み
+
+### 開発環境セットアップ
+- [x] Docker Desktop採用決定（ADR-0005）
+- [x] Docker Desktopインストール・WSL2統合
+- [x] Oracle Container Registryログイン（Auth Token方式）
+- [x] Oracle XEイメージpull確認
 
 ### DevContainer設定
-- [ ] devcontainer.json作成
-- [ ] docker-compose.yml作成
-- [ ] Dockerfile作成
+- [x] devcontainer.json作成
+- [x] docker-compose.yml作成
+- [x] Dockerfile作成
+- [x] DevContainer起動確認
 
 ### Phase 1設計作業
 - [ ] task-serviceエンティティ詳細設計

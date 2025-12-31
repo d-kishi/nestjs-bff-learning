@@ -19,6 +19,9 @@ Angular → BFF (api-gateway) → task-service / user-service → Oracle XE
 
 ## Commands
 
+> **実行環境**: Claude CodeはWindowsホスト環境で動作するが、npm/nodeコマンドはDevContainer内で実行する必要がある。
+> ホストからは `docker exec nestjs-bff-learning_devcontainer-app-1 bash -c "..."` 形式で実行すること。
+
 ```bash
 # 全サービスの依存関係インストール
 npm install
@@ -86,6 +89,15 @@ services/[service-name]/src/
 - **ブランチ**: `feature/US001-task-creation` 形式
 - **コミット**: Conventional Commits（`feat:`, `fix:`, `docs:`, `test:`, `chore:`）
 - **DB**: 開発時はsynchronize: true（マイグレーション不使用）
+
+## Communication Guidelines
+
+ユーザーへの質問時は以下の条件でAskUserQuestionツールを使用：
+
+- 質問が2件以上ある場合
+- 質問が1件でも、複数の選択肢を提示できる場合
+
+テキストでの直接質問は、単一の自由記述回答が必要な場合のみ使用。
 
 ## Documentation
 
