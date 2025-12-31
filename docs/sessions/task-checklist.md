@@ -2,12 +2,41 @@
 
 中長期的なタスクを管理します。セッション単位のTodoWriteとは別に、Phase単位・プロジェクト単位のタスクを記録。
 
+## Phase 0: 初期セットアップ ✅ 完了
+
+- [x] README.md / CLAUDE.md作成
+- [x] ディレクトリ構造作成
+- [x] package.json（npm workspaces）
+- [x] 各ディレクトリREADME.md
+- [x] セッション管理Command
+- [x] ADRファイル
+
+---
+
+## 次回タスク（Phase 1準備）
+
+### Rules/Skills作成
+- [ ] CLAUDE.mdからRulesに移動（アーキテクチャ設計、APIレスポンスフォーマット）
+- [ ] AskUserQuestion使用ルール追加
+
+### DevContainer設定
+- [ ] devcontainer.json作成
+- [ ] docker-compose.yml作成
+- [ ] Dockerfile作成
+
+### Phase 1設計作業
+- [ ] task-serviceエンティティ詳細設計
+- [ ] task-service API設計
+- [ ] ユーザーストーリー作成
+
+---
+
 ## Phase 1: task-service
 
 ### 環境構築
-- [ ] DevContainer設定作成
 - [ ] Oracle XE接続確認
 - [ ] task-service雛形作成（nest new）
+- [ ] database/init/ スキーマSQL作成
 
 ### エンティティ実装
 - [ ] Project エンティティ
