@@ -38,22 +38,27 @@ Architecture Decision Records（ADR）を格納するディレクトリです。
 [この決定による影響、トレードオフ]
 ```
 
-## 既存のADR（企画書に記載）
+## ADR一覧
 
 | ADR | タイトル | ステータス |
 |-----|---------|-----------|
-| 0001 | NestJS標準アーキテクチャの採用 | 承認 |
-| 0002 | JWT + RBACによる認証・認可 | 承認 |
-| 0003 | Oracle同一インスタンス・別スキーマ構成 | 承認 |
-| 0004 | BFFパターンの採用 | 承認 |
-| 0005 | SDDツール不採用 | 承認 |
-| 0006 | CodeRabbit CLI + SaaS併用 | 承認 |
-| 0007 | ESLint + PrettierとCodeRabbitの役割分担 | 承認 |
-| 0008 | npm workspacesによるmonorepo構成 | 承認 |
-| 0009 | GitHub Flowブランチ戦略 | 承認 |
-| 0010 | テスト戦略（Unit Test + API E2E） | 承認 |
+| [0000](0000-template.md) | テンプレート | - |
+| [0001](0001-oracle-same-instance-separate-schema.md) | Oracle同一インスタンス・別スキーマ構成 | 承認 |
+| [0002](0002-no-sdd-tools.md) | SDDツール不採用 | 承認 |
+| [0003](0003-npm-workspaces-monorepo.md) | npm workspacesによるmonorepo構成 | 承認 |
+| [0004](0004-coderabbit-review-strategy.md) | CodeRabbitによるレビュー戦略 | 承認 |
 
-※ 詳細は [project-plan.md](../project-plan.md) のADR一覧を参照
+### CLAUDE.md/README.mdでカバーしている設計判断
+
+以下はADRファイルとして独立させず、既存ドキュメントで管理：
+
+- NestJS標準アーキテクチャの採用 → CLAUDE.md「NestJS Service Structure」
+- JWT + RBACによる認証・認可 → CLAUDE.md「Authentication Flow」
+- BFFパターンの採用 → CLAUDE.md「Architecture」、README.md「アーキテクチャ」
+- GitHub Flowブランチ戦略 → CLAUDE.md「Conventions」、README.md「開発規約」
+- テスト戦略 → CLAUDE.md「Testing」
+
+※ 全設計判断の詳細は [project-plan.md](../project-plan.md) を参照
 
 ## 学習プロジェクトでの活用
 
