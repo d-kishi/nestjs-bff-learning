@@ -1,0 +1,38 @@
+{
+  "name": "nestjs-bff-learning",
+  "version": "0.0.1",
+  "description": "NestJS + BFF学習プロジェクト",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "frontend/*"
+  ],
+  "scripts": {
+    "start:task": "npm run start --workspace=services/task-service",
+    "start:user": "npm run start --workspace=services/user-service",
+    "start:gateway": "npm run start --workspace=services/api-gateway",
+    "test:task": "npm run test --workspace=services/task-service",
+    "test:user": "npm run test --workspace=services/user-service",
+    "test:gateway": "npm run test --workspace=services/api-gateway",
+    "test:task:e2e": "npm run test:e2e --workspace=services/task-service",
+    "test:user:e2e": "npm run test:e2e --workspace=services/user-service",
+    "test:gateway:e2e": "npm run test:e2e --workspace=services/api-gateway",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "npm run format --workspaces --if-present",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}
