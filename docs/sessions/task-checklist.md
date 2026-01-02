@@ -51,22 +51,27 @@
 - [x] database/init/01_create_task_schema.sql（TASK_DB / TASK_DB_TEST）
 - [x] 共通レスポンス型作成（ApiResponse, PaginatedResponse, ErrorResponse）
 
-### user-service
-- [ ] user-service雛形作成（nest new）
-- [ ] TypeORM + Oracle接続設定
-- [ ] 認証系パッケージ（@nestjs/passport, @nestjs/jwt, passport-jwt, bcrypt）
-- [ ] database/init/02_create_user_schema.sql（USER_DB / USER_DB_TEST）
+### user-service ✅ 完了
+- [x] user-service雛形作成（nest new）
+- [x] TypeORM + Oracle接続設定
+- [x] 認証系パッケージ（@nestjs/passport, @nestjs/jwt, passport-jwt, bcrypt）
+- [x] database/init/02_create_user_schema.sql（USER_DB / USER_DB_TEST）
 
-### api-gateway
-- [ ] api-gateway雛形作成（nest new）
-- [ ] サービス間通信パッケージ（@nestjs/axios）
+### api-gateway ✅ 完了
+- [x] api-gateway雛形作成（nest new）
+- [x] サービス間通信パッケージ（@nestjs/axios）
 
-### Angular
-- [ ] Angular CLI インストール
-- [ ] Angular雛形作成（ng new）
+### Angular ✅ 完了
+- [x] Angular CLI インストール
+- [x] Angular雛形作成（ng new --standalone）
 
-### 環境構築手順書
-- [ ] 全サービス雛形完了後に作成
+### DevContainer設定更新 ✅ 完了
+- [x] docker-compose.yml環境変数追加
+- [x] devcontainer.jsonポート・拡張機能追加
+- [x] 全設定ファイルに日本語コメント追加（Docker学習用）
+
+### 環境構築手順書 ✅ 完了
+- [x] docs/environment-setup/README.md作成
 
 ---
 

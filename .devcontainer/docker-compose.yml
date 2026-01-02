@@ -1,35 +1,167 @@
+# =============================================================================
+# NestJS BFF Learning - Docker Compose 設定
+# =============================================================================
+#
+# 【このファイルの目的】
+# DevContainer環境で使用する複数のコンテナを定義する。
+# - app: Node.js開発環境（NestJS + Angular）
+# - oracle: Oracle Database XE（開発用DB）
+#
+# 【docker-compose.ymlとは】
+# 複数のDockerコンテナをまとめて管理するための設定ファイル。
+# `docker compose up` で定義された全コンテナを一括起動できる。
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# services: コンテナの定義
+# -----------------------------------------------------------------------------
+# 各サービス名（app, oracle）がコンテナのホスト名になる。
+# コンテナ間通信では、このサービス名でアクセスできる。
+# 例: appコンテナからoracleコンテナへは「oracle:1521」でアクセス
+# -----------------------------------------------------------------------------
 services:
+
+  # ---------------------------------------------------------------------------
+  # app: Node.js開発用コンテナ
+  # ---------------------------------------------------------------------------
+  # NestJS（task-service, user-service, api-gateway）と
+  # Angular（angular-app）の開発を行うメインコンテナ。
+  # ---------------------------------------------------------------------------
   app:
+    # build: Dockerイメージのビルド設定
+    # 既存イメージを使わず、Dockerfileからカスタムイメージを作成する
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .              # ビルドコンテキスト（Dockerfileのあるディレクトリ）
+      dockerfile: Dockerfile  # 使用するDockerfile
+
+    # volumes: ホストとコンテナ間のディレクトリ共有
+    # ホスト側のファイル変更がコンテナ内に即座に反映される
     volumes:
       - ..:/workspace:cached
+      # ┌─────────────────────────────────────────────────────────────────┐
+      # │ ..: ホスト側のプロジェクトルート（docker-compose.ymlの親）      │
+      # │ /workspace: コンテナ内のマウント先                              │
+      # │ :cached: macOS/Windows向け性能最適化オプション                  │
+      # │          ホスト→コンテナの同期を優先（読み取り性能向上）        │
+      # └─────────────────────────────────────────────────────────────────┘
+
+    # command: コンテナ起動時に実行するコマンド
+    # sleep infinity でコンテナを永続的に起動状態に保つ
+    # （DevContainerがシェルを提供するため、特定のアプリは起動しない）
     command: sleep infinity
+
+    # environment: コンテナ内で使用できる環境変数
+    # NestJSアプリケーションからprocess.env.XXXで参照できる
     environment:
-      - ORACLE_HOST=oracle
-      - ORACLE_PORT=1521
-      - ORACLE_SERVICE=XEPDB1
+      # --- Oracle共通設定 ---
+      # 全サービス共通のDB接続情報
+      - ORACLE_HOST=oracle      # oracleコンテナのホスト名
+      - ORACLE_PORT=1521        # Oracleのリスナーポート
+      - ORACLE_SERVICE=XEPDB1   # PDB（Pluggable Database）名
+
+      # --- task-service用 ---
+      # TASK_DBスキーマへの接続情報
+      - TASK_DB_USER=TASK_DB
+      - TASK_DB_PASSWORD=task_password
+
+      # --- user-service用 ---
+      # USER_DBスキーマへの接続情報
+      - USER_DB_USER=USER_DB
+      - USER_DB_PASSWORD=user_password
+
+      # --- api-gateway用 ---
+      # 各バックエンドサービスへの接続URL
+      # BFFから各サービスを呼び出す際に使用
+      - TASK_SERVICE_URL=http://localhost:3001
+      - USER_SERVICE_URL=http://localhost:3002
+
+    # depends_on: 依存関係の定義
+    # oracleコンテナが正常起動するまでappコンテナの起動を待機
     depends_on:
       oracle:
-        condition: service_healthy
+        condition: service_healthy  # ヘルスチェックがpassするまで待機
+        # ┌─────────────────────────────────────────────────────────────┐
+        # │ service_healthy: oracleのhealthcheckが成功するまで待つ      │
+        # │ Oracle XEは初回起動に2-3分かかるため、この設定が重要        │
+        # │ これがないとDB未起動状態でアプリが接続を試みてエラーになる  │
+        # └─────────────────────────────────────────────────────────────┘
 
+  # ---------------------------------------------------------------------------
+  # oracle: Oracle Database XE コンテナ
+  # ---------------------------------------------------------------------------
+  # 開発用のOracle Database Express Edition (21c)。
+  # 無料で使用可能。本番DBとほぼ同じ機能を持つ。
+  # ---------------------------------------------------------------------------
   oracle:
+    # image: 使用するDockerイメージ
+    # Oracle公式のContainer Registryから取得
+    # ※事前にcontainer-registry.oracle.comへのログインが必要
     image: container-registry.oracle.com/database/express:21.3.0-xe
+
+    # environment: Oracle初期化時の設定
     environment:
-      - ORACLE_PWD=password
-      - ORACLE_CHARACTERSET=AL32UTF8
+      - ORACLE_PWD=password           # SYS/SYSTEMユーザーのパスワード
+      - ORACLE_CHARACTERSET=AL32UTF8  # 文字コード（日本語対応）
+
+    # ports: ホストとコンテナのポートマッピング
+    # ホストの1521番ポートへのアクセスをコンテナの1521番に転送
     ports:
       - "1521:1521"
-    volumes:
-      - oracle-data:/opt/oracle/oradata
-      - ../database/init:/opt/oracle/scripts/startup
-    healthcheck:
-      test: ["CMD-SHELL", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s system/password@localhost:1521/XEPDB1 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
-      start_period: 120s
+      # ┌─────────────────────────────────────────────────────────────┐
+      # │ "ホスト:コンテナ" 形式                                      │
+      # │ A5M2等のDBクライアントからlocalhost:1521でアクセス可能      │
+      # └─────────────────────────────────────────────────────────────┘
 
+    # volumes: データ永続化とSQL初期化
+    volumes:
+      # Oracleデータファイルの永続化（名前付きボリューム）
+      - oracle-data:/opt/oracle/oradata
+      # ┌─────────────────────────────────────────────────────────────┐
+      # │ oracle-data: 下部で定義した名前付きボリューム               │
+      # │ コンテナを削除してもDBデータが保持される                    │
+      # │ /opt/oracle/oradata: Oracleのデータファイル格納場所         │
+      # └─────────────────────────────────────────────────────────────┘
+
+      # SQL初期化スクリプトのマウント
+      - ../database/init:/opt/oracle/scripts/startup
+      # ┌─────────────────────────────────────────────────────────────┐
+      # │ ../database/init: ホスト側のSQLファイル格納ディレクトリ     │
+      # │   - 01_create_task_schema.sql (TASK_DB作成)                 │
+      # │   - 02_create_user_schema.sql (USER_DB作成)                 │
+      # │                                                             │
+      # │ /opt/oracle/scripts/startup: Oracle起動時に自動実行される   │
+      # │   ファイル名のアルファベット順に実行（01→02→...）          │
+      # └─────────────────────────────────────────────────────────────┘
+
+    # healthcheck: コンテナの正常性確認
+    # この設定により、DBが実際に使用可能になったかを判定できる
+    healthcheck:
+      # test: 正常性を確認するコマンド
+      # sqlplusでDBに接続し、簡単なクエリを実行
+      test: ["CMD-SHELL", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s system/password@localhost:1521/XEPDB1 || exit 1"]
+      # ┌─────────────────────────────────────────────────────────────┐
+      # │ sqlplus -s: サイレントモード（余計な出力を抑制）            │
+      # │ SELECT 1 FROM DUAL: Oracle固有のダミークエリ（接続確認用）  │
+      # │ || exit 1: 失敗時に終了コード1を返す                        │
+      # └─────────────────────────────────────────────────────────────┘
+
+      interval: 30s       # チェック間隔（30秒ごと）
+      timeout: 10s        # タイムアウト時間
+      retries: 10         # 失敗許容回数（10回失敗でunhealthy）
+      start_period: 120s  # 初回チェックまでの待機時間（2分）
+      # ┌─────────────────────────────────────────────────────────────┐
+      # │ start_period: Oracle XEは初回起動に時間がかかるため、       │
+      # │               2分間は失敗してもリトライカウントしない       │
+      # └─────────────────────────────────────────────────────────────┘
+
+# -----------------------------------------------------------------------------
+# volumes: 名前付きボリュームの定義
+# -----------------------------------------------------------------------------
+# Dockerが管理する永続化領域。コンテナ削除後もデータが保持される。
+# `docker volume ls` で一覧表示、`docker volume rm` で削除可能。
+# -----------------------------------------------------------------------------
 volumes:
   oracle-data:
+    # 特にオプション指定なし = Dockerのデフォルト設定で作成
+    # データはDockerのボリューム領域（WSL2内）に保存される

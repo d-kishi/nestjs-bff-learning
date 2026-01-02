@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: 環境構築フェーズ → 全サービス雛形作成待ち
-- **状況**: task-service雛形完了、他サービス未着手
-- **次のステップ**: 全サービス雛形作成 → 環境構築手順書作成 → 実装開始
+- **Phase**: Phase 1 - task-service実装（TDDサイクル）
+- **状況**: 環境構築完了、実装フェーズ開始待ち
+- **次のステップ**: Project → Task → Comment → Tag の順でTDD実装
 
 ## 直近の完了事項
 
@@ -33,34 +33,25 @@
 - [x] **task-service雛形作成**（nest new + TypeORM設定）
 - [x] **Oracleスキーマ作成**（TASK_DB / TASK_DB_TEST）
 - [x] **共通レスポンス型作成**（ApiResponse, PaginatedResponse, ErrorResponse）
+- [x] **user-service雛形作成**（nest new + 認証系パッケージ）
+- [x] **api-gateway雛形作成**（nest new + HTTPクライアント）
+- [x] **Angular雛形作成**（ng new --standalone）
+- [x] **USER_DB/USER_DB_TESTスキーマ作成**
+- [x] **DevContainer設定ファイルに日本語コメント追加**（Docker学習用）
+- [x] **環境構築手順書作成**（`docs/environment-setup/README.md`）
 
 ## 次回セッション推奨事項
 
-### 優先度1: 全サービス雛形作成（環境構築完了）
+### Phase 1: task-service実装（TDDサイクル）
 
-1. **user-service雛形作成**
-   - NestJS + TypeORM + Oracle設定
-   - 認証系パッケージ: @nestjs/passport, @nestjs/jwt, passport-jwt, bcrypt
-   - USER_DB / USER_DB_TEST スキーマ作成
+実装順序: **Project → Task → Comment → Tag**
 
-2. **api-gateway雛形作成**
-   - NestJS基本設定
-   - サービス間通信: @nestjs/axios
-
-3. **Angular雛形作成**
-   - Angular CLI
-   - BFF連携設定
-
-### 優先度2: 環境構築手順書作成
-
-- 全サービス雛形完了後に作成
-- インストールしたパッケージ、設定手順を正確に記録
-
-### 優先度3: エンティティ・API実装（TDDサイクル）
-
-- 環境構築完了後に開始
-- Project → Task → Comment → Tag の順
-- `docs/design/task-service-entities.md`, `docs/design/task-service-api.md` 参照
+各エンティティごとに以下のサイクルを実施：
+1. エンティティ定義（TypeORM Entity）
+2. Repository層（DB操作）
+3. Service層（ビジネスロジック）
+4. Controller層（HTTP API）
+5. ユニットテスト + E2Eテスト
 
 ### 読み込み推奨ファイル
 - `docs/design/task-service-entities.md` - エンティティ詳細設計

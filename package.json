@@ -17,6 +17,8 @@
     "test:task:e2e": "npm run test:e2e --workspace=services/task-service",
     "test:user:e2e": "npm run test:e2e --workspace=services/user-service",
     "test:gateway:e2e": "npm run test:e2e --workspace=services/api-gateway",
+    "start:angular": "npm run start --workspace=frontend/angular-app",
+    "build:angular": "npm run build --workspace=frontend/angular-app",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present",
     "prepare": "husky"

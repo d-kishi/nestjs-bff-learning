@@ -1,33 +1,145 @@
+// =============================================================================
+// NestJS BFF Learning - DevContainer 設定
+// =============================================================================
+//
+// 【このファイルの目的】
+// VS Code の DevContainer 機能の設定ファイル。
+// コンテナ内での開発環境（拡張機能、設定、起動後コマンド等）を定義する。
+//
+// 【devcontainer.jsonとは】
+// VS Code が Docker コンテナを開発環境として使用する際の設定。
+// このファイルがあるディレクトリを VS Code で開くと、
+// 「Reopen in Container」オプションが表示される。
+//
+// 【JSONコメントについて】
+// 通常のJSONはコメント不可だが、devcontainer.json は
+// JSONC (JSON with Comments) 形式をサポートしている。
+//
+// =============================================================================
 {
+  // ---------------------------------------------------------------------------
+  // 基本設定
+  // ---------------------------------------------------------------------------
+
+  // name: DevContainer の表示名
+  // VS Code のウィンドウタイトルやリモートエクスプローラーに表示される
   "name": "NestJS BFF Learning",
+
+  // dockerComposeFile: 使用する docker-compose.yml のパス
+  // 複数コンテナ構成の場合は docker-compose.yml を使用
+  // 単一コンテナの場合は "image" や "build" を直接指定することも可能
   "dockerComposeFile": "docker-compose.yml",
+
+  // service: docker-compose.yml 内のどのサービスに接続するか
+  // VS Code はこのコンテナ内でターミナルやエディタ機能を提供する
   "service": "app",
+
+  // workspaceFolder: コンテナ内のワークスペースディレクトリ
+  // VS Code がこのパスをルートとして開く
+  // docker-compose.yml の volumes でマウントした先と一致させる
   "workspaceFolder": "/workspace",
+
+  // ---------------------------------------------------------------------------
+  // ライフサイクルコマンド
+  // ---------------------------------------------------------------------------
+
+  // postCreateCommand: コンテナ作成後に実行するコマンド
+  // 初回起動時やリビルド時に1回だけ実行される
+  // 依存関係のインストールなど、セットアップ処理に使用
   "postCreateCommand": "npm install",
+  // ┌───────────────────────────────────────────────────────────────────────┐
+  // │ npm install: package.json の依存関係をインストール                    │
+  // │ npm workspaces により、全サービス（task/user/gateway/angular）の      │
+  // │ 依存関係が一括でインストールされる                                    │
+  // │                                                                       │
+  // │ 【他のライフサイクルコマンド】                                        │
+  // │ - postStartCommand: コンテナ起動ごとに実行                            │
+  // │ - postAttachCommand: VS Codeがアタッチするたびに実行                  │
+  // │ - initializeCommand: ビルド前にホスト側で実行                         │
+  // └───────────────────────────────────────────────────────────────────────┘
+
+  // ---------------------------------------------------------------------------
+  // ポートフォワーディング
+  // ---------------------------------------------------------------------------
+
+  // forwardPorts: コンテナのポートをホストに転送
+  // ホストの localhost:XXXX でコンテナ内のサービスにアクセス可能になる
   "forwardPorts": [
-    3000,
-    3001,
-    3002,
-    1521
+    3000,  // api-gateway (BFF)
+    3001,  // task-service
+    3002,  // user-service
+    4200,  // Angular dev server
+    1521   // Oracle Database
   ],
+  // ┌───────────────────────────────────────────────────────────────────────┐
+  // │ 【ポート用途】                                                        │
+  // │ 3000: api-gateway  - BFF層、フロントエンドからのAPIエンドポイント    │
+  // │ 3001: task-service - タスク管理マイクロサービス                       │
+  // │ 3002: user-service - ユーザー管理・認証マイクロサービス               │
+  // │ 4200: Angular      - ng serve のデフォルトポート                     │
+  // │ 1521: Oracle       - DBクライアント（A5M2等）からの接続用            │
+  // │                                                                       │
+  // │ 【注意】docker-compose.yml の ports とは別の概念                      │
+  // │ - docker-compose ports: コンテナ間・ホスト-コンテナ間のマッピング    │
+  // │ - forwardPorts: VS Code 経由の追加転送（自動検出のヒント）           │
+  // └───────────────────────────────────────────────────────────────────────┘
+
+  // ---------------------------------------------------------------------------
+  // VS Code カスタマイズ
+  // ---------------------------------------------------------------------------
+
   "customizations": {
     "vscode": {
+      // extensions: コンテナ内にインストールする VS Code 拡張機能
+      // コンテナ起動時に自動的にインストールされる
+      // ホスト側の拡張機能とは独立して管理される
       "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "Orta.vscode-jest",
-        "ashinzekene.nestjs",
-        "imgildev.vscode-nestjs-snippets-extension",
-        "humao.rest-client",
-        "christian-kohler.npm-intellisense",
-        "christian-kohler.path-intellisense",
-        "yoavbls.pretty-ts-errors"
+        // --- コード品質 ---
+        "dbaeumer.vscode-eslint",           // ESLint: JavaScriptリンター
+        "esbenp.prettier-vscode",           // Prettier: コードフォーマッター
+
+        // --- テスト ---
+        "Orta.vscode-jest",                 // Jest: テストランナー統合
+
+        // --- NestJS ---
+        "ashinzekene.nestjs",               // NestJS: シンタックスハイライト
+        "imgildev.vscode-nestjs-snippets-extension",  // NestJS スニペット
+
+        // --- API開発 ---
+        "humao.rest-client",                // REST Client: HTTPリクエストテスト
+
+        // --- 開発効率 ---
+        "christian-kohler.npm-intellisense",   // npm: パッケージ名補完
+        "christian-kohler.path-intellisense",  // パス: ファイルパス補完
+        "yoavbls.pretty-ts-errors",            // TypeScript: エラー表示改善
+
+        // --- Angular ---
+        "Angular.ng-template",              // Angular Language Service
+        "johnpapa.Angular2"                 // Angular スニペット
       ],
+      // ┌─────────────────────────────────────────────────────────────────┐
+      // │ 【拡張機能ID の調べ方】                                         │
+      // │ VS Code の拡張機能ページで「歯車アイコン」→「拡張機能IDをコピー」│
+      // │ または Marketplace の URL から確認可能                          │
+      // └─────────────────────────────────────────────────────────────────┘
+
+      // settings: コンテナ内の VS Code 設定
+      // ユーザー設定より優先される（ワークスペース設定相当）
       "settings": {
+        // 保存時に自動フォーマット
         "editor.formatOnSave": true,
+
+        // デフォルトのフォーマッターを Prettier に設定
         "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+        // 保存時のコードアクション（ESLint自動修正）
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
+          // ┌─────────────────────────────────────────────────────────┐
+          // │ "explicit": 明示的に有効化                              │
+          // │ 保存時にESLintの自動修正を実行                          │
+          // │ Prettierと併用することでフォーマット+リント修正が自動化 │
+          // └─────────────────────────────────────────────────────────┘
         }
       }
     }
