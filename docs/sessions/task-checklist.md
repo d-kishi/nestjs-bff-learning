@@ -106,26 +106,50 @@
 
 ---
 
-## Phase 2: user-service
+## Phase 2: user-service ✅ 完了
 
-### 環境構築
-- [ ] user-service雛形作成
+### 設計 ✅ 完了
+- [x] user-serviceエンティティ詳細設計 → `docs/design/user-service-entities.md`
+- [x] user-service API設計 → `docs/design/user-service-api.md`
+- [x] ユーザーストーリー作成 → `docs/user-stories/US008〜US012`
 
-### エンティティ実装
-- [ ] User エンティティ
-- [ ] UserProfile エンティティ
-- [ ] Role エンティティ（多対多）
+### 共通基盤（task-serviceから移植）✅ 完了
+- [x] ExceptionFilter（統一エラーレスポンス）
+- [x] ResponseInterceptor（統一成功レスポンス）
+- [x] カスタムデコレータ（X-User-Id/X-User-Roles取得）
+- [x] 共通DTO（PaginationQueryDto）
+- [x] ビジネス例外クラス（USER_*エラーコード）
 
-### 認証・認可
-- [ ] JWT認証実装
-- [ ] RBACガード実装
+### エンティティ実装 ✅ 完了
+- [x] User エンティティ（bcryptパスワードハッシュ）
+- [x] UserProfile エンティティ（1:1リレーション）
+- [x] Role エンティティ（N:Mリレーション）
+- [x] RefreshToken エンティティ
+
+### 認証・認可 ✅ 完了
+- [x] Auth Service（register, login, refresh, logout, me）
+- [x] JWT設定（Access Token: 900秒、Refresh Token: 7日）
+- [x] RolesGuard実装
+- [x] シードデータ（ADMIN, MEMBER ロール）
+
+### Users/Roles API ✅ 完了
+- [x] Users Controller（一覧、詳細、プロフィール更新、パスワード変更、ロール更新、ステータス更新、削除）
+- [x] Roles Controller（一覧、詳細、作成、更新、削除）
+
+### テスト ✅ 完了（95テスト パス）
+- [x] 共通基盤テスト（Filter, Interceptor, Decorator, Guard）: 45テスト
+- [x] AuthService テスト: 13テスト
+- [x] UserService テスト: 24テスト
+- [x] RoleService テスト: 13テスト
 
 ---
 
 ## Phase 3: api-gateway (BFF)
 
-- [ ] api-gateway雛形作成
-- [ ] サービス間通信実装
+- [x] api-gateway雛形作成（環境構築フェーズで完了）
+- [ ] JWT検証・デコード実装
+- [ ] サービス間通信実装（@nestjs/axios）
+- [ ] X-User-Id, X-User-Rolesヘッダ伝播
 - [ ] データ集約エンドポイント
 - [ ] 部分失敗ハンドリング
 
@@ -133,6 +157,6 @@
 
 ## Phase 4: Angular統合
 
-- [ ] Angular雛形作成
+- [x] Angular雛形作成（環境構築フェーズで完了）
 - [ ] 認証画面
 - [ ] タスク管理画面

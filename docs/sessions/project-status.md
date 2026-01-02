@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 1 - task-service実装（TDDサイクル）**完了**
-- **状況**: **全エンティティ実装完了・CodeRabbitレビュー済み**
-- **次のステップ**: Phase 2 user-service実装
+- **Phase**: Phase 2 完了 → Phase 3 準備中
+- **状況**: **user-service TDD実装完了（95テスト パス）**
+- **次のステップ**: Phase 3 api-gateway（BFF）実装開始
 
 ## Phase 1 実装進捗
 
@@ -18,6 +18,16 @@
 | Comment | ✅ 完了 | 23 |
 | Tag | ✅ 完了 | 37 |
 | **合計** | | **155** |
+
+## Phase 2 実装進捗
+
+| カテゴリ | 状況 | テスト数 |
+|---------|------|---------|
+| 共通基盤（Filter, Interceptor, Decorator, Guard） | ✅ 完了 | 45 |
+| AuthService | ✅ 完了 | 13 |
+| UserService | ✅ 完了 | 24 |
+| RoleService | ✅ 完了 | 13 |
+| **合計** | | **95** |
 
 ## 直近の完了事項
 
@@ -53,34 +63,33 @@
 - [x] **共通基盤整備**（ExceptionFilter, ResponseInterceptor, カスタムデコレータ）
 - [x] **Project エンティティ実装**（Entity, DTO, Repository, Service, Controller）
 - [x] **Task エンティティ実装**（Entity, DTO, Repository, Service, Controller）
+- [x] **Comment エンティティ実装**（Entity, DTO, Repository, Service, Controller）
+- [x] **Tag エンティティ実装**（M:Nリレーション、Entity, DTO, Repository, Service, Controller）
+- [x] **CodeRabbitレビュー・修正**（6件の指摘対応）
+- [x] **user-serviceエンティティ詳細設計**（`docs/design/user-service-entities.md`）
+- [x] **user-service API設計**（`docs/design/user-service-api.md`）
+- [x] **ユーザーストーリー作成**（US008〜US012）
+- [x] **Phase 2 user-service TDD実装完了**（95テスト パス）
 
 ## 次回セッション推奨事項
 
-### Phase 1継続: Comment・Tag実装
+### Phase 3開始: api-gateway（BFF）実装
 
-実装順序: **Comment → Tag**
+#### 読み込み推奨ファイル
+- `docs/project-plan.md` のPhase 3セクション
+- `docs/design/user-service-api.md` （user-serviceとの連携）
+- `docs/design/task-service-api.md` （task-serviceとの連携）
 
-各エンティティごとに以下のサイクルを実施：
-1. エンティティ定義（TypeORM Entity）
-2. Repository層（DB操作）
-3. Service層（ビジネスロジック）
-4. Controller層（HTTP API）
-5. ユニットテスト
+#### 実装ポイント
+- サービス間HTTP通信（@nestjs/axios）
+- JWT検証・デコード（BFFでJWT検証、内部ヘッダ伝播）
+- データ集約エンドポイント
+- 部分失敗ハンドリング
 
-### Comment実装のポイント
-- Task-Comment間の1:N リレーション
-- 権限チェック: author_id一致 or ADMINロール
-
-### Tag実装のポイント
-- Task-Tag間のM:N リレーション（task_tags中間テーブル）
-- name UNIQUE制約
-- color: HEXカラー形式（#RRGGBB）バリデーション
-
-### 読み込み推奨ファイル
-- `docs/design/task-service-entities.md` - エンティティ詳細設計
-- `docs/design/task-service-api.md` - API設計
-- `docs/user-stories/US006_コメント投稿.md` - Commentシナリオ
-- `docs/user-stories/US007_タグ管理.md` - Tagシナリオ
+#### 環境
+- api-gateway: ポート3000
+- user-service: ポート3002
+- task-service: ポート3001
 
 ## 重要な制約・注意点
 
@@ -138,10 +147,14 @@ Issue #9716（Skills自動発動問題）の回避策として導入済み。
 
 | ファイル | 内容 |
 |---------|------|
-| `docs/design/task-service-entities.md` | エンティティ詳細設計（フィールド・TypeORM設定） |
-| `docs/design/task-service-api.md` | API設計（エンドポイント・DTO・エラーコード） |
+| `docs/design/task-service-entities.md` | task-service エンティティ詳細設計 |
+| `docs/design/task-service-api.md` | task-service API設計 |
+| `docs/design/user-service-entities.md` | user-service エンティティ詳細設計 |
+| `docs/design/user-service-api.md` | user-service API設計 |
 
 ## ユーザーストーリー一覧
+
+### task-service（US001〜US007）
 
 | ID | タイトル | 概要 |
 |----|---------|------|
@@ -152,3 +165,13 @@ Issue #9716（Skills自動発動問題）の回避策として導入済み。
 | US005 | タスクステータス更新 | ステータス変更・項目更新 |
 | US006 | コメント投稿 | タスクへのコメント管理 |
 | US007 | タグ管理 | タグのCRUD・タスクへの付与 |
+
+### user-service（US008〜US012）
+
+| ID | タイトル | 概要 |
+|----|---------|------|
+| US008 | ユーザー登録 | メール・パスワードでの新規登録 |
+| US009 | ログイン | JWT発行・認証 |
+| US010 | プロフィール更新 | 表示名・アバター等の更新 |
+| US011 | パスワード変更 | 本人によるパスワード変更 |
+| US012 | ユーザー管理 | ADMIN向けユーザー管理機能 |
