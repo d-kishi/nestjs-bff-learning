@@ -44,10 +44,12 @@
 
 ## Phase 1: task-service（TDDサイクルで実装）
 
-### 環境構築
-- [ ] Oracle XE接続確認
-- [ ] task-service雛形作成（nest new）
-- [ ] database/init/ スキーマSQL作成
+### 環境構築 ✅ 完了
+- [x] Oracle XE接続確認（A5M2直接接続 + IPv6）
+- [x] task-service雛形作成（nest new）
+- [x] TypeORM + Oracle接続設定
+- [x] database/init/ スキーマSQL作成
+- [x] 共通レスポンス型作成（ApiResponse, PaginatedResponse, ErrorResponse）
 
 ### エンティティ実装
 - [ ] Project エンティティ

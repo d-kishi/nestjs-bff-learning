@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 1（task-service実装）TDD準備完了 → 実装待ち
-- **状況**: TDD Skills・Forced Eval Hook導入完了、実装開始可能
-- **次のステップ**: Claude Code再起動 → TDD Skill動作確認 → task-service雛形作成
+- **Phase**: Phase 1（task-service実装）雛形完了 → エンティティ実装待ち
+- **状況**: task-service雛形作成完了、TypeORM + Oracle接続設定完了
+- **次のステップ**: エンティティ実装（TDDサイクル）
 
 ## 直近の完了事項
 
@@ -30,29 +30,28 @@
 - [x] **ユーザーストーリー作成**（US001〜US007）
 - [x] **TDD Skills作成**（`.claude/skills/tdd/SKILL.md`）
 - [x] **Forced Eval Hook導入**（Issue #9716回避策）
+- [x] **task-service雛形作成**（nest new + TypeORM設定）
+- [x] **Oracleスキーマ作成**（TASK_DB / TASK_DB_TEST）
+- [x] **共通レスポンス型作成**（ApiResponse, PaginatedResponse, ErrorResponse）
 
 ## 次回セッション推奨事項
 
-### 優先度1: TDD Skill動作確認
+### 優先度1: エンティティ実装（TDDサイクル）
 
-1. Claude Code再起動
-2. 「エンティティを実装してください」等のプロンプトでHook動作確認
-3. TDD Skillの評価指示が自動注入されることを確認
+1. **Projectエンティティ**
+   - `docs/design/task-service-entities.md` 参照
+   - テスト作成 → 実装 → リファクタリング
 
-### 優先度2: Phase 1実装（TDDサイクル）
+2. **Taskエンティティ**
+   - Project との1:N リレーション
 
-1. **task-service雛形作成**
-   - `nest new task-service` 実行
-   - TypeORM + Oracle接続設定
+3. **Comment / Tagエンティティ**
+   - Task との関連（1:N, N:M）
 
-2. **エンティティ実装（テストファースト）**
-   - Project → Task → Comment → Tag の順
-   - `docs/design/task-service-entities.md` を参照
+### 優先度2: API実装
 
-3. **API実装（テストファースト）**
-   - Project CRUD → Task CRUD → Comment CRUD → Tag CRUD
-   - `docs/design/task-service-api.md` を参照
-   - ユーザーストーリーのテストシナリオを活用
+- Project CRUD → Task CRUD → Comment CRUD → Tag CRUD
+- `docs/design/task-service-api.md` 参照
 
 ### 読み込み推奨ファイル
 - `docs/design/task-service-entities.md` - エンティティ詳細設計
@@ -76,12 +75,24 @@
 | Oracle XE | 21.3.0-xe |
 | Oracle接続 | XEPDB1 (port 1521) |
 
+## DB接続情報（A5M2用）
+
+| 項目 | 値 |
+|------|-----|
+| 接続方式 | **直接接続（OCI不使用）+ IPv6有効** |
+| サーバー名 | `localhost:1521/XEPDB1` |
+| ユーザーID | `TASK_DB` |
+| パスワード | `task_password` |
+
+**注意**: Docker Desktop + WSL2環境ではIPv4ポートフォワーディングが不安定なため、IPv6を使用。
+
 ## メモ・申し送り
 
-- 作業順序: ~~Rules/Skills~~ → ~~DevContainer~~ → ~~設計~~ → ~~TDD準備~~ → **実装**
+- 作業順序: ~~Rules/Skills~~ → ~~DevContainer~~ → ~~設計~~ → ~~TDD準備~~ → ~~雛形作成~~ → **エンティティ実装**
 - CLAUDE.md/README.mdで十分カバーできる設計判断はADRファイル化不要という方針を採用
 - Oracle Container Registry認証手順は `docs/sessions/daily/2025-12-31.md` に詳細記載（技術記事化予定）
 - Debian TrixieではlibaioパッケージがlibaioXt64にリネームされている点に注意
+- OCI接続（Instant Client使用）はIPv4問題により非推奨、直接接続を使用
 
 ## Forced Eval Hook情報
 
