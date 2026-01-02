@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 1（task-service実装）雛形完了 → エンティティ実装待ち
-- **状況**: task-service雛形作成完了、TypeORM + Oracle接続設定完了
-- **次のステップ**: エンティティ実装（TDDサイクル）
+- **Phase**: 環境構築フェーズ → 全サービス雛形作成待ち
+- **状況**: task-service雛形完了、他サービス未着手
+- **次のステップ**: 全サービス雛形作成 → 環境構築手順書作成 → 実装開始
 
 ## 直近の完了事項
 
@@ -36,22 +36,31 @@
 
 ## 次回セッション推奨事項
 
-### 優先度1: エンティティ実装（TDDサイクル）
+### 優先度1: 全サービス雛形作成（環境構築完了）
 
-1. **Projectエンティティ**
-   - `docs/design/task-service-entities.md` 参照
-   - テスト作成 → 実装 → リファクタリング
+1. **user-service雛形作成**
+   - NestJS + TypeORM + Oracle設定
+   - 認証系パッケージ: @nestjs/passport, @nestjs/jwt, passport-jwt, bcrypt
+   - USER_DB / USER_DB_TEST スキーマ作成
 
-2. **Taskエンティティ**
-   - Project との1:N リレーション
+2. **api-gateway雛形作成**
+   - NestJS基本設定
+   - サービス間通信: @nestjs/axios
 
-3. **Comment / Tagエンティティ**
-   - Task との関連（1:N, N:M）
+3. **Angular雛形作成**
+   - Angular CLI
+   - BFF連携設定
 
-### 優先度2: API実装
+### 優先度2: 環境構築手順書作成
 
-- Project CRUD → Task CRUD → Comment CRUD → Tag CRUD
-- `docs/design/task-service-api.md` 参照
+- 全サービス雛形完了後に作成
+- インストールしたパッケージ、設定手順を正確に記録
+
+### 優先度3: エンティティ・API実装（TDDサイクル）
+
+- 環境構築完了後に開始
+- Project → Task → Comment → Tag の順
+- `docs/design/task-service-entities.md`, `docs/design/task-service-api.md` 参照
 
 ### 読み込み推奨ファイル
 - `docs/design/task-service-entities.md` - エンティティ詳細設計
@@ -88,7 +97,7 @@
 
 ## メモ・申し送り
 
-- 作業順序: ~~Rules/Skills~~ → ~~DevContainer~~ → ~~設計~~ → ~~TDD準備~~ → ~~雛形作成~~ → **エンティティ実装**
+- 作業順序: ~~Rules/Skills~~ → ~~DevContainer~~ → ~~設計~~ → ~~TDD準備~~ → ~~task-service雛形~~ → **全サービス雛形** → **環境構築手順書** → 実装
 - CLAUDE.md/README.mdで十分カバーできる設計判断はADRファイル化不要という方針を採用
 - Oracle Container Registry認証手順は `docs/sessions/daily/2025-12-31.md` に詳細記載（技術記事化予定）
 - Debian TrixieではlibaioパッケージがlibaioXt64にリネームされている点に注意
