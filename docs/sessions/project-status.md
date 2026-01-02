@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 2 完了 → Phase 3 準備中
-- **状況**: **user-service TDD実装完了（95テスト パス）**
-- **次のステップ**: Phase 3 api-gateway（BFF）実装開始
+- **Phase**: Phase 3 設計完了 → 実装準備中
+- **状況**: **api-gateway設計ドキュメント完成**
+- **次のステップ**: Phase 3 api-gateway（BFF）TDD実装開始
 
 ## Phase 1 実装進捗
 
@@ -70,26 +70,39 @@
 - [x] **user-service API設計**（`docs/design/user-service-api.md`）
 - [x] **ユーザーストーリー作成**（US008〜US012）
 - [x] **Phase 2 user-service TDD実装完了**（95テスト パス）
+- [x] **api-gateway API設計**（`docs/design/api-gateway-api.md`）
+- [x] **api-gateway 型定義設計**（`docs/design/api-gateway-types.md`）
+- [x] **ユーザーストーリー作成**（US013〜US014）
 
 ## 次回セッション推奨事項
 
-### Phase 3開始: api-gateway（BFF）実装
+### Phase 3実装: api-gateway（BFF）TDD実装
 
 #### 読み込み推奨ファイル
-- `docs/project-plan.md` のPhase 3セクション
-- `docs/design/user-service-api.md` （user-serviceとの連携）
-- `docs/design/task-service-api.md` （task-serviceとの連携）
+- `docs/design/api-gateway-api.md` （BFF API設計）
+- `docs/design/api-gateway-types.md` （BFF型定義設計）
+- `docs/user-stories/US013_BFF認証.md` （認証ユーザーストーリー）
+- `docs/user-stories/US014_BFFデータ集約.md` （データ集約ユーザーストーリー）
 
-#### 実装ポイント
-- サービス間HTTP通信（@nestjs/axios）
-- JWT検証・デコード（BFFでJWT検証、内部ヘッダ伝播）
-- データ集約エンドポイント
-- 部分失敗ハンドリング
+#### 実装ステップ（推奨順序）
+1. **共通基盤**: JwtAuthGuard, RolesGuard, デコレータ
+2. **サービスクライアント**: TaskServiceClient, UserServiceClient
+3. **Auth Proxy**: /api/auth/* エンドポイント
+4. **Projects/Tasks Proxy**: /api/projects/*, /api/tasks/*
+5. **Comments/Tags Proxy**: /api/comments/*, /api/tags/*
+6. **Users/Roles Proxy**: /api/users/*, /api/roles/*
+7. **Dashboard**: データ集約エンドポイント
+
+#### 追加パッケージ
+```bash
+npm install @nestjs/passport passport passport-jwt @nestjs/jwt
+npm install -D @types/passport-jwt
+```
 
 #### 環境
 - api-gateway: ポート3000
-- user-service: ポート3002
 - task-service: ポート3001
+- user-service: ポート3002
 
 ## 重要な制約・注意点
 
@@ -151,6 +164,8 @@ Issue #9716（Skills自動発動問題）の回避策として導入済み。
 | `docs/design/task-service-api.md` | task-service API設計 |
 | `docs/design/user-service-entities.md` | user-service エンティティ詳細設計 |
 | `docs/design/user-service-api.md` | user-service API設計 |
+| `docs/design/api-gateway-api.md` | api-gateway（BFF）API設計 |
+| `docs/design/api-gateway-types.md` | api-gateway（BFF）型定義設計 |
 
 ## ユーザーストーリー一覧
 
@@ -175,3 +190,10 @@ Issue #9716（Skills自動発動問題）の回避策として導入済み。
 | US010 | プロフィール更新 | 表示名・アバター等の更新 |
 | US011 | パスワード変更 | 本人によるパスワード変更 |
 | US012 | ユーザー管理 | ADMIN向けユーザー管理機能 |
+
+### api-gateway（US013〜US014）
+
+| ID | タイトル | 概要 |
+|----|---------|------|
+| US013 | BFF認証 | JWT検証・ヘッダ伝播・認証フロー |
+| US014 | BFFデータ集約 | ダッシュボード・部分失敗ハンドリング |

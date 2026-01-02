@@ -146,12 +146,20 @@
 
 ## Phase 3: api-gateway (BFF)
 
+### 設計 ✅ 完了
 - [x] api-gateway雛形作成（環境構築フェーズで完了）
-- [ ] JWT検証・デコード実装
-- [ ] サービス間通信実装（@nestjs/axios）
-- [ ] X-User-Id, X-User-Rolesヘッダ伝播
-- [ ] データ集約エンドポイント
-- [ ] 部分失敗ハンドリング
+- [x] api-gateway API設計 → `docs/design/api-gateway-api.md`
+- [x] api-gateway 型定義設計 → `docs/design/api-gateway-types.md`
+- [x] ユーザーストーリー作成 → `docs/user-stories/US013, US014`
+
+### 実装（TDD）
+- [ ] 共通基盤（JwtAuthGuard, RolesGuard, デコレータ）
+- [ ] サービスクライアント（TaskServiceClient, UserServiceClient）
+- [ ] Auth Proxy（/api/auth/*）
+- [ ] Projects/Tasks Proxy（/api/projects/*, /api/tasks/*）
+- [ ] Comments/Tags Proxy
+- [ ] Users/Roles Proxy
+- [ ] Dashboard（データ集約、部分失敗ハンドリング）
 
 ---
 
