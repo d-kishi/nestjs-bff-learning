@@ -7,7 +7,30 @@
       "Bash(git push:*)",
       "Bash(git commit:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Skill(session-start)",
+      "WebSearch",
+      "Skill(session-end)",
+      "Bash(docker pull:*)",
+      "Bash(docker compose build:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker exec nestjs-bff-learning_devcontainer-app-1 bash -c \"node -v && npm -v && ls /opt/oracle/\")",
+      "Bash(docker exec nestjs-bff-learning_devcontainer-oracle-1 bash -c \"echo ''SELECT 1 FROM DUAL;'' | sqlplus -s system/password@localhost:1521/XEPDB1\")",
+      "WebFetch(domain:github.com)",
+      "Bash(npm install)",
+      "Bash(npm run build:*)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/dist/index.js userPromptSubmit"
+          }
+        ]
+      }
     ]
   }
 }

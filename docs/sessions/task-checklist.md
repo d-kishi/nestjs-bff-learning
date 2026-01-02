@@ -31,14 +31,18 @@
 - [x] Dockerfile作成
 - [x] DevContainer起動確認
 
-### Phase 1設計作業
-- [ ] task-serviceエンティティ詳細設計
-- [ ] task-service API設計
-- [ ] ユーザーストーリー作成
+### Phase 1設計作業 ✅ 完了
+- [x] task-serviceエンティティ詳細設計 → `docs/design/task-service-entities.md`
+- [x] task-service API設計 → `docs/design/task-service-api.md`
+- [x] ユーザーストーリー作成 → `docs/user-stories/US001〜US007`
+
+### TDD準備 ✅ 完了
+- [x] TDD Skills作成（Red-Green-Refactorワークフロー定義）→ `.claude/skills/tdd/SKILL.md`
+- [x] Forced Eval Hook導入（Issue #9716回避策）→ `.claude/hooks/`
 
 ---
 
-## Phase 1: task-service
+## Phase 1: task-service（TDDサイクルで実装）
 
 ### 環境構築
 - [ ] Oracle XE接続確認

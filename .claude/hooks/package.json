@@ -1,0 +1,24 @@
+{
+  "name": "claude-code-hooks",
+  "version": "1.0.0",
+  "description": "Claude Code Hooks - Skills auto-activation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run generate-triggers && tsc",
+    "build:hooks": "tsc",
+    "generate-triggers": "npx ts-node scripts/generate-triggers.ts"
+  },
+  "keywords": [
+    "claude-code",
+    "hooks",
+    "skills"
+  ],
+  "author": "NestJS BFF Learning Project",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}

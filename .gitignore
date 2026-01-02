@@ -31,3 +31,4 @@ coverage/
 # Misc
 *.tgz
 .npm
+.claude/settings.local.json
