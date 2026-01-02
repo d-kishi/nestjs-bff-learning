@@ -395,6 +395,47 @@ ng new angular-app --standalone --routing --style=scss --skip-git --skip-tests
 
 ---
 
+## CodeRabbit CLI（オプション）
+
+AIコードレビューツール。DevContainer内で利用可能。
+
+### インストール
+
+```bash
+# DevContainer内で実行
+curl -fsSL https://cli.coderabbit.ai/install.sh | sh
+source ~/.profile
+```
+
+### 認証
+
+```bash
+# D-Busセッション経由で認証（gnome-keyring必要）
+dbus-run-session -- bash
+echo "" | gnome-keyring-daemon --unlock --components=secrets
+coderabbit auth login
+# ブラウザでGitHubアカウント認証、トークンを貼り付け
+```
+
+### 使用方法
+
+```bash
+cd /workspace/services/task-service
+
+# AI向け簡潔出力（Claude Code連携に最適）
+coderabbit review --prompt-only --type uncommitted
+
+# 詳細出力（人間向け）
+coderabbit review --plain --type uncommitted
+```
+
+### 参考
+
+- [CodeRabbit CLI Documentation](https://docs.coderabbit.ai/cli/overview)
+- [CodeRabbit CLI公式サイト](https://www.coderabbit.ai/cli)
+
+---
+
 ## 環境構築手順
 
 ### 前提条件

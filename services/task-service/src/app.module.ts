@@ -3,6 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ProjectModule } from './project/project.module';
+import { TaskModule } from './task/task.module';
+import { CommentModule } from './comment/comment.module';
+import { TagModule } from './tag/tag.module';
 
 /**
  * アプリケーションルートモジュール
@@ -41,6 +45,11 @@ import { AppService } from './app.service';
         },
       }),
     }),
+    // ドメインモジュール
+    ProjectModule,
+    TaskModule,
+    CommentModule,
+    TagModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 /**
  * アプリケーションエントリポイント
@@ -26,6 +28,14 @@ async function bootstrap() {
       },
     }),
   );
+
+  // グローバルExceptionFilter設定
+  // 全エンドポイントで統一されたエラーレスポンス形式を適用
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // グローバルResponseInterceptor設定
+  // 全エンドポイントで統一された成功レスポンス形式を適用
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   // task-serviceはポート3001で起動
   const port = process.env.PORT ?? 3001;

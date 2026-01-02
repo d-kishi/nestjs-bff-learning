@@ -77,21 +77,32 @@
 
 ## Phase 1: task-service（TDDサイクルで実装）
 
+### 共通基盤 ✅ 完了
+- [x] ExceptionFilter（統一エラーレスポンス）
+- [x] ResponseInterceptor（統一成功レスポンス）
+- [x] カスタムデコレータ（X-User-Id/X-User-Roles取得）
+- [x] 共通DTO（PaginationQueryDto）
+- [x] ビジネス例外クラス
+
 ### エンティティ実装
-- [ ] Project エンティティ
-- [ ] Task エンティティ
-- [ ] Comment エンティティ
-- [ ] Tag エンティティ（多対多）
+- [x] Project エンティティ（Entity, DTO, Repository, Service, Controller）✅
+- [x] Task エンティティ（Entity, DTO, Repository, Service, Controller）✅
+- [x] Comment エンティティ（Entity, DTO, Repository, Service, Controller）✅
+- [x] Tag エンティティ（多対多、Entity, DTO, Repository, Service, Controller）✅
 
-### API実装
-- [ ] Project CRUD
-- [ ] Task CRUD
-- [ ] Comment CRUD
-- [ ] Tag CRUD
+### テスト状況
+- [x] Project: 25テスト
+- [x] Task: 35テスト
+- [x] 共通基盤: 35テスト
+- [x] Comment: 23テスト
+- [x] Tag: 37テスト
 
-### テスト
-- [ ] Service層ユニットテスト
-- [ ] API E2Eテスト
+**合計: 155テスト パス**
+
+### CodeRabbitレビュー ✅ 完了
+- [x] CodeRabbit CLIインストール・認証
+- [x] レビュー実行・6件の指摘修正
+- [x] ESLint/Prettier修正
 
 ---
 

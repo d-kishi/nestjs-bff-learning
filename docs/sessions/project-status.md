@@ -4,9 +4,20 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 1 - task-service実装（TDDサイクル）
-- **状況**: 環境構築完了、実装フェーズ開始待ち
-- **次のステップ**: Project → Task → Comment → Tag の順でTDD実装
+- **Phase**: Phase 1 - task-service実装（TDDサイクル）**完了**
+- **状況**: **全エンティティ実装完了・CodeRabbitレビュー済み**
+- **次のステップ**: Phase 2 user-service実装
+
+## Phase 1 実装進捗
+
+| エンティティ | 状況 | テスト数 |
+|-------------|------|---------|
+| 共通基盤 | ✅ 完了 | 35 |
+| Project | ✅ 完了 | 25 |
+| Task | ✅ 完了 | 35 |
+| Comment | ✅ 完了 | 23 |
+| Tag | ✅ 完了 | 37 |
+| **合計** | | **155** |
 
 ## 直近の完了事項
 
@@ -39,24 +50,37 @@
 - [x] **USER_DB/USER_DB_TESTスキーマ作成**
 - [x] **DevContainer設定ファイルに日本語コメント追加**（Docker学習用）
 - [x] **環境構築手順書作成**（`docs/environment-setup/README.md`）
+- [x] **共通基盤整備**（ExceptionFilter, ResponseInterceptor, カスタムデコレータ）
+- [x] **Project エンティティ実装**（Entity, DTO, Repository, Service, Controller）
+- [x] **Task エンティティ実装**（Entity, DTO, Repository, Service, Controller）
 
 ## 次回セッション推奨事項
 
-### Phase 1: task-service実装（TDDサイクル）
+### Phase 1継続: Comment・Tag実装
 
-実装順序: **Project → Task → Comment → Tag**
+実装順序: **Comment → Tag**
 
 各エンティティごとに以下のサイクルを実施：
 1. エンティティ定義（TypeORM Entity）
 2. Repository層（DB操作）
 3. Service層（ビジネスロジック）
 4. Controller層（HTTP API）
-5. ユニットテスト + E2Eテスト
+5. ユニットテスト
+
+### Comment実装のポイント
+- Task-Comment間の1:N リレーション
+- 権限チェック: author_id一致 or ADMINロール
+
+### Tag実装のポイント
+- Task-Tag間のM:N リレーション（task_tags中間テーブル）
+- name UNIQUE制約
+- color: HEXカラー形式（#RRGGBB）バリデーション
 
 ### 読み込み推奨ファイル
 - `docs/design/task-service-entities.md` - エンティティ詳細設計
 - `docs/design/task-service-api.md` - API設計
-- `docs/user-stories/US001〜US007` - ユーザーストーリー（テストシナリオ含む）
+- `docs/user-stories/US006_コメント投稿.md` - Commentシナリオ
+- `docs/user-stories/US007_タグ管理.md` - Tagシナリオ
 
 ## 重要な制約・注意点
 
