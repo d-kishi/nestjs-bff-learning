@@ -1,0 +1,134 @@
+<!-- ユーザー管理画面 -->
+<div class="user-list">
+  <!-- ヘッダー -->
+  <div class="user-list__header">
+    <h1 class="user-list__title">ユーザー管理</h1>
+  </div>
+
+  <!-- フィルター -->
+  <div class="user-list__filters">
+    <!-- 検索 -->
+    <input
+      type="text"
+      class="user-list__search"
+      placeholder="メールアドレス・表示名で検索"
+      aria-label="ユーザー検索"
+      [ngModel]="searchKeyword()"
+      (ngModelChange)="searchKeyword.set($event); onSearchChange()"
+    />
+
+    <!-- ステータスフィルター -->
+    <select
+      name="statusFilter"
+      class="user-list__filter-select"
+      aria-label="ステータスフィルター"
+      [ngModel]="statusFilter()"
+      (ngModelChange)="statusFilter.set($event); onFilterChange()"
+    >
+      <option value="">すべてのステータス</option>
+      <option value="active">アクティブ</option>
+      <option value="inactive">非アクティブ</option>
+    </select>
+  </div>
+
+  <!-- ローディング -->
+  @if (usersService.isLoading()) {
+    <app-loading-spinner [overlay]="true" message="読み込み中..." />
+  }
+
+  <!-- エラー -->
+  @if (usersService.error()) {
+    <div class="user-list__error">
+      <p>{{ usersService.error() }}</p>
+      <button type="button" class="user-list__retry-btn" (click)="usersService.loadUsers()">
+        再試行
+      </button>
+    </div>
+  }
+
+  <!-- ユーザー一覧 -->
+  @if (!usersService.isLoading() && !usersService.error()) {
+    @if (usersService.users().length === 0) {
+      <div class="user-list__empty">
+        <p>ユーザーがいません</p>
+      </div>
+    } @else {
+      <div class="user-list__table-wrapper">
+        <table class="user-list__table" aria-label="ユーザー一覧">
+          <thead>
+            <tr>
+              <th scope="col">メールアドレス</th>
+              <th scope="col">表示名</th>
+              <th scope="col">ロール</th>
+              <th scope="col">ステータス</th>
+              <th scope="col">登録日</th>
+              <th scope="col">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of usersService.users(); track user.id) {
+              <tr class="user-row">
+                <td class="user-row__email">{{ user.email }}</td>
+                <td class="user-row__name">{{ user.profile.displayName }}</td>
+                <td class="user-row__roles">
+                  @for (role of user.roles; track role.id) {
+                    <span class="user-row__role-badge">{{ role.name }}</span>
+                  }
+                </td>
+                <td class="user-row__status">
+                  <span
+                    class="user-row__status-badge"
+                    [class.user-row__status-badge--active]="user.isActive"
+                    [class.user-row__status-badge--inactive]="!user.isActive"
+                  >
+                    {{ user.isActive ? 'アクティブ' : '非アクティブ' }}
+                  </span>
+                </td>
+                <td class="user-row__date">{{ user.createdAt | date:'yyyy/MM/dd' }}</td>
+                <td class="user-row__actions">
+                  <button
+                    type="button"
+                    class="user-row__edit-btn"
+                    (click)="openRoleEditDialog(user)"
+                    aria-label="ロール編集"
+                  >
+                    ロール編集
+                  </button>
+                  <button
+                    type="button"
+                    class="user-row__toggle-btn"
+                    [class.user-row__toggle-btn--deactivate]="user.isActive"
+                    [class.user-row__toggle-btn--activate]="!user.isActive"
+                    (click)="onToggleStatus(user)"
+                    [attr.aria-label]="user.isActive ? '無効化' : '有効化'"
+                  >
+                    {{ user.isActive ? '無効化' : '有効化' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ページネーション -->
+      @if (usersService.totalPages() > 1) {
+        <app-pagination
+          [currentPage]="usersService.currentPage()"
+          [totalPages]="usersService.totalPages()"
+          (pageChange)="onPageChange($event)"
+        />
+      }
+    }
+  }
+
+  <!-- ロール編集ダイアログ -->
+  @if (isDialogOpen()) {
+    <app-role-edit-dialog
+      [user]="editingUser()"
+      [availableRoles]="usersService.availableRoles()"
+      (save)="onSaveRoles($event)"
+      (cancel)="closeDialog()"
+    />
+  }
+</div>

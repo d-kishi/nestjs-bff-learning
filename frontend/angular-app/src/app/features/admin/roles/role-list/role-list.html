@@ -1,0 +1,102 @@
+<!-- ロール管理画面 -->
+<div class="role-list">
+  <!-- ヘッダー -->
+  <div class="role-list__header">
+    <h1 class="role-list__title">ロール管理</h1>
+    <button type="button" class="role-list__create-btn" (click)="openCreateDialog()">
+      新規作成
+    </button>
+  </div>
+
+  <!-- ローディング -->
+  @if (rolesService.isLoading()) {
+    <app-loading-spinner [overlay]="true" message="読み込み中..." />
+  }
+
+  <!-- エラー -->
+  @if (rolesService.error()) {
+    <div class="role-list__error">
+      <p>{{ rolesService.error() }}</p>
+      <button type="button" class="role-list__retry-btn" (click)="rolesService.loadRoles()">
+        再試行
+      </button>
+    </div>
+  }
+
+  <!-- ロール一覧 -->
+  @if (!rolesService.isLoading() && !rolesService.error()) {
+    @if (rolesService.roles().length === 0) {
+      <div class="role-list__empty">
+        <p>ロールがありません</p>
+        <p class="role-list__empty-hint">「新規作成」ボタンからロールを作成してください</p>
+      </div>
+    } @else {
+      <div class="role-list__table-wrapper">
+        <table class="role-list__table" aria-label="ロール一覧">
+          <thead>
+            <tr>
+              <th scope="col">ロール名</th>
+              <th scope="col">説明</th>
+              <th scope="col">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (role of rolesService.roles(); track role.id) {
+              <tr class="role-row">
+                <td class="role-row__name">
+                  {{ role.name }}
+                  @if (rolesService.isSystemRole(role)) {
+                    <span class="role-row__system-badge">システム</span>
+                  }
+                </td>
+                <td class="role-row__description">{{ role.description || '-' }}</td>
+                <td class="role-row__actions">
+                  <button
+                    type="button"
+                    class="role-row__edit-btn"
+                    (click)="openEditDialog(role)"
+                    aria-label="編集"
+                  >
+                    編集
+                  </button>
+                  @if (!rolesService.isSystemRole(role)) {
+                    <button
+                      type="button"
+                      class="role-row__delete-btn"
+                      (click)="openDeleteConfirm(role)"
+                      aria-label="削除"
+                    >
+                      削除
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+
+  <!-- ロール作成/編集ダイアログ -->
+  @if (isDialogOpen()) {
+    <app-role-dialog
+      [mode]="dialogMode()"
+      [role]="editingRole()"
+      (save)="onSave($event)"
+      (cancel)="closeDialog()"
+    />
+  }
+
+  <!-- 削除確認ダイアログ -->
+  <app-confirm-dialog
+    [isOpen]="isConfirmDialogOpen()"
+    type="danger"
+    title="ロールの削除"
+    [message]="'「' + (deletingRole()?.name || '') + '」を削除しますか？このロールを持つユーザーは自動的にロールが解除されます。'"
+    confirmText="削除"
+    cancelText="キャンセル"
+    (confirm)="onConfirmDelete()"
+    (cancel)="closeDeleteConfirm()"
+  />
+</div>

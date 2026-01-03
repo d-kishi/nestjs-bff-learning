@@ -1,0 +1,74 @@
+<!-- ロール作成/編集ダイアログ -->
+<div class="role-dialog">
+  <!-- オーバーレイ -->
+  <div class="role-dialog__overlay" (click)="onCancel()"></div>
+
+  <!-- ダイアログ本体 -->
+  <div
+    class="role-dialog__content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="role-dialog-title"
+  >
+    <!-- ヘッダー -->
+    <h2 id="role-dialog-title" class="role-dialog__title">
+      {{ mode() === 'create' ? 'ロール作成' : 'ロール編集' }}
+    </h2>
+
+    <!-- フォーム -->
+    <form class="role-dialog__form" (ngSubmit)="onSubmit()">
+      <!-- エラーメッセージ -->
+      @if (errorMessage()) {
+        <div class="role-dialog__error" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <!-- ロール名 -->
+      <div class="role-dialog__field">
+        <label for="role-name" class="role-dialog__label">
+          ロール名 <span class="role-dialog__required">*</span>
+        </label>
+        <input
+          id="role-name"
+          name="name"
+          type="text"
+          class="role-dialog__input"
+          [ngModel]="name()"
+          (ngModelChange)="name.set($event)"
+          placeholder="ROLE_NAME"
+          required
+        />
+        <p class="role-dialog__hint">大文字英字とアンダースコアのみ使用可能</p>
+      </div>
+
+      <!-- 説明 -->
+      <div class="role-dialog__field">
+        <label for="role-description" class="role-dialog__label">説明</label>
+        <textarea
+          id="role-description"
+          name="description"
+          class="role-dialog__textarea"
+          [ngModel]="description()"
+          (ngModelChange)="description.set($event)"
+          placeholder="ロールの説明を入力（任意）"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <!-- ボタン -->
+      <div class="role-dialog__actions">
+        <button
+          type="button"
+          class="role-dialog__cancel-btn"
+          (click)="onCancel()"
+        >
+          キャンセル
+        </button>
+        <button type="submit" class="role-dialog__save-btn">
+          {{ mode() === 'create' ? '作成' : '保存' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

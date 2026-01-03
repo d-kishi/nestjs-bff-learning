@@ -1,4 +1,5 @@
 /**
  * 共通サービス エクスポート
  */
-export { ToastService, Toast, ToastType } from './toast.service';
+export { ToastService } from './toast.service';
+export type { Toast, ToastType } from './toast.service';

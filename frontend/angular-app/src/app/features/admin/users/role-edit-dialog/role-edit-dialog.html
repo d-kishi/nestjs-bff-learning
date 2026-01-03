@@ -1,0 +1,62 @@
+<!-- ロール編集ダイアログ -->
+<div class="role-edit-dialog">
+  <!-- オーバーレイ -->
+  <div class="role-edit-dialog__overlay" (click)="onCancel()"></div>
+
+  <!-- ダイアログ本体 -->
+  <div
+    class="role-edit-dialog__content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="role-edit-dialog-title"
+  >
+    <!-- ヘッダー -->
+    <h2 id="role-edit-dialog-title" class="role-edit-dialog__title">
+      {{ user()?.profile?.displayName || user()?.email }} のロール編集
+    </h2>
+
+    <!-- ロール選択 -->
+    <div class="role-edit-dialog__roles">
+      @for (role of availableRoles(); track role.id) {
+        <label class="role-edit-dialog__role">
+          <input
+            type="checkbox"
+            class="role-edit-dialog__checkbox"
+            [checked]="isRoleSelected(role.id)"
+            (change)="toggleRole(role.id)"
+          />
+          <div class="role-edit-dialog__role-info">
+            <span class="role-edit-dialog__role-name">{{ role.name }}</span>
+            @if (role.description) {
+              <span class="role-edit-dialog__role-description">{{ role.description }}</span>
+            }
+          </div>
+        </label>
+      }
+    </div>
+
+    <!-- 注意書き -->
+    <p class="role-edit-dialog__note">
+      ※ 少なくとも1つのロールを選択してください
+    </p>
+
+    <!-- ボタン -->
+    <div class="role-edit-dialog__actions">
+      <button
+        type="button"
+        class="role-edit-dialog__cancel-btn"
+        (click)="onCancel()"
+      >
+        キャンセル
+      </button>
+      <button
+        type="button"
+        class="role-edit-dialog__save-btn"
+        [disabled]="selectedRoleIds().length === 0"
+        (click)="onSave()"
+      >
+        保存
+      </button>
+    </div>
+  </div>
+</div>
