@@ -1,0 +1,16 @@
+<!-- ローディングスピナー -->
+@if (overlay()) {
+  <!-- オーバーレイモード（画面全体をカバー） -->
+  <div class="loading-spinner loading-spinner--overlay loading-spinner--{{ size() }}">
+    <div class="loading-spinner__content">
+      <div class="loading-spinner__icon"></div>
+      <span class="loading-spinner__text">{{ message() }}</span>
+    </div>
+  </div>
+} @else {
+  <!-- インラインモード -->
+  <div class="loading-spinner loading-spinner--{{ size() }}">
+    <div class="loading-spinner__icon"></div>
+    <span class="loading-spinner__text">{{ message() }}</span>
+  </div>
+}

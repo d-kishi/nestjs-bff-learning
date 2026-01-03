@@ -1,0 +1,95 @@
+/**
+ * トースト通知のスタイル
+ *
+ * 画面右上に固定表示され、複数のトーストが縦に積まれる
+ */
+
+// トーストコンテナ（画面右上固定）
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+}
+
+// 個別トースト
+.toast {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out;
+
+  // タイプ別スタイル
+  &--success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+  }
+
+  &--error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+  }
+
+  &--warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+  }
+
+  &--info {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+  }
+}
+
+// アイコン
+.toast__icon {
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+// メッセージ
+.toast__message {
+  flex: 1;
+  word-break: break-word;
+}
+
+// 閉じるボタン
+.toast__close {
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// スライドインアニメーション
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

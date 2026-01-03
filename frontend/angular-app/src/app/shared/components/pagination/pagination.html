@@ -1,0 +1,29 @@
+<!-- ページネーション -->
+<nav class="pagination" aria-label="ページネーション">
+  <!-- 前へボタン -->
+  <button
+    type="button"
+    class="pagination__prev"
+    [disabled]="isPrevDisabled()"
+    (click)="goToPrev()"
+    aria-label="前のページ"
+  >
+    ← 前へ
+  </button>
+
+  <!-- ページ情報 -->
+  <span class="pagination__info">
+    ページ {{ currentPage() }} / {{ totalPages() }}
+  </span>
+
+  <!-- 次へボタン -->
+  <button
+    type="button"
+    class="pagination__next"
+    [disabled]="isNextDisabled()"
+    (click)="goToNext()"
+    aria-label="次のページ"
+  >
+    次へ →
+  </button>
+</nav>

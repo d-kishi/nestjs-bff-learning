@@ -1,0 +1,22 @@
+<!-- トースト通知コンテナ（画面右上に固定表示） -->
+<div class="toast-container">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast toast--{{ toast.type }}" role="alert">
+      <!-- タイプ別アイコン -->
+      <span class="toast__icon">{{ getIcon(toast.type) }}</span>
+
+      <!-- メッセージ -->
+      <span class="toast__message">{{ toast.message }}</span>
+
+      <!-- 閉じるボタン -->
+      <button
+        type="button"
+        class="toast__close"
+        (click)="close(toast.id)"
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+    </div>
+  }
+</div>

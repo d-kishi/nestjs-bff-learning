@@ -1,0 +1,217 @@
+/**
+ * ダッシュボード画面のスタイル
+ */
+
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// エラー表示
+.dashboard__error {
+  text-align: center;
+  padding: 2rem;
+  color: #ef4444;
+}
+
+.dashboard__retry-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2563eb;
+  }
+}
+
+// 部分失敗警告
+.dashboard__partial-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.dashboard__partial-error-icon {
+  font-size: 1.25rem;
+}
+
+.dashboard__partial-error-item {
+  font-weight: 500;
+
+  &::before {
+    content: ', ';
+  }
+
+  &:first-of-type::before {
+    content: '';
+  }
+}
+
+// ようこそメッセージ
+.dashboard__welcome {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+// サマリーカード
+.dashboard__summaries {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard__card {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard__card-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dashboard__card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard__stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.dashboard__stat-label {
+  color: #6b7280;
+}
+
+.dashboard__stat-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+// 直近のタスク
+.dashboard__recent-tasks {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard__section-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dashboard__task-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 0.75rem;
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+  }
+}
+
+.dashboard__task-row {
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.dashboard__task-title {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.dashboard__no-tasks {
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem !important;
+}
+
+// ステータスバッジ
+.dashboard__status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &--todo {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  &--in_progress {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+
+  &--done {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+}
+
+// 優先度バッジ
+.dashboard__priority-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &--low {
+    background-color: #e5e7eb;
+    color: #374151;
+  }
+
+  &--medium {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  &--high {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+}

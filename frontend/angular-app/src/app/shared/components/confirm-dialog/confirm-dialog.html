@@ -1,0 +1,39 @@
+<!-- 確認ダイアログ -->
+@if (isOpen()) {
+  <div class="confirm-dialog">
+    <!-- オーバーレイ（クリックでキャンセル） -->
+    <div class="confirm-dialog__overlay" (click)="onCancel()"></div>
+
+    <!-- ダイアログ本体（クリック伝播を防止） -->
+    <div
+      class="confirm-dialog__content confirm-dialog__content--{{ type() }}"
+      role="dialog"
+      aria-modal="true"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- タイトル -->
+      <h3 class="confirm-dialog__title">{{ title() }}</h3>
+
+      <!-- メッセージ -->
+      <p class="confirm-dialog__message">{{ message() }}</p>
+
+      <!-- ボタン -->
+      <div class="confirm-dialog__actions">
+        <button
+          type="button"
+          class="confirm-dialog__cancel"
+          (click)="onCancel()"
+        >
+          {{ cancelText() }}
+        </button>
+        <button
+          type="button"
+          class="confirm-dialog__confirm"
+          (click)="onConfirm()"
+        >
+          {{ confirmText() }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

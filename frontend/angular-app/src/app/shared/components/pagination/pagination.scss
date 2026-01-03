@@ -1,0 +1,51 @@
+/**
+ * ページネーションのスタイル
+ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+// ページ情報
+.pagination__info {
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+// 共通ボタンスタイル
+.pagination__prev,
+.pagination__next {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #374151;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, outline 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+  }
+
+  // キーボードフォーカス時のスタイル（アクセシビリティ対応）
+  &:focus:not(:disabled) {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  &:focus-visible:not(:disabled) {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

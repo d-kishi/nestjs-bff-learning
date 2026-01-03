@@ -1,0 +1,106 @@
+<!-- アプリケーション共通ヘッダー -->
+<header class="header">
+  <div class="header__container">
+    <!-- ロゴ -->
+    <a routerLink="/dashboard" class="header__logo">
+      Task Manager
+    </a>
+
+    <!-- メインナビゲーション -->
+    <nav class="header__nav">
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="header__nav-link--active"
+        class="header__nav-link"
+      >
+        Dashboard
+      </a>
+      <a
+        routerLink="/projects"
+        routerLinkActive="header__nav-link--active"
+        class="header__nav-link"
+      >
+        Projects
+      </a>
+      <a
+        routerLink="/tasks"
+        routerLinkActive="header__nav-link--active"
+        class="header__nav-link"
+      >
+        Tasks
+      </a>
+    </nav>
+
+    <!-- 右側メニュー -->
+    <div class="header__right">
+      <!-- ADMINメニュー（ADMIN権限時のみ） -->
+      @if (authService.isAdmin()) {
+        <div class="header__admin">
+          <button
+            type="button"
+            class="header__admin-btn"
+            (click)="toggleAdminMenu($event)"
+            aria-haspopup="true"
+            [attr.aria-expanded]="isAdminMenuOpen()"
+          >
+            Admin ▼
+          </button>
+
+          @if (isAdminMenuOpen()) {
+            <div class="header__admin-dropdown">
+              <a
+                routerLink="/admin/users"
+                class="header__dropdown-link"
+                (click)="isAdminMenuOpen.set(false)"
+              >
+                Users
+              </a>
+              <a
+                routerLink="/admin/roles"
+                class="header__dropdown-link"
+                (click)="isAdminMenuOpen.set(false)"
+              >
+                Roles
+              </a>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ユーザーメニュー -->
+      <div class="header__user">
+        <button
+          type="button"
+          class="header__user-btn"
+          (click)="toggleUserMenu($event)"
+          aria-haspopup="true"
+          [attr.aria-expanded]="isUserMenuOpen()"
+        >
+          <span class="header__user-name">
+            {{ authService.currentUser()?.profile?.displayName || 'User' }}
+          </span>
+          <span class="header__user-arrow">▼</span>
+        </button>
+
+        @if (isUserMenuOpen()) {
+          <div class="header__dropdown">
+            <a
+              routerLink="/profile"
+              class="header__dropdown-link"
+              (click)="isUserMenuOpen.set(false)"
+            >
+              プロフィール
+            </a>
+            <button
+              type="button"
+              class="header__logout-btn"
+              (click)="logout()"
+            >
+              ログアウト
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</header>

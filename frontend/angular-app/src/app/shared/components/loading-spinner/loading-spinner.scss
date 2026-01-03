@@ -1,0 +1,90 @@
+/**
+ * ローディングスピナーのスタイル
+ */
+
+// ベーススタイル
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  // オーバーレイモード
+  &--overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  // サイズ: small
+  &--small {
+    .loading-spinner__icon {
+      width: 20px;
+      height: 20px;
+      border-width: 2px;
+    }
+
+    .loading-spinner__text {
+      font-size: 0.75rem;
+    }
+  }
+
+  // サイズ: medium（デフォルト）
+  &--medium {
+    .loading-spinner__icon {
+      width: 40px;
+      height: 40px;
+      border-width: 3px;
+    }
+
+    .loading-spinner__text {
+      font-size: 0.875rem;
+    }
+  }
+
+  // サイズ: large
+  &--large {
+    .loading-spinner__icon {
+      width: 60px;
+      height: 60px;
+      border-width: 4px;
+    }
+
+    .loading-spinner__text {
+      font-size: 1rem;
+    }
+  }
+}
+
+// コンテンツラッパー（オーバーレイ時）
+.loading-spinner__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+// スピナーアイコン（CSSアニメーション）
+.loading-spinner__icon {
+  border: 3px solid #e9ecef;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+// テキスト
+.loading-spinner__text {
+  color: #6b7280;
+}
+
+// 回転アニメーション
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

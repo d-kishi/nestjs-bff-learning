@@ -1,0 +1,122 @@
+<!-- ダッシュボード画面 -->
+<div class="dashboard">
+  <!-- ローディング中 -->
+  @if (dashboardService.isLoading()) {
+    <app-loading-spinner [overlay]="true" message="データを読み込み中..." />
+  }
+
+  <!-- エラー -->
+  @if (dashboardService.error()) {
+    <div class="dashboard__error">
+      <p>{{ dashboardService.error() }}</p>
+      <button type="button" class="dashboard__retry-btn" (click)="dashboardService.loadDashboard()">
+        再試行
+      </button>
+    </div>
+  }
+
+  <!-- データ表示 -->
+  @if (dashboardService.dashboard()) {
+    <!-- 部分失敗警告 -->
+    @if (dashboardService.hasPartialError()) {
+      <div class="dashboard__partial-error">
+        <span class="dashboard__partial-error-icon">⚠</span>
+        一部のデータを取得できませんでした:
+        @for (error of dashboardService.partialErrors(); track error) {
+          <span class="dashboard__partial-error-item">{{ error }}</span>
+        }
+      </div>
+    }
+
+    <!-- ようこそメッセージ -->
+    <h1 class="dashboard__welcome">
+      ようこそ、{{ dashboardService.dashboard()?.user?.profile?.displayName || 'User' }} さん
+    </h1>
+
+    <!-- サマリーカード -->
+    <div class="dashboard__summaries">
+      <!-- タスクサマリー -->
+      <div class="dashboard__card">
+        <h2 class="dashboard__card-title">タスクサマリー</h2>
+        <div class="dashboard__card-content">
+          <div class="dashboard__stat">
+            <span class="dashboard__stat-label">TODO:</span>
+            <span class="dashboard__stat-value" data-testid="task-todo">
+              {{ dashboardService.dashboard()?.taskSummary?.todo ?? 0 }}
+            </span>
+          </div>
+          <div class="dashboard__stat">
+            <span class="dashboard__stat-label">IN_PROGRESS:</span>
+            <span class="dashboard__stat-value" data-testid="task-in-progress">
+              {{ dashboardService.dashboard()?.taskSummary?.inProgress ?? 0 }}
+            </span>
+          </div>
+          <div class="dashboard__stat">
+            <span class="dashboard__stat-label">DONE:</span>
+            <span class="dashboard__stat-value" data-testid="task-done">
+              {{ dashboardService.dashboard()?.taskSummary?.done ?? 0 }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- プロジェクトサマリー -->
+      <div class="dashboard__card">
+        <h2 class="dashboard__card-title">プロジェクトサマリー</h2>
+        <div class="dashboard__card-content">
+          <div class="dashboard__stat">
+            <span class="dashboard__stat-label">総数:</span>
+            <span class="dashboard__stat-value" data-testid="project-total">
+              {{ dashboardService.dashboard()?.projectSummary?.total ?? 0 }}
+            </span>
+          </div>
+          <div class="dashboard__stat">
+            <span class="dashboard__stat-label">所有:</span>
+            <span class="dashboard__stat-value" data-testid="project-owned">
+              {{ dashboardService.dashboard()?.projectSummary?.owned ?? 0 }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 直近のタスク -->
+    <div class="dashboard__recent-tasks">
+      <h2 class="dashboard__section-title">直近のタスク</h2>
+      <table class="dashboard__task-table" aria-label="直近のタスク一覧">
+        <thead>
+          <tr>
+            <th scope="col">タイトル</th>
+            <th scope="col">プロジェクト</th>
+            <th scope="col">ステータス</th>
+            <th scope="col">優先度</th>
+            <th scope="col">期限</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (task of dashboardService.dashboard()?.recentTasks; track task.id) {
+            <tr class="dashboard__task-row">
+              <td class="dashboard__task-title">{{ task.title }}</td>
+              <td class="dashboard__task-project">{{ task.projectName }}</td>
+              <td class="dashboard__task-status">
+                <span class="dashboard__status-badge dashboard__status-badge--{{ (task.status || '') | lowercase }}">
+                  {{ task.status }}
+                </span>
+              </td>
+              <td class="dashboard__task-priority">
+                <span class="dashboard__priority-badge dashboard__priority-badge--{{ (task.priority || '') | lowercase }}">
+                  {{ task.priority }}
+                </span>
+              </td>
+              <td class="dashboard__task-due">{{ task.dueDate || '-' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="dashboard__no-tasks" role="status">タスクがありません</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
