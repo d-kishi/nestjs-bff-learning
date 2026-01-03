@@ -69,20 +69,20 @@
 
 ※ 学習用途のためデプロイ関連は対象外
 
-#### Step 1: NestJSコマンド資料・動作確認
+#### Step 1: 動作確認・統合テスト
+1. **アプリケーション動作確認**
+   - 各サービス起動確認
+   - API疎通確認
+
+2. **全サービス結合テスト**
+   - Angular ↔ api-gateway ↔ task-service/user-service
+   - Playwright E2Eテスト実行
+
+#### Step 2: NestJSコマンド資料作成
 1. **NestJSコマンドガイド作成**
    - nest CLI コマンド一覧（generate, build, start等）
    - npm scripts解説（start:dev, test, lint等）
    - Angularのng ○○コマンドとの対比表
-
-2. **アプリケーション動作確認**
-   - 各サービス起動確認
-   - API疎通確認
-
-#### Step 2: 統合テスト
-1. **全サービス結合テスト**
-   - Angular ↔ api-gateway ↔ task-service/user-service
-   - Playwright E2Eテスト実行
 
 ### 機能拡張候補（将来）
 
