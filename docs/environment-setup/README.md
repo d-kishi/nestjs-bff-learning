@@ -9,8 +9,10 @@
 3. [DevContainer環境構成](#devcontainer環境構成)
 4. [各サービスのパッケージ詳細](#各サービスのパッケージ詳細)
 5. [推奨VS Code拡張機能](#推奨vs-code拡張機能)
-6. [環境構築手順](#環境構築手順)
-7. [トラブルシューティング](#トラブルシューティング)
+6. [Playwright E2Eテスト](#playwright-e2eテスト)
+7. [CodeRabbit CLI（オプション）](#coderabbit-cliオプション)
+8. [環境構築手順](#環境構築手順)
+9. [トラブルシューティング](#トラブルシューティング)
 
 ---
 
@@ -400,6 +402,79 @@ ng new angular-app --standalone --routing --style=scss --skip-git --skip-tests
     }
   }
 }
+```
+
+---
+
+## Playwright E2Eテスト
+
+### 概要
+
+PlaywrightはMicrosoft製のブラウザ自動化ライブラリで、E2E（End-to-End）テストに使用します。
+本プロジェクトでは認証フローのE2Eテストに使用しています。
+
+### Dockerfile設定
+
+Chromiumブラウザの動作に必要なOS依存パッケージをDockerfileに追加：
+
+```dockerfile
+# Playwright E2Eテスト用の依存パッケージ
+RUN apt-get update && apt-get install -y \
+    fonts-liberation fonts-noto-color-emoji fonts-unifont \
+    fonts-ipafont-gothic fonts-wqy-zenhei fonts-tlwg-loma-otf fonts-freefont-ttf \
+    libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 \
+    libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 \
+    libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 \
+    libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2 \
+    libfontconfig1 libfreetype6 xfonts-scalable xvfb \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+```
+
+### ブラウザインストール（postCreateCommand）
+
+devcontainer.jsonのpostCreateCommandでブラウザをインストール：
+
+```json
+{
+  "postCreateCommand": "npm install && CI=1 npx playwright install --with-deps chromium"
+}
+```
+
+### テスト実行
+
+```bash
+# Angular appディレクトリで実行
+cd /workspace/frontend/angular-app
+
+# E2Eテスト実行（バックエンドサービス起動必須）
+npm run test:e2e
+
+# UIモードで実行（デバッグ用）
+npm run test:e2e:ui
+```
+
+### 前提条件
+
+E2Eテスト実行には以下のサービスが起動している必要があります：
+
+| サービス | ポート | 用途 |
+|---------|--------|------|
+| task-service | 3001 | タスク管理API |
+| user-service | 3002 | ユーザー認証API |
+| api-gateway | 3000 | BFF（フロントエンド用API） |
+| Angular | 4200 | Webアプリケーション |
+
+### トラブルシューティング
+
+**ブラウザが見つからないエラー**:
+```
+browserType.launch: Executable doesn't exist at ...
+```
+
+**解決策**:
+```bash
+cd /workspace/frontend/angular-app
+CI=1 npx playwright install --with-deps chromium
 ```
 
 ---

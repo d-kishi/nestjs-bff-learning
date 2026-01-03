@@ -115,6 +115,35 @@ ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_23_4:$LD_LIBRARY_PATH
 ENV PATH=/opt/oracle/instantclient_23_4:$PATH
 
 # -----------------------------------------------------------------------------
+# Playwright E2Eテスト用の依存パッケージ
+# -----------------------------------------------------------------------------
+# 【なぜ必要か】
+# Playwright（ブラウザ自動化ライブラリ）でE2Eテストを実行するために、
+# Chromiumブラウザの動作に必要なOS依存パッケージをインストールする。
+# ブラウザ本体はpostCreateCommandでnpx playwright installにより取得。
+#
+# 【パッケージの説明】
+# - fonts-*: 各言語のフォント（日本語、中国語、韓国語、タイ語等）
+# - libasound2t64: オーディオ（ALSA）ライブラリ
+# - libatk*: アクセシビリティツールキット
+# - libcairo2, libpango*: 2Dグラフィックス・テキストレンダリング
+# - libdbus-1-3: D-Bus（プロセス間通信）
+# - libdrm2, libgbm1: DRM/GBM（GPU関連）
+# - libnss3, libnspr4: SSL/TLS・Netscapeランタイム
+# - libx*: X11（ディスプレイサーバー）関連
+# - xvfb: 仮想フレームバッファ（ヘッドレス実行用）
+# -----------------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    fonts-liberation fonts-noto-color-emoji fonts-unifont \
+    fonts-ipafont-gothic fonts-wqy-zenhei fonts-tlwg-loma-otf fonts-freefont-ttf \
+    libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 \
+    libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 \
+    libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 \
+    libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2 \
+    libfontconfig1 libfreetype6 xfonts-scalable xvfb \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# -----------------------------------------------------------------------------
 # NestJS CLI のグローバルインストール
 # -----------------------------------------------------------------------------
 # 【なぜグローバルインストールか】
