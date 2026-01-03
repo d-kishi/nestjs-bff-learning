@@ -408,10 +408,17 @@ ng new angular-app --standalone --routing --style=scss --skip-git --skip-tests
 
 AIコードレビューツール。DevContainer内で利用可能。
 
+### 必要パッケージ（Dockerfile）
+
+```dockerfile
+# Dockerfileに含める
+xdg-utils dbus-x11 gnome-keyring libsecret-1-0
+```
+
 ### インストール
 
 ```bash
-# DevContainer内で実行
+# DevContainer内で実行（postCreateCommandで自動実行）
 curl -fsSL https://cli.coderabbit.ai/install.sh | sh
 source ~/.profile
 ```
@@ -419,24 +426,20 @@ source ~/.profile
 ### 認証
 
 ```bash
-# D-Busセッション経由で認証（gnome-keyring必要）
-dbus-run-session -- bash
-echo "" | gnome-keyring-daemon --unlock --components=secrets
+# 認証（xdg-openがURLを表示、ブラウザで開いてトークンを貼り付け）
 coderabbit auth login
-# ブラウザでGitHubアカウント認証、トークンを貼り付け
 ```
 
 ### 使用方法
 
 ```bash
-cd /workspace/services/task-service
+cd /workspace
 
-# AI向け簡潔出力（Claude Code連携に最適）
+# AI向け簡潔出力（Claude Code連携に最適）**必須オプション**
 coderabbit review --prompt-only --type uncommitted
-
-# 詳細出力（人間向け）
-coderabbit review --plain --type uncommitted
 ```
+
+**注意**: `--plain`オプションは使用禁止（トークン消費大）
 
 ### 参考
 

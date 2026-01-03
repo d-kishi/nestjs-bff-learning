@@ -11,28 +11,28 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:class": {
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:directive": {
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:guard": {
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:interceptor": {
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:pipe": {
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:resolver": {
-          "skipTests": true
+          "skipTests": false
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": false
         }
       },
       "root": "",
@@ -81,6 +81,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "angular-app:build:production"
@@ -90,6 +93,13 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "include": ["**/*.spec.ts"],
+            "exclude": ["**/node_modules/**"]
+          }
         }
       }
     }

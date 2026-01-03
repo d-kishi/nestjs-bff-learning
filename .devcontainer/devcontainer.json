@@ -46,7 +46,13 @@
   // postCreateCommand: コンテナ作成後に実行するコマンド
   // 初回起動時やリビルド時に1回だけ実行される
   // 依存関係のインストールなど、セットアップ処理に使用
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "npm install && CI=1 npx playwright install --with-deps chromium && (curl -fsSL https://cli.coderabbit.ai/install.sh | sh || true)",
+  // ┌───────────────────────────────────────────────────────────────────────┐
+  // │ CI=1 npx playwright install --with-deps chromium:                     │
+  // │ Playwright用Chromiumブラウザと必要なOS依存関係をインストール          │
+  // │ CI=1: 非対話モードで実行（プロンプト無効化）                          │
+  // │ E2Eテスト（認証フロー）で使用                                         │
+  // └───────────────────────────────────────────────────────────────────────┘
   // ┌───────────────────────────────────────────────────────────────────────┐
   // │ npm install: package.json の依存関係をインストール                    │
   // │ npm workspaces により、全サービス（task/user/gateway/angular）の      │
@@ -115,7 +121,10 @@
 
         // --- Angular ---
         "Angular.ng-template",              // Angular Language Service
-        "johnpapa.Angular2"                 // Angular スニペット
+        "johnpapa.Angular2",                // Angular スニペット
+
+        // --- E2Eテスト ---
+        "ms-playwright.playwright"          // Playwright Test: E2Eテスト実行
       ],
       // ┌─────────────────────────────────────────────────────────────────┐
       // │ 【拡張機能ID の調べ方】                                         │

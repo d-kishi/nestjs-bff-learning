@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-02T03:26:17.838Z",
+  "generatedAt": "2026-01-03T04:00:00.000Z",
   "skills": [
     {
       "name": "tdd",
@@ -11,6 +11,17 @@
         "機能",
         "テスト駆動",
         "TDD"
+      ],
+      "source": "auto"
+    },
+    {
+      "name": "coderabbit-review",
+      "triggers": [
+        "レビュー",
+        "coderabbit",
+        "CodeRabbit",
+        "コードレビュー",
+        "review"
       ],
       "source": "auto"
     }

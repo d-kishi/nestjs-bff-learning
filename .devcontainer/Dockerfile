@@ -36,6 +36,10 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:20
 # イメージサイズを削減している（Dockerのベストプラクティス）
 # -----------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y libaio1t64 wget unzip \
+    # CodeRabbit CLI認証用パッケージ
+    # xdg-utils: xdg-openコマンド（OAuth認証URL表示に必要）
+    # dbus-x11, gnome-keyring, libsecret-1-0: 認証情報の保存
+    xdg-utils dbus-x11 gnome-keyring libsecret-1-0 \
     # ┌─────────────────────────────────────────────────────────────────────┐
     # │ apt-get update                                                      │
     # │   パッケージリストを最新化。install前に必ず実行が必要。             │

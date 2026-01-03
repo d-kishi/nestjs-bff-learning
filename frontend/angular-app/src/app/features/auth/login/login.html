@@ -1,0 +1,148 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">タスク管理システム</h1>
+
+    <!-- タブ -->
+    <div class="tabs">
+      <button
+        type="button"
+        class="tab"
+        [class.active]="activeTab() === 'login'"
+        (click)="switchTab('login')"
+        data-testid="login-tab"
+      >
+        ログイン
+      </button>
+      <button
+        type="button"
+        class="tab"
+        [class.active]="activeTab() === 'register'"
+        (click)="switchTab('register')"
+        data-testid="register-tab"
+      >
+        新規登録
+      </button>
+    </div>
+
+    <!-- エラーメッセージ -->
+    @if (errorMessage()) {
+      <div class="error-message" data-testid="error-message">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <!-- ログインフォーム -->
+    @if (activeTab() === 'login') {
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="form">
+        <div class="form-group">
+          <label for="login-email">メールアドレス</label>
+          <input
+            id="login-email"
+            type="email"
+            formControlName="email"
+            placeholder="example&#64;example.com"
+            data-testid="email"
+          />
+          @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']) {
+            <span class="validation-error">メールアドレスを入力してください</span>
+          }
+          @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']) {
+            <span class="validation-error">有効なメールアドレスを入力してください</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">パスワード</label>
+          <input
+            id="login-password"
+            type="password"
+            formControlName="password"
+            placeholder="パスワード"
+            data-testid="password"
+          />
+          @if (loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']) {
+            <span class="validation-error">パスワードを入力してください</span>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="loginForm.invalid || isLoading()"
+          data-testid="login-button"
+        >
+          @if (isLoading()) {
+            ログイン中...
+          } @else {
+            ログイン
+          }
+        </button>
+      </form>
+    }
+
+    <!-- 新規登録フォーム -->
+    @if (activeTab() === 'register') {
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="form">
+        <div class="form-group">
+          <label for="register-email">メールアドレス</label>
+          <input
+            id="register-email"
+            type="email"
+            formControlName="email"
+            placeholder="example&#64;example.com"
+            data-testid="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="register-display-name">表示名</label>
+          <input
+            id="register-display-name"
+            type="text"
+            formControlName="displayName"
+            placeholder="表示名"
+            data-testid="display-name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="register-password">パスワード</label>
+          <input
+            id="register-password"
+            type="password"
+            formControlName="password"
+            placeholder="8文字以上"
+            data-testid="password"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="register-confirm-password">パスワード（確認）</label>
+          <input
+            id="register-confirm-password"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="パスワード（確認）"
+            data-testid="confirm-password"
+          />
+          @if (registerForm.get('confirmPassword')?.touched && registerForm.errors?.['passwordMismatch']) {
+            <span class="validation-error">パスワードが一致しません</span>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="registerForm.invalid || isLoading()"
+          data-testid="register-button"
+        >
+          @if (isLoading()) {
+            登録中...
+          } @else {
+            新規登録
+          }
+        </button>
+      </form>
+    }
+  </div>
+</div>

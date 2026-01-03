@@ -180,6 +180,34 @@
 
 ## Phase 4: Angular統合
 
+### 設計 ✅ 完了
 - [x] Angular雛形作成（環境構築フェーズで完了）
-- [ ] 認証画面
-- [ ] タスク管理画面
+- [x] UI設計 → `docs/design/angular-ui-design.md`
+- [x] アーキテクチャ設計 → `docs/design/angular-architecture.md`
+- [x] ユーザーストーリー作成 → `docs/user-stories/US015〜US020`
+- [x] ADR-0006 Playwright E2Eテストは認証フローのみに限定
+- [x] Playwright MCP設定（.mcp.json、devcontainer.json更新）
+
+### Step 1: 認証基盤 ✅ 完了
+- [x] Vitestテスト環境セットアップ
+- [x] 型定義作成（api-response, auth, user）
+- [x] AuthService実装（18テスト）
+- [x] Interceptor実装（auth: 8テスト, error: 4テスト）
+- [x] Guard実装（auth: 3, guest: 2, admin: 3テスト）
+- [x] ログイン画面実装（11テスト）
+- [x] 設定ファイル更新（app.config, routes, proxy）
+- [x] CodeRabbit CLIレビュー完了
+
+**合計: 49テスト パス**
+
+### 実装（次回セッション以降）
+- [ ] Step 2: ダッシュボード・共通コンポーネント
+- [ ] Step 3: CRUD機能（プロジェクト、タスク、プロフィール）
+- [ ] Step 4: ADMIN機能・テーマ適用・E2Eテスト
+
+### Planファイル
+
+次回セッションでは以下のPlanファイルを再利用:
+```
+C:\Users\ka837\.claude\plans\witty-nibbling-dewdrop.md
+```

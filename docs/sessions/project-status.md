@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 3 完了 → Phase 4 準備中
-- **状況**: **api-gateway（BFF）TDD実装完了**
-- **次のステップ**: Phase 4 Angular統合（設計・実装）
+- **Phase**: Phase 4 Step 1完了 → Step 2準備中
+- **状況**: **Angular認証基盤 実装完了（49テスト）**
+- **次のステップ**: Phase 4 Step 2 ダッシュボード・共通コンポーネント
 
 ## 全テスト状況
 
@@ -15,7 +15,8 @@
 | task-service | 155 | ✅ パス |
 | user-service | 95 | ✅ パス |
 | api-gateway | 166 | ✅ パス |
-| **合計** | **416** | |
+| angular-app | 49 | ✅ パス |
+| **合計** | **465** | |
 
 ## Phase 1 実装進捗 ✅ 完了
 
@@ -52,26 +53,38 @@
 
 ## 直近の完了事項
 
-- [x] Phase 3 api-gateway TDD実装完了（166テスト）
-- [x] CodeRabbitレビュー対応（10件の指摘修正）
-- [x] ESLint/Prettier修正（BFF Proxyパターン対応）
-- [x] Oracle Boolean型対応（RefreshToken.isRevoked, User.isActive）
-- [x] USER_DB / USER_DB_TEST スキーマ作成
+- [x] Phase 4 Step 1: 認証基盤実装完了（49テスト）
+  - AuthService（18テスト）、Interceptors（12テスト）、Guards（8テスト）、LoginComponent（11テスト）
+  - CodeRabbit CLIレビュー完了（10件→3件に削減）
+- [x] Claude Code + CodeRabbit CLI連携方法確立
+  - dbusセッション経由でのCLI実行方法をスキルに記録
+- [x] DevContainer設定改善
+  - xdg-utils追加（OAuth URL表示用）
+  - CI=1追加（Playwright非対話モード）
 
 ## 次回セッション推奨事項
 
-### Phase 4: Angular統合
+### Phase 4: Angular統合（Step 2以降）
 
-#### 設計作業（優先）
-1. Angular画面設計
-2. 認証フロー設計（JWT保存・Interceptor）
-3. コンポーネント構成設計
+#### 重要: Planファイル再利用
 
-#### 実装ステップ（推奨順序）
-1. **認証UI**: ログイン、ユーザー登録画面
-2. **共通機能**: AuthGuard、HTTP Interceptor（JWT付与）
-3. **ダッシュボード**: api-gateway /dashboard呼び出し
-4. **タスク管理**: プロジェクト一覧、タスク一覧・詳細
+```
+C:\Users\ka837\.claude\plans\witty-nibbling-dewdrop.md
+```
+
+上記PlanファイルのStep 2以降を参照して実装を継続。
+
+#### 残りステップ
+1. ~~**Step 1: 認証基盤**~~ ✅ 完了
+2. **Step 2: ダッシュボード** - 共通コンポーネント、ダッシュボード画面
+3. **Step 3: CRUD機能** - プロジェクト、タスク、プロフィール
+4. **Step 4: 仕上げ** - ADMIN機能、テーマ適用、E2Eテスト
+
+#### CodeRabbit CLI実行
+
+スキル参照: `.claude/skills/coderabbit-review/SKILL.md`
+
+事前確認: VSCodeターミナルで`coderabbit auth status`実行
 
 #### ポート構成
 - Angular: 4200
@@ -118,6 +131,8 @@
 | `docs/design/user-service-api.md` | user-service API設計 |
 | `docs/design/api-gateway-api.md` | api-gateway（BFF）API設計 |
 | `docs/design/api-gateway-types.md` | api-gateway（BFF）型定義設計 |
+| `docs/design/angular-ui-design.md` | Angular UI設計（7画面、ワイヤーフレーム） |
+| `docs/design/angular-architecture.md` | Angular アーキテクチャ設計（認証フロー、E2E） |
 
 ## ユーザーストーリー一覧
 
@@ -149,6 +164,17 @@
 |----|---------|------|
 | US013 | BFF認証 | JWT検証・ヘッダ伝播・認証フロー |
 | US014 | BFFデータ集約 | ダッシュボード・部分失敗ハンドリング |
+
+### Angular（US015〜US020）
+
+| ID | タイトル | 概要 |
+|----|---------|------|
+| US015 | Angularログイン | ログイン・新規登録画面 |
+| US016 | ダッシュボード表示 | サマリー・直近タスク表示 |
+| US017 | プロジェクト管理 | プロジェクトCRUD |
+| US018 | タスク管理 | タスクCRUD・フィルター・ソート |
+| US019 | プロフィール管理 | プロフィール編集・パスワード変更 |
+| US020 | ADMIN機能 | ユーザー管理・ロール管理 |
 
 ## メモ・申し送り
 

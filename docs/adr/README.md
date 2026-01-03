@@ -48,6 +48,7 @@ Architecture Decision Records（ADR）を格納するディレクトリです。
 | [0003](0003-npm-workspaces-monorepo.md) | npm workspacesによるmonorepo構成 | 承認 |
 | [0004](0004-coderabbit-review-strategy.md) | CodeRabbitによるレビュー戦略 | 承認 |
 | [0005](0005-docker-desktop.md) | Docker Desktop採用 | 承認 |
+| [0006](0006-playwright-e2e-auth-only.md) | Playwright E2Eテストは認証フローのみに限定 | 承認 |
 
 ### CLAUDE.md/README.mdでカバーしている設計判断
 
