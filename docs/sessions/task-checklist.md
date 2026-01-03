@@ -234,3 +234,21 @@
 **Step 4合計: 93テスト（累計358テスト）**
 
 **Phase 4 合計: 358テスト パス ✅**
+
+---
+
+## Phase 5: 統合テスト（デプロイなし）
+
+※ 学習用途のためデプロイ関連は対象外
+
+### Step 1: NestJSコマンド資料・動作確認
+- [ ] NestJSコマンドガイド作成 → `docs/guides/nestjs-commands.md`
+  - nest CLI コマンド一覧
+  - npm scripts解説
+  - Angularのng ○○コマンドとの対比表
+- [ ] 各サービス起動確認
+- [ ] API疎通確認
+
+### Step 2: 統合テスト
+- [ ] 全サービス結合テスト（Angular ↔ api-gateway ↔ バックエンド）
+- [ ] Playwright E2Eテスト実行

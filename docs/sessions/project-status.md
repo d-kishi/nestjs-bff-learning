@@ -63,27 +63,31 @@
 - [x] Phase 4 Step 2: ダッシュボード・共通コンポーネント完了（148テスト）
 - [x] Phase 4 Step 1: 認証基盤実装完了（49テスト）
 
-## 次回セッション推奨事項
+## 次回セッション予定
 
-### Phase 5 候補: 統合テスト・デプロイ準備
+### Phase 5: 統合テスト（デプロイなし）
 
+※ 学習用途のためデプロイ関連は対象外
+
+#### Step 1: NestJSコマンド資料・動作確認
+1. **NestJSコマンドガイド作成**
+   - nest CLI コマンド一覧（generate, build, start等）
+   - npm scripts解説（start:dev, test, lint等）
+   - Angularのng ○○コマンドとの対比表
+
+2. **アプリケーション動作確認**
+   - 各サービス起動確認
+   - API疎通確認
+
+#### Step 2: 統合テスト
 1. **全サービス結合テスト**
    - Angular ↔ api-gateway ↔ task-service/user-service
    - Playwright E2Eテスト実行
 
-2. **Docker Compose本番設定**
-   - 本番用docker-compose.prod.yml
-   - 環境変数管理
-
-3. **CI/CD設定**
-   - GitHub Actions
-   - CodeRabbit GitHub App連携
-
-### 機能拡張候補
+### 機能拡張候補（将来）
 
 1. **コメント機能UI** - TaskDialogにコメント一覧・投稿機能追加
 2. **タグ管理機能UI** - タグCRUD画面、タスクへのタグ付与
-3. **通知機能** - タスク期限通知
 
 #### ポート構成
 - Angular: 4200
