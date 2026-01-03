@@ -1,0 +1,203 @@
+<!-- プロフィール画面 -->
+<div class="profile">
+  <h1 class="profile__title">プロフィール</h1>
+
+  <!-- ローディング -->
+  @if (profileService.isLoading()) {
+    <app-loading-spinner [overlay]="true" message="読み込み中..." />
+  }
+
+  <!-- エラー -->
+  @if (profileService.error()) {
+    <div class="profile__error" role="alert">
+      <p>{{ profileService.error() }}</p>
+      <button type="button" class="profile__retry-btn" (click)="profileService.loadProfile()">
+        再試行
+      </button>
+    </div>
+  }
+
+  <!-- プロフィール表示 -->
+  @if (!profileService.isLoading() && !profileService.error() && profileService.profile()) {
+    <div class="profile__card">
+      <!-- アバター -->
+      <div class="profile__avatar-section">
+        <div class="profile__avatar">
+          @if (profileService.profile()?.profile?.avatarUrl) {
+            <img
+              [src]="profileService.profile()?.profile?.avatarUrl"
+              [alt]="profileService.profile()?.username"
+              class="profile__avatar-img"
+            />
+          } @else {
+            <span class="profile__avatar-placeholder">
+              {{ (profileService.profile()?.username || 'U')[0].toUpperCase() }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- プロフィール情報 -->
+      <div class="profile__info">
+        <!-- 読み取り専用表示 -->
+        @if (!isEditing()) {
+          <div class="profile__field">
+            <label class="profile__label">ユーザー名</label>
+            <span class="profile__username">{{ profileService.profile()?.username }}</span>
+          </div>
+
+          <div class="profile__field">
+            <label class="profile__label">メールアドレス</label>
+            <span class="profile__email">{{ profileService.profile()?.email }}</span>
+          </div>
+
+          <div class="profile__field">
+            <label class="profile__label">表示名</label>
+            <span class="profile__display-name">
+              {{ profileService.profile()?.profile?.displayName || '未設定' }}
+            </span>
+          </div>
+
+          <div class="profile__field">
+            <label class="profile__label">自己紹介</label>
+            <span class="profile__bio">
+              {{ profileService.profile()?.profile?.bio || '未設定' }}
+            </span>
+          </div>
+
+          <div class="profile__field">
+            <label class="profile__label">ロール</label>
+            <span class="profile__role">
+              @for (role of profileService.profile()?.roles; track role.id) {
+                {{ role.name }}@if (!$last) {, }
+              }
+            </span>
+          </div>
+
+          <div class="profile__actions">
+            <button type="button" class="profile__edit-btn" (click)="startEditing()">
+              編集
+            </button>
+            <button type="button" class="profile__password-btn" (click)="openPasswordDialog()">
+              パスワード変更
+            </button>
+          </div>
+        }
+
+        <!-- 編集フォーム -->
+        @if (isEditing()) {
+          <form class="profile__edit-form" (ngSubmit)="saveProfile()">
+            <div class="profile__field">
+              <label for="displayName" class="profile__label">表示名</label>
+              <input
+                id="displayName"
+                type="text"
+                class="profile__input"
+                [ngModel]="editDisplayName()"
+                (ngModelChange)="editDisplayName.set($event)"
+                name="displayName"
+                placeholder="表示名を入力"
+              />
+            </div>
+
+            <div class="profile__field">
+              <label for="bio" class="profile__label">自己紹介</label>
+              <textarea
+                id="bio"
+                class="profile__textarea"
+                [ngModel]="editBio()"
+                (ngModelChange)="editBio.set($event)"
+                name="bio"
+                placeholder="自己紹介を入力"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div class="profile__actions">
+              <button
+                type="button"
+                class="profile__cancel-btn"
+                (click)="cancelEditing()"
+              >
+                キャンセル
+              </button>
+              <button type="submit" class="profile__save-btn">
+                保存
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- パスワード変更ダイアログ -->
+  @if (isPasswordDialogOpen()) {
+    <div class="profile__dialog-overlay" (click)="closePasswordDialog()">
+      <div class="profile__dialog" (click)="$event.stopPropagation()">
+        <h2 class="profile__dialog-title">パスワード変更</h2>
+
+        <form class="profile__dialog-form" (ngSubmit)="changePassword()">
+          @if (passwordError()) {
+            <div class="profile__dialog-error" role="alert">
+              {{ passwordError() }}
+            </div>
+          }
+
+          <div class="profile__field">
+            <label for="currentPassword" class="profile__label">現在のパスワード</label>
+            <input
+              id="currentPassword"
+              type="password"
+              class="profile__input"
+              [ngModel]="currentPassword()"
+              (ngModelChange)="currentPassword.set($event)"
+              name="currentPassword"
+              required
+            />
+          </div>
+
+          <div class="profile__field">
+            <label for="newPassword" class="profile__label">新しいパスワード</label>
+            <input
+              id="newPassword"
+              type="password"
+              class="profile__input"
+              [ngModel]="newPassword()"
+              (ngModelChange)="newPassword.set($event)"
+              name="newPassword"
+              required
+              minlength="8"
+            />
+          </div>
+
+          <div class="profile__field">
+            <label for="confirmPassword" class="profile__label">パスワード確認</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              class="profile__input"
+              [ngModel]="confirmPassword()"
+              (ngModelChange)="confirmPassword.set($event)"
+              name="confirmPassword"
+              required
+            />
+          </div>
+
+          <div class="profile__dialog-actions">
+            <button
+              type="button"
+              class="profile__cancel-btn"
+              (click)="closePasswordDialog()"
+            >
+              キャンセル
+            </button>
+            <button type="submit" class="profile__save-btn">
+              変更
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

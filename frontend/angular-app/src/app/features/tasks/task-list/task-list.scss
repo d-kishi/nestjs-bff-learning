@@ -1,0 +1,273 @@
+/**
+ * タスク一覧のスタイル
+ */
+
+.task-list {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+// ヘッダー
+.task-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.task-list__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.task-list__create-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #2563eb;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+// フィルター
+.task-list__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.task-list__filter-select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background-color: #fff;
+  min-width: 160px;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.task-list__sort {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.task-list__sort-order {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+// エラー表示
+.task-list__error {
+  text-align: center;
+  padding: 3rem;
+  background-color: #fef2f2;
+  border-radius: 8px;
+  color: #dc2626;
+}
+
+.task-list__retry-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #dc2626;
+  }
+}
+
+// 空の状態
+.task-list__empty {
+  text-align: center;
+  padding: 4rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  color: #6b7280;
+}
+
+.task-list__empty-hint {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+// テーブル
+.task-list__table-wrapper {
+  overflow-x: auto;
+}
+
+.task-list__table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+  }
+
+  td {
+    border-top: 1px solid #e5e7eb;
+  }
+}
+
+// タスク行
+.task-row {
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.task-row__title {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.task-row__project {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.task-row__status-select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &--todo {
+    background-color: #fef3c7;
+    border-color: #fcd34d;
+    color: #92400e;
+  }
+
+  &--in_progress {
+    background-color: #dbeafe;
+    border-color: #93c5fd;
+    color: #1e40af;
+  }
+
+  &--done {
+    background-color: #d1fae5;
+    border-color: #6ee7b7;
+    color: #065f46;
+  }
+}
+
+.task-row__priority-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &--low {
+    background-color: #e5e7eb;
+    color: #374151;
+  }
+
+  &--medium {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  &--high {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+}
+
+.task-row__due {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.task-row__assignee {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.task-row__actions {
+  white-space: nowrap;
+}
+
+.task-row__edit-btn,
+.task-row__delete-btn {
+  padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s, border-color 0.2s;
+  margin-right: 0.25rem;
+
+  &:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+.task-row__delete-btn:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}

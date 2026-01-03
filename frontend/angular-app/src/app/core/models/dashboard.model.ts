@@ -13,7 +13,7 @@
  */
 export interface DashboardResponse {
   /** ユーザー情報（user-service取得失敗時はnull） */
-  user: UserSummary | null;
+  user: DashboardUserSummary | null;
 
   /** タスクサマリー（ステータス別件数） */
   taskSummary: TaskSummary;
@@ -34,11 +34,12 @@ export interface DashboardResponse {
 }
 
 /**
- * ユーザーサマリー
+ * ダッシュボード用ユーザーサマリー
  *
  * ダッシュボードに表示するユーザー情報の最小セット
+ * user.model.tsのUserSummaryとは別の型
  */
-export interface UserSummary {
+export interface DashboardUserSummary {
   /** ユーザーID */
   id: number;
 

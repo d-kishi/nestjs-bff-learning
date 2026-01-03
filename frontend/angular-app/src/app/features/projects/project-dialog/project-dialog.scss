@@ -1,0 +1,147 @@
+/**
+ * プロジェクトダイアログのスタイル
+ */
+
+.project-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// オーバーレイ
+.project-dialog__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+// ダイアログ本体
+.project-dialog__content {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin: 1rem;
+}
+
+// タイトル
+.project-dialog__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1.5rem 0;
+}
+
+// フォーム
+.project-dialog__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+// フィールド
+.project-dialog__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// ラベル
+.project-dialog__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.project-dialog__required {
+  color: #ef4444;
+}
+
+// 入力フィールド共通
+.project-dialog__input,
+.project-dialog__textarea {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.project-dialog__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+// ボタンエリア
+.project-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+// キャンセルボタン
+.project-dialog__cancel-btn {
+  padding: 0.75rem 1.25rem;
+  background-color: #fff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+
+  &:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+// 保存ボタン
+.project-dialog__save-btn {
+  padding: 0.75rem 1.25rem;
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb;
+  }
+
+  &:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  &:focus:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}

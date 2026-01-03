@@ -1,0 +1,103 @@
+<!-- プロジェクト一覧画面 -->
+<div class="project-list">
+  <!-- ヘッダー -->
+  <div class="project-list__header">
+    <h1 class="project-list__title">プロジェクト</h1>
+    <button type="button" class="project-list__create-btn" (click)="openCreateDialog()">
+      新規作成
+    </button>
+  </div>
+
+  <!-- ローディング -->
+  @if (projectsService.isLoading()) {
+    <app-loading-spinner [overlay]="true" message="読み込み中..." />
+  }
+
+  <!-- エラー -->
+  @if (projectsService.error()) {
+    <div class="project-list__error">
+      <p>{{ projectsService.error() }}</p>
+      <button type="button" class="project-list__retry-btn" (click)="projectsService.loadProjects()">
+        再試行
+      </button>
+    </div>
+  }
+
+  <!-- プロジェクト一覧 -->
+  @if (!projectsService.isLoading() && !projectsService.error()) {
+    @if (projectsService.projects().length === 0) {
+      <div class="project-list__empty">
+        <p>プロジェクトがありません</p>
+        <p class="project-list__empty-hint">「新規作成」ボタンからプロジェクトを作成してください</p>
+      </div>
+    } @else {
+      <div class="project-list__grid">
+        @for (project of projectsService.projects(); track project.id) {
+          <div class="project-card">
+            <div class="project-card__header">
+              <h2 class="project-card__name">{{ project.name }}</h2>
+              <div class="project-card__actions">
+                <button
+                  type="button"
+                  class="project-card__edit-btn"
+                  (click)="openEditDialog(project)"
+                  aria-label="編集"
+                >
+                  ✏️
+                </button>
+                <button
+                  type="button"
+                  class="project-card__delete-btn"
+                  (click)="openDeleteConfirm(project)"
+                  aria-label="削除"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+            <p class="project-card__description">
+              {{ project.description || '説明なし' }}
+            </p>
+
+            <div class="project-card__footer">
+              <span class="project-card__owner">{{ project.ownerName }}</span>
+              <span class="project-card__date">{{ project.createdAt | date:'yyyy/MM/dd' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- ページネーション -->
+      @if (projectsService.totalPages() > 1) {
+        <app-pagination
+          [currentPage]="projectsService.currentPage()"
+          [totalPages]="projectsService.totalPages()"
+          (pageChange)="onPageChange($event)"
+        />
+      }
+    }
+  }
+
+  <!-- プロジェクト作成/編集ダイアログ -->
+  @if (isDialogOpen()) {
+    <app-project-dialog
+      [mode]="dialogMode()"
+      [project]="editingProject()"
+      (save)="onSave($event)"
+      (cancel)="closeDialog()"
+    />
+  }
+
+  <!-- 削除確認ダイアログ -->
+  <app-confirm-dialog
+    [isOpen]="isConfirmDialogOpen()"
+    type="danger"
+    title="プロジェクトの削除"
+    [message]="'「' + (deletingProject()?.name || '') + '」を削除しますか？'"
+    confirmText="削除"
+    cancelText="キャンセル"
+    (confirm)="onConfirmDelete()"
+    (cancel)="closeDeleteConfirm()"
+  />
+</div>

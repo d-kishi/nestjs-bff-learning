@@ -1,0 +1,196 @@
+<!-- タスク一覧画面 -->
+<div class="task-list">
+  <!-- ヘッダー -->
+  <div class="task-list__header">
+    <h1 class="task-list__title">タスク</h1>
+    <button type="button" class="task-list__create-btn" (click)="openCreateDialog()">
+      新規作成
+    </button>
+  </div>
+
+  <!-- フィルター・ソート -->
+  <div class="task-list__filters">
+    <!-- ステータスフィルター -->
+    <select
+      name="statusFilter"
+      class="task-list__filter-select"
+      aria-label="ステータスフィルター"
+      [ngModel]="statusFilter()"
+      (ngModelChange)="statusFilter.set($event); onFilterChange()"
+    >
+      <option value="">すべてのステータス</option>
+      @for (status of statusOptions; track status) {
+        <option [value]="status">{{ status }}</option>
+      }
+    </select>
+
+    <!-- 優先度フィルター -->
+    <select
+      name="priorityFilter"
+      class="task-list__filter-select"
+      aria-label="優先度フィルター"
+      [ngModel]="priorityFilter()"
+      (ngModelChange)="priorityFilter.set($event); onFilterChange()"
+    >
+      <option value="">すべての優先度</option>
+      @for (priority of priorityOptions; track priority) {
+        <option [value]="priority">{{ priority }}</option>
+      }
+    </select>
+
+    <!-- プロジェクトフィルター -->
+    <select
+      name="projectFilter"
+      class="task-list__filter-select"
+      aria-label="プロジェクトフィルター"
+      [ngModel]="projectFilter()"
+      (ngModelChange)="projectFilter.set($event ? +$event : null); onFilterChange()"
+    >
+      <option [ngValue]="null">すべてのプロジェクト</option>
+      @for (project of projectsService.projects(); track project.id) {
+        <option [ngValue]="project.id">{{ project.name }}</option>
+      }
+    </select>
+
+    <!-- ソート -->
+    <div class="task-list__sort">
+      <select
+        name="sortBy"
+        class="task-list__filter-select"
+        aria-label="並び順"
+        [ngModel]="sortBy()"
+        (ngModelChange)="sortBy.set($event); onSortChange()"
+      >
+        <option value="createdAt">作成日</option>
+        <option value="dueDate">期限日</option>
+        <option value="priority">優先度</option>
+      </select>
+      <button
+        type="button"
+        class="task-list__sort-order"
+        (click)="sortOrder.set(sortOrder() === 'asc' ? 'desc' : 'asc'); onSortChange()"
+        [title]="sortOrder() === 'asc' ? '昇順' : '降順'"
+        [attr.aria-label]="sortOrder() === 'asc' ? '昇順で並べ替え中、クリックで降順に変更' : '降順で並べ替え中、クリックで昇順に変更'"
+      >
+        {{ sortOrder() === 'asc' ? '↑' : '↓' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ローディング -->
+  @if (tasksService.isLoading()) {
+    <app-loading-spinner [overlay]="true" message="読み込み中..." />
+  }
+
+  <!-- エラー -->
+  @if (tasksService.error()) {
+    <div class="task-list__error">
+      <p>{{ tasksService.error() }}</p>
+      <button type="button" class="task-list__retry-btn" (click)="tasksService.loadTasks()">
+        再試行
+      </button>
+    </div>
+  }
+
+  <!-- タスク一覧 -->
+  @if (!tasksService.isLoading() && !tasksService.error()) {
+    @if (tasksService.tasks().length === 0) {
+      <div class="task-list__empty">
+        <p>タスクがありません</p>
+        <p class="task-list__empty-hint">「新規作成」ボタンからタスクを作成してください</p>
+      </div>
+    } @else {
+      <div class="task-list__table-wrapper">
+        <table class="task-list__table" aria-label="タスク一覧">
+          <thead>
+            <tr>
+              <th scope="col">タイトル</th>
+              <th scope="col">プロジェクト</th>
+              <th scope="col">ステータス</th>
+              <th scope="col">優先度</th>
+              <th scope="col">期限</th>
+              <th scope="col">担当者</th>
+              <th scope="col">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (task of tasksService.tasks(); track task.id) {
+              <tr class="task-row">
+                <td class="task-row__title">{{ task.title }}</td>
+                <td class="task-row__project">{{ task.projectName }}</td>
+                <td class="task-row__status">
+                  <select
+                    class="task-row__status-select task-row__status-select--{{ (task.status || '') | lowercase }}"
+                    [ngModel]="task.status"
+                    (ngModelChange)="onStatusChange(task.id, $event)"
+                  >
+                    @for (status of statusOptions; track status) {
+                      <option [value]="status">{{ status }}</option>
+                    }
+                  </select>
+                </td>
+                <td class="task-row__priority">
+                  <span class="task-row__priority-badge task-row__priority-badge--{{ (task.priority || '') | lowercase }}">
+                    {{ task.priority }}
+                  </span>
+                </td>
+                <td class="task-row__due">{{ task.dueDate ? (task.dueDate | date:'yyyy/MM/dd') : '-' }}</td>
+                <td class="task-row__assignee">{{ task.assigneeName || '未割当' }}</td>
+                <td class="task-row__actions">
+                  <button
+                    type="button"
+                    class="task-row__edit-btn"
+                    (click)="openEditDialog(task)"
+                    aria-label="編集"
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    type="button"
+                    class="task-row__delete-btn"
+                    (click)="openDeleteConfirm(task)"
+                    aria-label="削除"
+                  >
+                    🗑️
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ページネーション -->
+      @if (tasksService.totalPages() > 1) {
+        <app-pagination
+          [currentPage]="tasksService.currentPage()"
+          [totalPages]="tasksService.totalPages()"
+          (pageChange)="onPageChange($event)"
+        />
+      }
+    }
+  }
+
+  <!-- タスク作成/編集ダイアログ -->
+  @if (isDialogOpen()) {
+    <app-task-dialog
+      [mode]="dialogMode()"
+      [task]="editingTask()"
+      [projects]="projectsService.projects()"
+      (save)="onSave($event)"
+      (cancel)="closeDialog()"
+    />
+  }
+
+  <!-- 削除確認ダイアログ -->
+  <app-confirm-dialog
+    [isOpen]="isConfirmDialogOpen()"
+    type="danger"
+    title="タスクの削除"
+    [message]="'「' + (deletingTask()?.title || '') + '」を削除しますか？'"
+    confirmText="削除"
+    cancelText="キャンセル"
+    (confirm)="onConfirmDelete()"
+    (cancel)="closeDeleteConfirm()"
+  />
+</div>

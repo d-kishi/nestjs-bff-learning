@@ -1,0 +1,69 @@
+<!-- プロジェクト作成/編集ダイアログ -->
+<div class="project-dialog">
+  <!-- オーバーレイ -->
+  <div class="project-dialog__overlay" (click)="onOverlayClick()"></div>
+
+  <!-- ダイアログ本体 -->
+  <div
+    class="project-dialog__content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="project-dialog-title"
+    (click)="onContentClick($event)"
+  >
+    <!-- ヘッダー -->
+    <h2 id="project-dialog-title" class="project-dialog__title">{{ dialogTitle }}</h2>
+
+    <!-- フォーム -->
+    <form class="project-dialog__form" (ngSubmit)="onSave()">
+      <!-- プロジェクト名 -->
+      <div class="project-dialog__field">
+        <label for="name" class="project-dialog__label">
+          プロジェクト名 <span class="project-dialog__required">*</span>
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          class="project-dialog__input"
+          [(ngModel)]="name"
+          placeholder="プロジェクト名を入力"
+          required
+        />
+      </div>
+
+      <!-- 説明 -->
+      <div class="project-dialog__field">
+        <label for="description" class="project-dialog__label">
+          説明
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          class="project-dialog__textarea"
+          [(ngModel)]="description"
+          placeholder="プロジェクトの説明を入力（任意）"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- ボタン -->
+      <div class="project-dialog__actions">
+        <button
+          type="button"
+          class="project-dialog__cancel-btn"
+          (click)="onCancel()"
+        >
+          キャンセル
+        </button>
+        <button
+          type="submit"
+          class="project-dialog__save-btn"
+          [disabled]="!isFormValid"
+        >
+          {{ mode() === 'create' ? '作成' : '保存' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

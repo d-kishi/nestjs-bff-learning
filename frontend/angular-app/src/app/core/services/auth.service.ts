@@ -178,6 +178,7 @@ export class AuthService {
       // localStorageから復元したユーザー情報でcurrentUserを更新
       const restoredUser: User = {
         id: storedAuth.user.id,
+        username: storedAuth.user.email.split('@')[0],
         email: storedAuth.user.email,
         profile: {
           displayName: storedAuth.user.displayName,
@@ -191,6 +192,7 @@ export class AuthService {
         })),
         isActive: true,
         createdAt: '',
+        updatedAt: '',
       };
       this.currentUserSignal.set(restoredUser);
     }

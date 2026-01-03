@@ -20,6 +20,7 @@ describe('AuthService', () => {
   // テスト用モックデータ
   const mockUser: User = {
     id: 1,
+    username: 'testuser',
     email: 'test@example.com',
     profile: {
       displayName: 'Test User',
@@ -29,6 +30,7 @@ describe('AuthService', () => {
     roles: [{ id: 1, name: 'MEMBER', description: null }],
     isActive: true,
     createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
   };
 
   const mockAdminUser: User = {

@@ -1,0 +1,136 @@
+<!-- タスク作成・編集ダイアログ -->
+<div class="task-dialog__overlay" (click)="onOverlayClick($event)">
+  <div
+    class="task-dialog__content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="task-dialog-title"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 id="task-dialog-title" class="task-dialog__title">
+      {{ mode() === 'create' ? 'タスク作成' : 'タスク編集' }}
+    </h2>
+
+    <form class="task-dialog__form" (ngSubmit)="onSubmit()">
+      <!-- エラーメッセージ -->
+      @if (errorMessage()) {
+        <div class="task-dialog__error" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <!-- タイトル -->
+      <div class="task-dialog__field">
+        <label for="task-title" class="task-dialog__label">
+          タイトル <span class="task-dialog__required">*</span>
+        </label>
+        <input
+          id="task-title"
+          name="title"
+          type="text"
+          class="task-dialog__input"
+          [ngModel]="title()"
+          (ngModelChange)="title.set($event)"
+          placeholder="タスクのタイトルを入力"
+          required
+        />
+      </div>
+
+      <!-- 説明 -->
+      <div class="task-dialog__field">
+        <label for="task-description" class="task-dialog__label">説明</label>
+        <textarea
+          id="task-description"
+          name="description"
+          class="task-dialog__textarea"
+          [ngModel]="description()"
+          (ngModelChange)="description.set($event)"
+          placeholder="タスクの説明を入力（任意）"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <!-- プロジェクト -->
+      <div class="task-dialog__field">
+        <label for="task-project" class="task-dialog__label">
+          プロジェクト <span class="task-dialog__required">*</span>
+        </label>
+        <select
+          id="task-project"
+          name="projectId"
+          class="task-dialog__select"
+          [ngModel]="projectId()"
+          (ngModelChange)="setProjectId($event)"
+          required
+        >
+          <option [ngValue]="null">プロジェクトを選択</option>
+          @for (project of projects(); track project.id) {
+            <option [ngValue]="project.id">{{ project.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- ステータス・優先度 -->
+      <div class="task-dialog__row">
+        <!-- ステータス -->
+        <div class="task-dialog__field task-dialog__field--half">
+          <label for="task-status" class="task-dialog__label">ステータス</label>
+          <select
+            id="task-status"
+            name="status"
+            class="task-dialog__select"
+            [ngModel]="status()"
+            (ngModelChange)="status.set($event)"
+          >
+            @for (option of statusOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- 優先度 -->
+        <div class="task-dialog__field task-dialog__field--half">
+          <label for="task-priority" class="task-dialog__label">優先度</label>
+          <select
+            id="task-priority"
+            name="priority"
+            class="task-dialog__select"
+            [ngModel]="priority()"
+            (ngModelChange)="priority.set($event)"
+          >
+            @for (option of priorityOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- 期限日 -->
+      <div class="task-dialog__field">
+        <label for="task-due-date" class="task-dialog__label">期限日</label>
+        <input
+          id="task-due-date"
+          name="dueDate"
+          type="date"
+          class="task-dialog__input"
+          [ngModel]="dueDate()"
+          (ngModelChange)="dueDate.set($event)"
+        />
+      </div>
+
+      <!-- ボタン -->
+      <div class="task-dialog__actions">
+        <button
+          type="button"
+          class="task-dialog__cancel-btn"
+          (click)="onCancel()"
+        >
+          キャンセル
+        </button>
+        <button type="submit" class="task-dialog__submit-btn">
+          {{ mode() === 'create' ? '作成' : '保存' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

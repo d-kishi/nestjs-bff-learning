@@ -1,0 +1,174 @@
+/**
+ * プロジェクト一覧のスタイル
+ */
+
+.project-list {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// ヘッダー
+.project-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.project-list__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.project-list__create-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #2563eb;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+// エラー表示
+.project-list__error {
+  text-align: center;
+  padding: 3rem;
+  background-color: #fef2f2;
+  border-radius: 8px;
+  color: #dc2626;
+}
+
+.project-list__retry-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #dc2626;
+  }
+}
+
+// 空の状態
+.project-list__empty {
+  text-align: center;
+  padding: 4rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  color: #6b7280;
+}
+
+.project-list__empty-hint {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+// グリッドレイアウト
+.project-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+// プロジェクトカード
+.project-card {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.project-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.project-card__name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.project-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.project-card__edit-btn,
+.project-card__delete-btn {
+  padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s, border-color 0.2s;
+
+  &:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+.project-card__delete-btn:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.project-card__description {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  min-height: 2.625rem; // 2行分
+}
+
+.project-card__footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 0.75rem;
+}
+
+.project-card__owner {
+  font-weight: 500;
+}
+
+.project-card__date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}

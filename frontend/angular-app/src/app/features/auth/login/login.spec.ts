@@ -22,11 +22,13 @@ describe('LoginComponent', () => {
 
   const mockUser: User = {
     id: 1,
+    username: 'testuser',
     email: 'test@example.com',
     profile: { displayName: 'Test User', bio: null, avatarUrl: null },
     roles: [{ id: 1, name: 'MEMBER', description: null }],
     isActive: true,
     createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
   };
 
   const mockAuthResponse: AuthResponse = {

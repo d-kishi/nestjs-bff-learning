@@ -21,6 +21,7 @@ describe('HeaderComponent', () => {
 
   const mockUser: User = {
     id: 1,
+    username: 'testuser',
     email: 'test@example.com',
     profile: {
       displayName: 'Test User',
@@ -30,6 +31,7 @@ describe('HeaderComponent', () => {
     roles: [{ id: 1, name: 'MEMBER', description: null }],
     isActive: true,
     createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
   };
 
   const mockAdminUser: User = {

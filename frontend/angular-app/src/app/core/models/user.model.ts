@@ -42,6 +42,8 @@ export interface UserProfile {
 export interface User {
   /** ユーザーID */
   id: number;
+  /** ユーザー名（ログインID） */
+  username: string;
   /** メールアドレス */
   email: string;
   /** プロフィール情報 */
@@ -52,6 +54,8 @@ export interface User {
   isActive: boolean;
   /** 作成日時（ISO 8601形式） */
   createdAt: string;
+  /** 更新日時（ISO 8601形式） */
+  updatedAt: string;
 }
 
 /**
@@ -88,6 +92,8 @@ export interface ChangePasswordRequest {
   currentPassword: string;
   /** 新しいパスワード（8文字以上、英大文字・英小文字・数字を含む） */
   newPassword: string;
+  /** 確認用パスワード */
+  confirmPassword: string;
 }
 
 /**
