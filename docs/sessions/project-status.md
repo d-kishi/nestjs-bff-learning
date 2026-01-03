@@ -4,9 +4,9 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 4 完了
-- **状況**: **Angular統合 全Step完了（358テスト）**
-- **次のステップ**: Phase 5 統合テスト・デプロイ準備 または 機能拡張
+- **Phase**: Phase 5 完了 🎉
+- **状況**: **プロジェクト完了**
+- **次のステップ**: 機能拡張（任意）
 
 ## 全テスト状況
 
@@ -16,7 +16,8 @@
 | user-service | 95 | ✅ パス |
 | api-gateway | 166 | ✅ パス |
 | angular-app | 358 | ✅ パス |
-| **合計** | **774** | |
+| E2E (Playwright) | 5 | ✅ パス |
+| **合計** | **779** | |
 
 ## Phase 1 実装進捗 ✅ 完了
 
@@ -53,38 +54,20 @@
 
 ## 直近の完了事項
 
+- [x] Phase 5 Step 2: NestJSコマンド資料作成完了
+  - README.mdにnpm workspaces/NestJS CLI/Angular CLI対比表を追記
+- [x] Phase 5 Step 1: 動作確認・統合テスト完了
+  - 4サービス起動確認（task:3001, user:3002, gateway:3000, angular:4200）
+  - API疎通確認（ヘルスチェック、認証フロー、CRUD操作）
+  - Playwright E2Eテスト5ケース パス
+  - Dockerfile更新（Playwright依存パッケージ追加）
 - [x] Phase 4 Step 4: ADMIN機能・テーマ・E2Eテスト完了（358テスト）
   - UsersService/UserListComponent/RoleEditDialogComponent
   - RolesService/RoleListComponent/RoleDialogComponent
   - styles.scss テーマシステム（CSS変数）
   - Playwright E2Eテスト（認証フロー5ケース）
-- [x] Phase 4 Step 3: CRUD機能完了（265テスト）
-  - Projects/Tasks/Profile 各コンポーネント
-- [x] Phase 4 Step 2: ダッシュボード・共通コンポーネント完了（148テスト）
-- [x] Phase 4 Step 1: 認証基盤実装完了（49テスト）
 
-## 次回セッション予定
-
-### Phase 5: 統合テスト（デプロイなし）
-
-※ 学習用途のためデプロイ関連は対象外
-
-#### Step 1: 動作確認・統合テスト
-1. **アプリケーション動作確認**
-   - 各サービス起動確認
-   - API疎通確認
-
-2. **全サービス結合テスト**
-   - Angular ↔ api-gateway ↔ task-service/user-service
-   - Playwright E2Eテスト実行
-
-#### Step 2: NestJSコマンド資料作成
-1. **NestJSコマンドガイド作成**
-   - nest CLI コマンド一覧（generate, build, start等）
-   - npm scripts解説（start:dev, test, lint等）
-   - Angularのng ○○コマンドとの対比表
-
-### 機能拡張候補（将来）
+## 機能拡張候補（将来）
 
 1. **コメント機能UI** - TaskDialogにコメント一覧・投稿機能追加
 2. **タグ管理機能UI** - タグCRUD画面、タスクへのタグ付与

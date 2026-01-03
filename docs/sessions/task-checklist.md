@@ -237,18 +237,38 @@
 
 ---
 
-## Phase 5: 統合テスト（デプロイなし）
+## Phase 5: 統合テスト（デプロイなし） ✅ 完了
 
 ※ 学習用途のためデプロイ関連は対象外
 
-### Step 1: 動作確認・統合テスト
-- [ ] 各サービス起動確認
-- [ ] API疎通確認
-- [ ] 全サービス結合テスト（Angular ↔ api-gateway ↔ バックエンド）
-- [ ] Playwright E2Eテスト実行
+### Step 1: 動作確認・統合テスト ✅ 完了
+- [x] 各サービス起動確認（task:3001, user:3002, gateway:3000, angular:4200）
+- [x] API疎通確認（ヘルスチェック、認証フロー、CRUD操作）
+- [x] 全サービス結合テスト（Angular ↔ api-gateway ↔ バックエンド）
+- [x] Playwright E2Eテスト実行（5ケース パス）
+- [x] Dockerfile更新（Playwright依存パッケージ追加）
+- [x] E2Eテストセレクター修正
 
-### Step 2: NestJSコマンド資料作成
-- [ ] NestJSコマンドガイド作成 → `docs/guides/nestjs-commands.md`
-  - nest CLI コマンド一覧
+### Step 2: NestJSコマンド資料作成 ✅ 完了
+- [x] NestJSコマンドガイド作成 → `README.md` に追記
+  - npm workspaces基本コマンド
+  - nest CLI コマンド一覧・generateサブコマンド
   - npm scripts解説
   - Angularのng ○○コマンドとの対比表
+  - 開発時サービス起動手順
+
+---
+
+## プロジェクト完了 🎉
+
+**全Phase完了**
+
+| Phase | 内容 | テスト数 |
+|-------|------|----------|
+| Phase 1 | task-service | 155テスト |
+| Phase 2 | user-service | 95テスト |
+| Phase 3 | api-gateway (BFF) | 166テスト |
+| Phase 4 | Angular統合 | 358テスト |
+| Phase 5 | 統合テスト・資料作成 | E2E 5ケース |
+
+**総テスト数: 779テスト**
