@@ -4,11 +4,20 @@
 
 ## 現在のPhase
 
-- **Phase**: Phase 3 設計完了 → 実装準備中
-- **状況**: **api-gateway設計ドキュメント完成**
-- **次のステップ**: Phase 3 api-gateway（BFF）TDD実装開始
+- **Phase**: Phase 3 完了 → Phase 4 準備中
+- **状況**: **api-gateway（BFF）TDD実装完了**
+- **次のステップ**: Phase 4 Angular統合（設計・実装）
 
-## Phase 1 実装進捗
+## 全テスト状況
+
+| サービス | テスト数 | 状況 |
+|---------|---------|------|
+| task-service | 155 | ✅ パス |
+| user-service | 95 | ✅ パス |
+| api-gateway | 166 | ✅ パス |
+| **合計** | **416** | |
+
+## Phase 1 実装進捗 ✅ 完了
 
 | エンティティ | 状況 | テスト数 |
 |-------------|------|---------|
@@ -19,7 +28,7 @@
 | Tag | ✅ 完了 | 37 |
 | **合計** | | **155** |
 
-## Phase 2 実装進捗
+## Phase 2 実装進捗 ✅ 完了
 
 | カテゴリ | 状況 | テスト数 |
 |---------|------|---------|
@@ -29,87 +38,52 @@
 | RoleService | ✅ 完了 | 13 |
 | **合計** | | **95** |
 
+## Phase 3 実装進捗 ✅ 完了
+
+| カテゴリ | 状況 | テスト数 |
+|---------|------|---------|
+| 共通基盤（Guard, Filter, Interceptor, Decorator） | ✅ 完了 | 35 |
+| サービスクライアント（TaskServiceClient, UserServiceClient） | ✅ 完了 | 20 |
+| Auth Proxy | ✅ 完了 | 22 |
+| Dashboard（データ集約） | ✅ 完了 | 15 |
+| Projects/Tasks/Comments/Tags/Users/Roles Proxy | ✅ 完了 | 54 |
+| E2E Tests | ✅ 完了 | 20 |
+| **合計** | | **166** |
+
 ## 直近の完了事項
 
-- [x] README.md作成
-- [x] CLAUDE.md作成
-- [x] ディレクトリ構造作成
-- [x] package.json（npm workspaces）作成
-- [x] 各ディレクトリのREADME.md作成
-- [x] セッション管理Command移植（session-start/session-end）
-- [x] ADRファイル作成（6件）
-- [x] CLAUDE.mdにCommunication Guidelines追加
-- [x] Docker Desktopインストール・WSL2統合
-- [x] Oracle Container Registryログイン成功（Auth Token方式）
-- [x] Oracle XEイメージpull
-- [x] DevContainerファイル作成・起動確認
-- [x] コードコメント規約ルール追加（`.claude/rules/code-comments.md`）
-- [x] CLAUDE.md実行環境注意書き追加
-- [x] Qiita記事素材作成（qiita-tech-blog/drafts/）
-- [x] **task-serviceエンティティ詳細設計**（`docs/design/task-service-entities.md`）
-- [x] **task-service API設計**（`docs/design/task-service-api.md`）
-- [x] **ユーザーストーリー作成**（US001〜US007）
-- [x] **TDD Skills作成**（`.claude/skills/tdd/SKILL.md`）
-- [x] **Forced Eval Hook導入**（Issue #9716回避策）
-- [x] **task-service雛形作成**（nest new + TypeORM設定）
-- [x] **Oracleスキーマ作成**（TASK_DB / TASK_DB_TEST）
-- [x] **共通レスポンス型作成**（ApiResponse, PaginatedResponse, ErrorResponse）
-- [x] **user-service雛形作成**（nest new + 認証系パッケージ）
-- [x] **api-gateway雛形作成**（nest new + HTTPクライアント）
-- [x] **Angular雛形作成**（ng new --standalone）
-- [x] **USER_DB/USER_DB_TESTスキーマ作成**
-- [x] **DevContainer設定ファイルに日本語コメント追加**（Docker学習用）
-- [x] **環境構築手順書作成**（`docs/environment-setup/README.md`）
-- [x] **共通基盤整備**（ExceptionFilter, ResponseInterceptor, カスタムデコレータ）
-- [x] **Project エンティティ実装**（Entity, DTO, Repository, Service, Controller）
-- [x] **Task エンティティ実装**（Entity, DTO, Repository, Service, Controller）
-- [x] **Comment エンティティ実装**（Entity, DTO, Repository, Service, Controller）
-- [x] **Tag エンティティ実装**（M:Nリレーション、Entity, DTO, Repository, Service, Controller）
-- [x] **CodeRabbitレビュー・修正**（6件の指摘対応）
-- [x] **user-serviceエンティティ詳細設計**（`docs/design/user-service-entities.md`）
-- [x] **user-service API設計**（`docs/design/user-service-api.md`）
-- [x] **ユーザーストーリー作成**（US008〜US012）
-- [x] **Phase 2 user-service TDD実装完了**（95テスト パス）
-- [x] **api-gateway API設計**（`docs/design/api-gateway-api.md`）
-- [x] **api-gateway 型定義設計**（`docs/design/api-gateway-types.md`）
-- [x] **ユーザーストーリー作成**（US013〜US014）
+- [x] Phase 3 api-gateway TDD実装完了（166テスト）
+- [x] CodeRabbitレビュー対応（10件の指摘修正）
+- [x] ESLint/Prettier修正（BFF Proxyパターン対応）
+- [x] Oracle Boolean型対応（RefreshToken.isRevoked, User.isActive）
+- [x] USER_DB / USER_DB_TEST スキーマ作成
 
 ## 次回セッション推奨事項
 
-### Phase 3実装: api-gateway（BFF）TDD実装
+### Phase 4: Angular統合
 
-#### 読み込み推奨ファイル
-- `docs/design/api-gateway-api.md` （BFF API設計）
-- `docs/design/api-gateway-types.md` （BFF型定義設計）
-- `docs/user-stories/US013_BFF認証.md` （認証ユーザーストーリー）
-- `docs/user-stories/US014_BFFデータ集約.md` （データ集約ユーザーストーリー）
+#### 設計作業（優先）
+1. Angular画面設計
+2. 認証フロー設計（JWT保存・Interceptor）
+3. コンポーネント構成設計
 
 #### 実装ステップ（推奨順序）
-1. **共通基盤**: JwtAuthGuard, RolesGuard, デコレータ
-2. **サービスクライアント**: TaskServiceClient, UserServiceClient
-3. **Auth Proxy**: /api/auth/* エンドポイント
-4. **Projects/Tasks Proxy**: /api/projects/*, /api/tasks/*
-5. **Comments/Tags Proxy**: /api/comments/*, /api/tags/*
-6. **Users/Roles Proxy**: /api/users/*, /api/roles/*
-7. **Dashboard**: データ集約エンドポイント
+1. **認証UI**: ログイン、ユーザー登録画面
+2. **共通機能**: AuthGuard、HTTP Interceptor（JWT付与）
+3. **ダッシュボード**: api-gateway /dashboard呼び出し
+4. **タスク管理**: プロジェクト一覧、タスク一覧・詳細
 
-#### 追加パッケージ
-```bash
-npm install @nestjs/passport passport passport-jwt @nestjs/jwt
-npm install -D @types/passport-jwt
-```
-
-#### 環境
-- api-gateway: ポート3000
-- task-service: ポート3001
-- user-service: ポート3002
+#### ポート構成
+- Angular: 4200
+- api-gateway: 3000
+- task-service: 3001
+- user-service: 3002
 
 ## 重要な制約・注意点
 
-- Oracle Container Registry認証には**Auth Token**が必要（通常パスワードは不可）
-- node-oracledbとInstant Clientのバージョン互換性に注意
-- 開発マシン: Intel/AMD (x86_64)
-- Rules/Skills移行は後日検討（現時点ではCLAUDE.mdで十分）
+- Oracle Boolean型は`type: 'number', width: 1`とtransformerで対応
+- BFF Proxyパターンでは`any`型を許容（ESLint unsafe-*ルール緩和）
+- 本番環境ではJWT_SECRET環境変数必須
 
 ## DevContainer環境情報
 
@@ -121,40 +95,18 @@ npm install -D @types/passport-jwt
 | Oracle XE | 21.3.0-xe |
 | Oracle接続 | XEPDB1 (port 1521) |
 
-## DB接続情報（A5M2用）
+## DB接続情報
 
-| 項目 | 値 |
-|------|-----|
-| 接続方式 | **直接接続（OCI不使用）+ IPv6有効** |
-| サーバー名 | `localhost:1521/XEPDB1` |
-| ユーザーID | `TASK_DB` |
-| パスワード | `task_password` |
+| スキーマ | ユーザー | パスワード | 用途 |
+|---------|---------|-----------|------|
+| TASK_DB | TASK_DB | task_password | task-service本番 |
+| TASK_DB_TEST | TASK_DB_TEST | task_test_password | task-serviceテスト |
+| USER_DB | USER_DB | user_password | user-service本番 |
+| USER_DB_TEST | USER_DB_TEST | user_test_password | user-serviceテスト |
+| - | SYSTEM | password | 管理者 |
 
-**注意**: Docker Desktop + WSL2環境ではIPv4ポートフォワーディングが不安定なため、IPv6を使用。
-
-## メモ・申し送り
-
-- 作業順序: ~~Rules/Skills~~ → ~~DevContainer~~ → ~~設計~~ → ~~TDD準備~~ → ~~task-service雛形~~ → **全サービス雛形** → **環境構築手順書** → 実装
-- CLAUDE.md/README.mdで十分カバーできる設計判断はADRファイル化不要という方針を採用
-- Oracle Container Registry認証手順は `docs/sessions/daily/2025-12-31.md` に詳細記載（技術記事化予定）
-- Debian TrixieではlibaioパッケージがlibaioXt64にリネームされている点に注意
-- OCI接続（Instant Client使用）はIPv4問題により非推奨、直接接続を使用
-
-## Forced Eval Hook情報
-
-Issue #9716（Skills自動発動問題）の回避策として導入済み。
-
-| 項目 | 内容 |
-|------|------|
-| Hook種別 | UserPromptSubmit |
-| 設定ファイル | `.claude/settings.local.json` |
-| トリガー定義 | `.claude/hooks/skills-triggers.json`（自動生成） |
-| 有効/無効切替 | `.claude/hooks/config.json` の `skillsEvalEnabled` |
-
-### 新規Skills追加時の手順
-1. `.claude/skills/[skill-name]/SKILL.md`を作成
-2. descriptionに「」付きキーワードを記載
-3. `.claude/hooks`で`npm run build`を実行
+**接続方式**: 直接接続（OCI不使用）+ IPv6有効
+**サーバー名**: `localhost:1521/XEPDB1`
 
 ## 設計ドキュメント一覧
 
@@ -197,3 +149,9 @@ Issue #9716（Skills自動発動問題）の回避策として導入済み。
 |----|---------|------|
 | US013 | BFF認証 | JWT検証・ヘッダ伝播・認証フロー |
 | US014 | BFFデータ集約 | ダッシュボード・部分失敗ハンドリング |
+
+## メモ・申し送り
+
+- Phase 4ではAngular Standalone Componentを使用（Angular 17+）
+- 認証フローはJWT（Access Token + Refresh Token）
+- BFF経由でバックエンドサービスと通信

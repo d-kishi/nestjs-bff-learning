@@ -55,8 +55,20 @@ export class RefreshToken {
    *
    * true: ログアウト済み、または強制無効化済み。
    * Refresh Token Rotationで新トークン発行時にも旧トークンを無効化。
+   *
+   * Why: Oracleはboolean型をサポートしないため、number(1)で0/1として保存し、
+   * transformerでboolean変換を行う。
    */
-  @Column({ name: 'is_revoked', type: 'boolean', default: false })
+  @Column({
+    name: 'is_revoked',
+    type: 'number',
+    width: 1,
+    default: 0,
+    transformer: {
+      to: (value: boolean): number => (value ? 1 : 0),
+      from: (value: number): boolean => value === 1,
+    },
+  })
   isRevoked: boolean;
 
   @CreateDateColumn({ name: 'created_at' })

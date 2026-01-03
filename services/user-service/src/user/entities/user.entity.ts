@@ -51,8 +51,19 @@ export class User {
    * false: ログイン不可、トークン発行不可。
    * 管理者によるアカウント停止に使用。
    * 論理削除ではなく、停止機能として使用。
+   *
+   * Why: Oracleはboolean型をサポートしないため、number(1)で0/1として保存。
    */
-  @Column({ name: 'is_active', type: 'boolean', default: true })
+  @Column({
+    name: 'is_active',
+    type: 'number',
+    width: 1,
+    default: 1,
+    transformer: {
+      to: (value: boolean): number => (value ? 1 : 0),
+      from: (value: number): boolean => value === 1,
+    },
+  })
   isActive: boolean;
 
   @CreateDateColumn({ name: 'created_at' })

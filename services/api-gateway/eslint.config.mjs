@@ -29,6 +29,16 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
+      // BFFプロキシは下流サービスのレスポンスをそのまま転送するため、
+      // any型の使用を許容する（型安全性は下流サービスで保証）
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      // テストファイルでのmock関数呼び出しで発生するunbound-methodを許容
+      '@typescript-eslint/unbound-method': 'off',
+      // アンダースコア始まりの未使用変数を許容（意図的な未使用を示す）
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       "prettier/prettier": ["error", { endOfLine: "auto" }],
     },
   },

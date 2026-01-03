@@ -278,19 +278,28 @@ npm install -D @types/bcrypt @types/passport-jwt
 ### api-gateway（BFF層）
 
 ```bash
-# HTTPクライアントのみ（TypeORM不要）
+# HTTPクライアント + JWT検証（TypeORM不要）
 npm install @nestjs/config @nestjs/axios axios class-validator class-transformer
+npm install @nestjs/passport @nestjs/jwt passport passport-jwt
+npm install -D @types/passport-jwt nock
 ```
 
 | パッケージ | バージョン | 用途 |
 |-----------|-----------|------|
 | `@nestjs/axios` | ^4.0.1 | Axios統合モジュール |
 | `axios` | ^1.13.2 | HTTPクライアント |
+| `@nestjs/passport` | ^11.0.5 | Passport.js統合モジュール |
+| `@nestjs/jwt` | ^11.0.2 | JWT検証（user-serviceが発行したトークン） |
+| `passport` | ^0.7.0 | 認証ミドルウェア |
+| `passport-jwt` | ^4.0.1 | JWT認証ストラテジー |
+| `nock` | ^14.0.0 | E2Eテスト用HTTPモック（dev） |
 
 **なぜこれらが必要か**:
 - BFFはDBに直接アクセスしないため `typeorm` 不要
 - 各マイクロサービスへのHTTPリクエストに `axios` を使用
 - `@nestjs/axios`: NestJSのDIでHttpServiceを注入可能に
+- `@nestjs/passport` + `passport-jwt`: user-serviceが発行したJWTをBFF層で検証
+- `nock`: E2Eテストで下流サービス（task-service, user-service）をモック
 
 ### angular-app（フロントエンド）
 
@@ -521,6 +530,8 @@ cd /workspace/services
 nest new api-gateway --package-manager npm --skip-git
 cd api-gateway
 npm install @nestjs/config @nestjs/axios axios class-validator class-transformer
+npm install @nestjs/passport @nestjs/jwt passport passport-jwt
+npm install -D @types/passport-jwt nock
 ```
 
 ### Step 7: Angular作成

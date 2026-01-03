@@ -144,7 +144,7 @@
 
 ---
 
-## Phase 3: api-gateway (BFF)
+## Phase 3: api-gateway (BFF) ✅ 完了
 
 ### 設計 ✅ 完了
 - [x] api-gateway雛形作成（環境構築フェーズで完了）
@@ -152,14 +152,29 @@
 - [x] api-gateway 型定義設計 → `docs/design/api-gateway-types.md`
 - [x] ユーザーストーリー作成 → `docs/user-stories/US013, US014`
 
-### 実装（TDD）
-- [ ] 共通基盤（JwtAuthGuard, RolesGuard, デコレータ）
-- [ ] サービスクライアント（TaskServiceClient, UserServiceClient）
-- [ ] Auth Proxy（/api/auth/*）
-- [ ] Projects/Tasks Proxy（/api/projects/*, /api/tasks/*）
-- [ ] Comments/Tags Proxy
-- [ ] Users/Roles Proxy
-- [ ] Dashboard（データ集約、部分失敗ハンドリング）
+### 実装（TDD）✅ 完了
+- [x] 共通基盤（JwtAuthGuard, RolesGuard, デコレータ）
+- [x] サービスクライアント（TaskServiceClient, UserServiceClient）
+- [x] Auth Proxy（/api/auth/*）
+- [x] Projects/Tasks Proxy（/api/projects/*, /api/tasks/*）
+- [x] Comments/Tags Proxy
+- [x] Users/Roles Proxy
+- [x] Dashboard（データ集約、部分失敗ハンドリング）
+- [x] E2E Tests（Auth, Dashboard）
+
+### テスト状況
+- [x] 共通基盤: 35テスト
+- [x] サービスクライアント: 20テスト
+- [x] Auth Proxy: 22テスト
+- [x] Dashboard: 15テスト
+- [x] Proxy Controllers: 54テスト
+- [x] E2E: 20テスト
+
+**合計: 166テスト パス**
+
+### CodeRabbitレビュー ✅ 完了
+- [x] レビュー実行・10件の指摘修正
+- [x] ESLint/Prettier修正（BFF Proxyパターン対応）
 
 ---
 
