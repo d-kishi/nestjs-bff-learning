@@ -178,7 +178,7 @@
 
 ---
 
-## Phase 4: Angular統合
+## Phase 4: Angular統合 ✅ 完了
 
 ### 設計 ✅ 完了
 - [x] Angular雛形作成（環境構築フェーズで完了）
@@ -198,16 +198,39 @@
 - [x] 設定ファイル更新（app.config, routes, proxy）
 - [x] CodeRabbit CLIレビュー完了
 
-**合計: 49テスト パス**
+**Step 1合計: 49テスト パス**
 
-### 実装（次回セッション以降）
-- [ ] Step 2: ダッシュボード・共通コンポーネント
-- [ ] Step 3: CRUD機能（プロジェクト、タスク、プロフィール）
-- [ ] Step 4: ADMIN機能・テーマ適用・E2Eテスト
+### Step 2: ダッシュボード・共通コンポーネント ✅ 完了
+- [x] DashboardService（8テスト）
+- [x] DashboardComponent（10テスト）
+- [x] HeaderComponent（6テスト）
+- [x] ProjectsService, TasksService（各10テスト）
+- [x] ConfirmDialogComponent（5テスト）
+- [x] shared/index.ts バレルエクスポート
 
-### Planファイル
+**Step 2合計: 99テスト（累計148テスト）**
 
-次回セッションでは以下のPlanファイルを再利用:
-```
-C:\Users\ka837\.claude\plans\witty-nibbling-dewdrop.md
-```
+### Step 3: CRUD機能 ✅ 完了
+- [x] ProjectListComponent（15テスト）
+- [x] ProjectDialogComponent（10テスト）
+- [x] TaskListComponent（17テスト）
+- [x] TaskDialogComponent（18テスト）
+- [x] ProfileComponent（22テスト）
+- [x] ProfileService（8テスト）
+
+**Step 3合計: 117テスト（累計265テスト）**
+
+### Step 4: ADMIN機能・テーマ・E2Eテスト ✅ 完了
+- [x] UsersService（7テスト）
+- [x] UserListComponent（21テスト）
+- [x] RoleEditDialogComponent（10テスト）
+- [x] RolesService（12テスト）
+- [x] RoleListComponent（21テスト）
+- [x] RoleDialogComponent（12テスト）
+- [x] styles.scss テーマシステム（CSS変数）
+- [x] アクセシビリティ対応（role="dialog", aria-modal, aria-labelledby）
+- [x] Playwright E2E設定・認証フロー5ケース
+
+**Step 4合計: 93テスト（累計358テスト）**
+
+**Phase 4 合計: 358テスト パス ✅**
