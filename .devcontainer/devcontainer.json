@@ -46,7 +46,7 @@
   // postCreateCommand: コンテナ作成後に実行するコマンド
   // 初回起動時やリビルド時に1回だけ実行される
   // 依存関係のインストールなど、セットアップ処理に使用
-  "postCreateCommand": "npm install && CI=1 npx playwright install --with-deps chromium && (curl -fsSL https://cli.coderabbit.ai/install.sh | sh || true)",
+  "postCreateCommand": "git config core.autocrlf input && npm install && CI=1 npx playwright install --with-deps chromium && (curl -fsSL https://cli.coderabbit.ai/install.sh | sh || true)",
   // ┌───────────────────────────────────────────────────────────────────────┐
   // │ CI=1 npx playwright install --with-deps chromium:                     │
   // │ Playwright用Chromiumブラウザと必要なOS依存関係をインストール          │
