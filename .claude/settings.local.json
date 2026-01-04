@@ -18,7 +18,9 @@
       "Bash(docker exec nestjs-bff-learning_devcontainer-oracle-1 bash -c \"echo ''SELECT 1 FROM DUAL;'' | sqlplus -s system/password@localhost:1521/XEPDB1\")",
       "WebFetch(domain:github.com)",
       "Bash(npm install)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(docker exec:*)",
+      "Bash(cat:*)"
     ]
   },
   "hooks": {

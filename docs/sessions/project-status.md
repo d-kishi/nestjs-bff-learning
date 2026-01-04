@@ -54,6 +54,10 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-04: DevContainer・Angular環境改善
+  - devcontainer.jsonに`git config core.autocrlf input`追加（改行コード問題解決）
+  - angular.jsonに`host: "0.0.0.0"`追加（外部アクセス対応）
+  - 動作確認用テストユーザー作成（admin@example.com / Password123 / ADMIN）
 - [x] Phase 5 Step 2: NestJSコマンド資料作成完了
   - README.mdにnpm workspaces/NestJS CLI/Angular CLI対比表を追記
 - [x] Phase 5 Step 1: 動作確認・統合テスト完了
@@ -167,3 +171,5 @@
 - Phase 4ではAngular Standalone Componentを使用（Angular 17+）
 - 認証フローはJWT（Access Token + Refresh Token）
 - BFF経由でバックエンドサービスと通信
+- DevContainerリビルド後はOracleスキーマの再作成が必要（database/init/参照）
+- ユーザー登録APIは`isActive: false`で作成されるため、手動有効化が必要
