@@ -81,9 +81,13 @@ export class UserRepository {
     });
 
     // Userを作成（profileをカスケードで保存）
+    // Note: isActiveを明示的にtrueに設定。EntityのdefaultはDB側のデフォルト値であり、
+    // TypeORMのcreate()はメモリ上でインスタンスを作成するだけなので、
+    // 明示的に指定しないとundefinedになる可能性がある。
     const user = this.userRepository.create({
       email: data.email,
       password: data.passwordHash,
+      isActive: true,
       profile,
       roles: [memberRole],
     });

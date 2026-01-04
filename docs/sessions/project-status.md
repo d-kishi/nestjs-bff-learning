@@ -172,4 +172,4 @@
 - 認証フローはJWT（Access Token + Refresh Token）
 - BFF経由でバックエンドサービスと通信
 - DevContainerリビルド後はOracleスキーマの再作成が必要（database/init/参照）
-- ユーザー登録APIは`isActive: false`で作成されるため、手動有効化が必要
+- ユーザー登録APIは`isActive: true`で作成されるよう修正済み
