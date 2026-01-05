@@ -54,6 +54,11 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-06: VSCodeデバッグ設定・hook問題解決
+  - `.vscode/launch.json` 作成（F5デバッグ対応）
+  - UserPromptSubmit hook error解決（`.claude/hooks/`ビルド）
+  - jqインストール（ralph-wiggum用）
+  - ralph-wiggum Windows問題Issue作成（#1）
 - [x] 2026-01-04: DevContainer・Angular環境改善
   - devcontainer.jsonに`git config core.autocrlf input`追加（改行コード問題解決）
   - angular.jsonに`host: "0.0.0.0"`追加（外部アクセス対応）
@@ -173,3 +178,14 @@
 - BFF経由でバックエンドサービスと通信
 - DevContainerリビルド後はOracleスキーマの再作成が必要（database/init/参照）
 - ユーザー登録APIは`isActive: true`で作成されるよう修正済み
+
+### 次回セッション優先事項
+
+- [ ] VSCodeデバッグ設定の動作確認・調整
+  - package.jsonのstart:debugスクリプト（ポート指定）の再設定
+  - devcontainer.jsonのデバッグポート（9229-9231）追加
+  - 詳細は `docs/sessions/daily/2026-01-06.md` 参照
+
+### 既知の問題
+
+- ralph-wiggumのstop-hook.shがWindows環境でエディタで開かれる（Issue #1、上流修正待ち）
