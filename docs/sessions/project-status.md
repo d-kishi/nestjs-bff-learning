@@ -54,6 +54,11 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-07: 開発環境モダナイゼーション計画策定
+  - 案件環境調査（mise/pnpm/Deno + NestJS構成）
+  - 移行計画策定（5フェーズ）
+  - GitHub Issue #2 作成
+  - ralph-wiggum活用計画
 - [x] 2026-01-06: VSCodeデバッグ設定・hook問題解決
   - `.vscode/launch.json` 作成（F5デバッグ対応）
   - UserPromptSubmit hook error解決（`.claude/hooks/`ビルド）
@@ -181,7 +186,10 @@
 
 ### 次回セッション優先事項
 
-- [ ] VSCodeデバッグ設定の動作確認・調整
+- [ ] 開発環境モダナイゼーション（Issue #2）
+  - Phase 1: mise導入 + ralph-wiggum学習
+  - 詳細は `.claude/plans/peaceful-spinning-haven.md` 参照
+- [ ] VSCodeデバッグ設定の動作確認・調整（任意）
   - package.jsonのstart:debugスクリプト（ポート指定）の再設定
   - devcontainer.jsonのデバッグポート（9229-9231）追加
   - 詳細は `docs/sessions/daily/2026-01-06.md` 参照
