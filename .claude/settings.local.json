@@ -1,28 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git config:*)",
-      "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nchore: プロジェクト初期セットアップ\n\n- README.md: プロジェクト概要・技術スタック・構成の説明\n- CLAUDE.md: Claude Code向けガイダンス\n- docs/project-plan.md: 企画書（設計・ADR含む）\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git push:*)",
-      "Bash(git commit:*)",
+      "Bash(git *)",
+      "Bash(docker *)",
+      "Bash(npm *)",
+      "Bash(gh *)",
+      "Bash(curl *)",
+      "Bash(cat *)",
+      "Bash(powershell *)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(curl:*)",
-      "Skill(session-start)",
-      "WebSearch",
-      "Skill(session-end)",
-      "Bash(docker pull:*)",
-      "Bash(docker compose build:*)",
-      "Bash(docker ps:*)",
-      "Bash(docker exec nestjs-bff-learning_devcontainer-app-1 bash -c \"node -v && npm -v && ls /opt/oracle/\")",
-      "Bash(docker exec nestjs-bff-learning_devcontainer-oracle-1 bash -c \"echo ''SELECT 1 FROM DUAL;'' | sqlplus -s system/password@localhost:1521/XEPDB1\")",
       "WebFetch(domain:github.com)",
-      "Bash(npm install)",
-      "Bash(npm run build:*)",
-      "Bash(docker exec:*)",
-      "Bash(cat:*)"
+      "WebSearch",
+      "Skill(session-start)",
+      "Skill(session-end)",
+      "Bash(dir *)",
+      "Bash(claude plugin:*)"
     ]
   },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "playwright"
+  ],
   "hooks": {
     "UserPromptSubmit": [
       {
