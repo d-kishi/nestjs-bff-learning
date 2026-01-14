@@ -54,6 +54,11 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-15: NestJS学習・学習資料作成
+  - コード構造と起動フロー解説資料作成
+  - ValidationPipe解説資料作成
+  - トランザクション管理解説資料作成
+  - ProjectServiceにトランザクション実装（学習目的）
 - [x] 2026-01-07: 開発環境モダナイゼーション計画策定
   - 案件環境調査（mise/pnpm/Deno + NestJS構成）
   - 移行計画策定（5フェーズ）
@@ -186,6 +191,16 @@
 
 ### 次回セッション優先事項
 
+- [ ] NestJS学習（継続）
+  - 学習資料は `docs/learning/` 配下に作成
+  - 推奨順序:
+    1. デコレータの仕組み（@Get, @Body, @Param等）
+    2. カスタムデコレータ（@CurrentUserId）
+    3. Filter / Interceptor（リクエストライフサイクル）
+    4. Guards（認証・認可）
+    5. TypeORMエンティティ
+    6. サービス間通信（BFFパターン）
+  - 詳細は `docs/sessions/daily/2026-01-15.md` 参照
 - [ ] 開発環境モダナイゼーション（Issue #2）
   - Phase 1: mise導入 + ralph-wiggum学習
   - 詳細は `.claude/plans/peaceful-spinning-haven.md` 参照

@@ -3,8 +3,13 @@
  *
  * Repositoryをモックしてテスト。
  * US001, US002のシナリオをカバー。
+ *
+ * Why: DataSourceもモック
+ * - Service層でトランザクション管理を行うため
+ * - DataSource.transaction()をモックして動作を検証
  */
 import { Test, TestingModule } from '@nestjs/testing';
+import { DataSource, EntityManager } from 'typeorm';
 import { ProjectService } from './project.service';
 import { ProjectRepository } from './project.repository';
 import { Project } from './entities/project.entity';
@@ -16,6 +21,8 @@ import {
 describe('ProjectService', () => {
   let service: ProjectService;
   let mockRepository: jest.Mocked<Partial<ProjectRepository>>;
+  let mockDataSource: jest.Mocked<Partial<DataSource>>;
+  let mockEntityManager: jest.Mocked<Partial<EntityManager>>;
 
   // テスト用のプロジェクトデータ
   const mockProject: Project = {
@@ -28,6 +35,28 @@ describe('ProjectService', () => {
   };
 
   beforeEach(async () => {
+    // EntityManagerのモック
+    mockEntityManager = {
+      findOne: jest.fn(),
+      find: jest.fn(),
+      save: jest.fn(),
+      delete: jest.fn(),
+      createQueryBuilder: jest.fn().mockReturnValue({
+        delete: jest.fn().mockReturnThis(),
+        from: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        execute: jest.fn().mockResolvedValue({}),
+      }),
+    };
+
+    // DataSourceのモック
+    // transaction()はコールバック関数を受け取り、EntityManagerを渡して実行
+    mockDataSource = {
+      transaction: jest.fn().mockImplementation(async (callback) => {
+        return callback(mockEntityManager as EntityManager);
+      }),
+    };
+
     mockRepository = {
       create: jest.fn(),
       findAll: jest.fn(),
@@ -42,6 +71,10 @@ describe('ProjectService', () => {
         {
           provide: ProjectRepository,
           useValue: mockRepository,
+        },
+        {
+          provide: DataSource,
+          useValue: mockDataSource,
         },
       ],
     }).compile();
@@ -197,6 +230,8 @@ describe('ProjectService', () => {
 
   // ============================================
   // update（更新）
+  // Why: トランザクション内でEntityManagerを使用するため、
+  //      mockEntityManagerの動作を検証
   // ============================================
   describe('update', () => {
     it('オーナーはプロジェクトを更新できる', async () => {
@@ -204,19 +239,20 @@ describe('ProjectService', () => {
       const updateDto = { name: 'Updated Name' };
       const userId = 123; // オーナー
       const updatedProject = { ...mockProject, ...updateDto };
-      mockRepository.findById!.mockResolvedValue(mockProject);
-      mockRepository.update!.mockResolvedValue(updatedProject);
+      mockEntityManager.findOne!.mockResolvedValue(mockProject);
+      mockEntityManager.save!.mockResolvedValue(updatedProject);
 
       // When
       const result = await service.update(1, updateDto, userId);
 
       // Then
+      expect(mockDataSource.transaction).toHaveBeenCalled();
       expect(result.name).toBe('Updated Name');
     });
 
     it('存在しないプロジェクトの場合ProjectNotFoundExceptionをスロー', async () => {
       // Given
-      mockRepository.findById!.mockResolvedValue(null);
+      mockEntityManager.findOne!.mockResolvedValue(null);
 
       // When & Then
       await expect(
@@ -227,7 +263,7 @@ describe('ProjectService', () => {
     it('オーナー以外が更新しようとするとProjectForbiddenExceptionをスロー', async () => {
       // Given
       const otherUserId = 456; // オーナーではない
-      mockRepository.findById!.mockResolvedValue(mockProject); // ownerId: 123
+      mockEntityManager.findOne!.mockResolvedValue(mockProject); // ownerId: 123
 
       // When & Then
       await expect(
@@ -238,19 +274,41 @@ describe('ProjectService', () => {
 
   // ============================================
   // delete（削除）
+  // Why: 事前チェックはRepository、削除はトランザクション内のEntityManager
   // ============================================
   describe('delete', () => {
     it('オーナーはプロジェクトを削除できる', async () => {
       // Given
       const userId = 123; // オーナー
+      // 事前チェック用（トランザクション外）
       mockRepository.findById!.mockResolvedValue(mockProject);
-      mockRepository.delete!.mockResolvedValue(true);
+      // トランザクション内の操作
+      mockEntityManager.find!.mockResolvedValue([]); // タスクなし
+      mockEntityManager.delete!.mockResolvedValue({ affected: 1 });
 
       // When
       await service.delete(1, userId);
 
       // Then
-      expect(mockRepository.delete).toHaveBeenCalledWith(1);
+      expect(mockRepository.findById).toHaveBeenCalledWith(1);
+      expect(mockDataSource.transaction).toHaveBeenCalled();
+    });
+
+    it('関連タスク・コメントがある場合も削除できる', async () => {
+      // Given
+      const userId = 123;
+      mockRepository.findById!.mockResolvedValue(mockProject);
+      // タスクが存在する場合
+      mockEntityManager.find!.mockResolvedValue([{ id: 10 }, { id: 20 }]);
+      mockEntityManager.delete!.mockResolvedValue({ affected: 1 });
+
+      // When
+      await service.delete(1, userId);
+
+      // Then
+      expect(mockDataSource.transaction).toHaveBeenCalled();
+      // コメント削除、タスク削除、プロジェクト削除の順で呼ばれる
+      expect(mockEntityManager.delete).toHaveBeenCalled();
     });
 
     it('存在しないプロジェクトの場合ProjectNotFoundExceptionをスロー', async () => {
@@ -261,6 +319,8 @@ describe('ProjectService', () => {
       await expect(service.delete(999, 123)).rejects.toThrow(
         ProjectNotFoundException,
       );
+      // トランザクションは呼ばれない（事前チェックで弾かれる）
+      expect(mockDataSource.transaction).not.toHaveBeenCalled();
     });
 
     it('オーナー以外が削除しようとするとProjectForbiddenExceptionをスロー', async () => {
@@ -272,6 +332,8 @@ describe('ProjectService', () => {
       await expect(service.delete(1, otherUserId)).rejects.toThrow(
         ProjectForbiddenException,
       );
+      // トランザクションは呼ばれない（事前チェックで弾かれる）
+      expect(mockDataSource.transaction).not.toHaveBeenCalled();
     });
   });
 });
