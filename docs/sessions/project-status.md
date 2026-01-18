@@ -54,6 +54,19 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-19: NestJS学習・DTOバリデーション詳解
+  - `dto-validation.md` を新規作成
+  - デコレータの共通オプション（message, each, groups等）
+  - 基本デコレータ詳細（文字列系、数値系、日付系、配列・列挙型）
+  - 型変換（class-transformer、@Type()デコレータ）
+  - 条件付きバリデーション（@ValidateIf()）
+  - ネストオブジェクトのバリデーション（@ValidateNested()）
+  - カスタムバリデータ（registerDecorator, @ValidatorConstraint）
+  - クラスレベルバリデーション
+  - バリデーショングループ
+  - 実プロジェクトでの実装例と参照
+  - 日付バリデーション応用編（@MinDate/@MaxDateとタイムゾーン）
+  - null/undefinedポリシーをRulesに追加（`.claude/rules/null-undefined-policy.md`）
 - [x] 2026-01-18: NestJS学習・Controllerクラス実装方法
   - `nestjs-decorators.md` → `nestjs-controller.md` にリネーム・拡充
   - Controllerの責務、依存性注入、エラーハンドリング、非同期処理セクション追加
@@ -203,12 +216,12 @@
   - 推奨順序:
     1. ~~デコレータの仕組み（@Get, @Body, @Param等）~~ ✅ 完了
     2. ~~カスタムデコレータ（@CurrentUserId）~~ ✅ 完了（nestjs-controller.mdに統合）
-    3. DTOのバリデーション（class-validator詳細、複合チェック） ← **次回**
-    4. Filter / Interceptor（リクエストライフサイクル）
+    3. ~~DTOのバリデーション（class-validator詳細、複合チェック）~~ ✅ 完了（dto-validation.md）
+    4. Filter / Interceptor（リクエストライフサイクル） ← **次回**
     5. Guards（認証・認可）
     6. TypeORMエンティティ
     7. サービス間通信（BFFパターン）
-  - 詳細は `docs/sessions/daily/2026-01-18.md` 参照
+  - 詳細は `docs/sessions/daily/2026-01-19.md` 参照
 - [ ] 開発環境モダナイゼーション（Issue #2）
   - Phase 1: mise導入 + ralph-wiggum学習
   - 詳細は `.claude/plans/peaceful-spinning-haven.md` 参照
