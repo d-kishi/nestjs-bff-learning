@@ -54,6 +54,13 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-18: NestJS学習・Controllerクラス実装方法
+  - `nestjs-decorators.md` → `nestjs-controller.md` にリネーム・拡充
+  - Controllerの責務、依存性注入、エラーハンドリング、非同期処理セクション追加
+  - ルートパスのパターン、ファイルアップロードセクション追加
+  - セクション構成調整、目次追加
+  - ralph-loopプラグイン問題解決（Windows非対応、プラグイン無効化）
+  - WSL環境移行計画策定（Issue #4作成）
 - [x] 2026-01-15: NestJS学習・学習資料作成
   - コード構造と起動フロー解説資料作成
   - ValidationPipe解説資料作成
@@ -194,13 +201,14 @@
 - [ ] NestJS学習（継続）
   - 学習資料は `docs/learning/` 配下に作成
   - 推奨順序:
-    1. デコレータの仕組み（@Get, @Body, @Param等）
-    2. カスタムデコレータ（@CurrentUserId）
-    3. Filter / Interceptor（リクエストライフサイクル）
-    4. Guards（認証・認可）
-    5. TypeORMエンティティ
-    6. サービス間通信（BFFパターン）
-  - 詳細は `docs/sessions/daily/2026-01-15.md` 参照
+    1. ~~デコレータの仕組み（@Get, @Body, @Param等）~~ ✅ 完了
+    2. ~~カスタムデコレータ（@CurrentUserId）~~ ✅ 完了（nestjs-controller.mdに統合）
+    3. DTOのバリデーション（class-validator詳細、複合チェック） ← **次回**
+    4. Filter / Interceptor（リクエストライフサイクル）
+    5. Guards（認証・認可）
+    6. TypeORMエンティティ
+    7. サービス間通信（BFFパターン）
+  - 詳細は `docs/sessions/daily/2026-01-18.md` 参照
 - [ ] 開発環境モダナイゼーション（Issue #2）
   - Phase 1: mise導入 + ralph-wiggum学習
   - 詳細は `.claude/plans/peaceful-spinning-haven.md` 参照
@@ -212,3 +220,4 @@
 ### 既知の問題
 
 - ralph-wiggumのstop-hook.shがWindows環境でエディタで開かれる（Issue #1、上流修正待ち）
+- WSL環境移行が必要（Issue #4）- Windows環境でのClaude Code問題解決のため
