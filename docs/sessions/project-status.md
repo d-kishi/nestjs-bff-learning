@@ -54,6 +54,20 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-20: 共通パッケージIssue作成・Filter/Interceptor学習資料改善
+  - 共通パッケージ作成Issue（#5）を作成（3サービス間重複コード調査結果）
+  - `filter-interceptor.md` をレビュー・改善
+    - タイトル変更:「ExceptionFilter と Interceptor」
+    - NestJSのFilterはExceptionFilter専用である旨のNote追加
+    - Middleware vs Interceptorセクション追加（比較表、コード例、使い分け指針）
+    - getNext()注釈、Controllerメソッド表現修正
+- [x] 2026-01-19: NestJS学習・Filter/Interceptor詳解
+  - `filter-interceptor.md` を新規作成
+  - リクエストライフサイクル全体像（Middleware→Guard→Interceptor→Pipe→Controller→Filter）
+  - ExceptionFilter（@Catch、ArgumentsHost、組み込み例外クラス、適用スコープ）
+  - Interceptor（ExecutionContext、CallHandler、RxJSオペレータとの連携）
+  - Filter vs Interceptorの使い分け
+  - 本プロジェクトでの実装例（HttpExceptionFilter、ResponseInterceptor）
 - [x] 2026-01-19: NestJS学習・DTOバリデーション詳解
   - `dto-validation.md` を新規作成
   - デコレータの共通オプション（message, each, groups等）
@@ -217,8 +231,8 @@
     1. ~~デコレータの仕組み（@Get, @Body, @Param等）~~ ✅ 完了
     2. ~~カスタムデコレータ（@CurrentUserId）~~ ✅ 完了（nestjs-controller.mdに統合）
     3. ~~DTOのバリデーション（class-validator詳細、複合チェック）~~ ✅ 完了（dto-validation.md）
-    4. Filter / Interceptor（リクエストライフサイクル） ← **次回**
-    5. Guards（認証・認可）
+    4. ~~Filter / Interceptor（リクエストライフサイクル）~~ ✅ 完了（filter-interceptor.md）
+    5. Guards（認証・認可） ← **次回**
     6. TypeORMエンティティ
     7. サービス間通信（BFFパターン）
   - 詳細は `docs/sessions/daily/2026-01-19.md` 参照

@@ -10,6 +10,7 @@ NestJS BFF学習プロジェクトの学習資料です。
 | [nestjs-controller.md](./nestjs-controller.md) | Controllerクラスの実装方法（デコレータ、DI、非同期処理） |
 | [nestjs-validation-pipe.md](./nestjs-validation-pipe.md) | ValidationPipeと入力検証の仕組み |
 | [dto-validation.md](./dto-validation.md) | DTOバリデーション詳解（class-validator応用） |
+| [filter-interceptor.md](./filter-interceptor.md) | ExceptionFilter/Interceptor（リクエストライフサイクル、エラー処理） |
 | [typeorm-transaction.md](./typeorm-transaction.md) | TypeORMトランザクション管理 |
 
 ## 学習の進め方
