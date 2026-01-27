@@ -54,6 +54,12 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-26: Claude Code Tasks機能でマルチエージェント実践・学習資料2件作成
+  - `CLAUDE_CODE_TASK_LIST_ID` 環境変数でTask共有
+  - 2ターミナルで並列作業実施
+  - `guards.md` 新規作成（1121行）- JWT認証、ロールベースアクセス制御
+  - `typeorm-entity.md` 新規作成（1044行）- リレーション、Cascade、Oracle対応
+  - Qiita記事「Claude CodeのTasks機能でマルチエージェント開発を実現する方法」完成
 - [x] 2026-01-20: 共通パッケージIssue作成・Filter/Interceptor学習資料改善
   - 共通パッケージ作成Issue（#5）を作成（3サービス間重複コード調査結果）
   - `filter-interceptor.md` をレビュー・改善
@@ -232,9 +238,9 @@
     2. ~~カスタムデコレータ（@CurrentUserId）~~ ✅ 完了（nestjs-controller.mdに統合）
     3. ~~DTOのバリデーション（class-validator詳細、複合チェック）~~ ✅ 完了（dto-validation.md）
     4. ~~Filter / Interceptor（リクエストライフサイクル）~~ ✅ 完了（filter-interceptor.md）
-    5. Guards（認証・認可） ← **次回**
-    6. TypeORMエンティティ
-    7. サービス間通信（BFFパターン）
+    5. ~~Guards（認証・認可）~~ ✅ 完了（guards.md）
+    6. ~~TypeORMエンティティ~~ ✅ 完了（typeorm-entity.md）
+    7. サービス間通信（BFFパターン） ← **次回**
   - 詳細は `docs/sessions/daily/2026-01-19.md` 参照
 - [ ] 開発環境モダナイゼーション（Issue #2）
   - Phase 1: mise導入 + ralph-wiggum学習

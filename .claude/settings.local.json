@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_TASK_LIST_ID": "nestjs-bff"
+  },
   "permissions": {
     "allow": [
       "Bash(git *)",
@@ -14,7 +17,11 @@
       "Skill(session-start)",
       "Skill(session-end)",
       "Bash(dir *)",
-      "Bash(claude plugin:*)"
+      "Bash(claude plugin:*)",
+      "Bash(gh issue create:*)",
+      "Bash(echo:*)",
+      "WebFetch(domain:blog.nextscape.net)",
+      "WebFetch(domain:docs.anthropic.com)"
     ]
   },
   "enableAllProjectMcpServers": true,
@@ -32,5 +39,6 @@
         ]
       }
     ]
-  }
+  },
+  "plansDirectory": ".claude/plans"
 }

@@ -11,6 +11,8 @@ NestJS BFF学習プロジェクトの学習資料です。
 | [nestjs-validation-pipe.md](./nestjs-validation-pipe.md) | ValidationPipeと入力検証の仕組み |
 | [dto-validation.md](./dto-validation.md) | DTOバリデーション詳解（class-validator応用） |
 | [filter-interceptor.md](./filter-interceptor.md) | ExceptionFilter/Interceptor（リクエストライフサイクル、エラー処理） |
+| [guards.md](./guards.md) | Guard（認証・認可）- JWT認証、ロールベースアクセス制御 |
+| [typeorm-entity.md](./typeorm-entity.md) | TypeORMエンティティ定義 - リレーション、Cascade、Oracle対応 |
 | [typeorm-transaction.md](./typeorm-transaction.md) | TypeORMトランザクション管理 |
 
 ## 学習の進め方
