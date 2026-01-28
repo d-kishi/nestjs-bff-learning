@@ -54,6 +54,13 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-29: BFFパターン学習資料作成
+  - `bff-pattern.md` 新規作成（約600行）
+  - サービスクライアント実装パターン
+  - 認証ヘッダ伝播（X-User-Id, X-User-Roles）
+  - データ集約・Promise.allSettled()
+  - 部分失敗ハンドリング
+  - BFF固有例外クラス
 - [x] 2026-01-26: Claude Code Tasks機能でマルチエージェント実践・学習資料2件作成
   - `CLAUDE_CODE_TASK_LIST_ID` 環境変数でTask共有
   - 2ターミナルで並列作業実施
@@ -231,7 +238,7 @@
 
 ### 次回セッション優先事項
 
-- [ ] NestJS学習（継続）
+- [x] NestJS学習（完了）
   - 学習資料は `docs/learning/` 配下に作成
   - 推奨順序:
     1. ~~デコレータの仕組み（@Get, @Body, @Param等）~~ ✅ 完了
@@ -240,7 +247,7 @@
     4. ~~Filter / Interceptor（リクエストライフサイクル）~~ ✅ 完了（filter-interceptor.md）
     5. ~~Guards（認証・認可）~~ ✅ 完了（guards.md）
     6. ~~TypeORMエンティティ~~ ✅ 完了（typeorm-entity.md）
-    7. サービス間通信（BFFパターン） ← **次回**
+    7. ~~サービス間通信（BFFパターン）~~ ✅ 完了（bff-pattern.md）
   - 詳細は `docs/sessions/daily/2026-01-19.md` 参照
 - [ ] 開発環境モダナイゼーション（Issue #2）
   - Phase 1: mise導入 + ralph-wiggum学習

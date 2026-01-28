@@ -21,7 +21,9 @@
       "Bash(gh issue create:*)",
       "Bash(echo:*)",
       "WebFetch(domain:blog.nextscape.net)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(git commit:*)",
+      "WebFetch(domain:playwright.dev)"
     ]
   },
   "enableAllProjectMcpServers": true,

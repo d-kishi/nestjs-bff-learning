@@ -14,6 +14,7 @@ NestJS BFF学習プロジェクトの学習資料です。
 | [guards.md](./guards.md) | Guard（認証・認可）- JWT認証、ロールベースアクセス制御 |
 | [typeorm-entity.md](./typeorm-entity.md) | TypeORMエンティティ定義 - リレーション、Cascade、Oracle対応 |
 | [typeorm-transaction.md](./typeorm-transaction.md) | TypeORMトランザクション管理 |
+| [bff-pattern.md](./bff-pattern.md) | サービス間通信（BFFパターン） - データ集約、部分失敗ハンドリング |
 
 ## 学習の進め方
 
