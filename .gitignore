@@ -28,6 +28,8 @@ npm-debug.log*
 
 # Test
 coverage/
+playwright-report/
+test-results/
 
 # Misc
 *.tgz
@@ -44,3 +46,4 @@ coverage/
 .ripgreprc
 .zprofile
 .zshrc
+.claude/settings.local.json
