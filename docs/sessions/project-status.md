@@ -54,6 +54,11 @@
 
 ## 直近の完了事項
 
+- [x] 2026-02-01: Issue #6完了 + Sandbox設定
+  - Playwright MCPをSkills + CLIに置き換え（コンテキスト効率改善）
+  - `.mcp.json`削除、ドキュメント修正
+  - CLAUDE.md修正（WSL環境移行対応）
+  - Sandboxモード有効化
 - [x] 2026-01-31: Claude Code WSL環境移行（Issue #4完了）
   - npm版Claude Code・Voltaアンインストール
   - ネイティブインストール（WSL）
@@ -264,6 +269,7 @@
 
 - ralph-wiggumのstop-hook.shがWindows環境でエディタで開かれる（Issue #1、上流修正待ち）
 - ~~WSL環境移行が必要（Issue #4）~~ → ✅ 完了（2026-01-31）
+- ~~Playwright MCPのコンテキスト消費（Issue #6）~~ → ✅ 完了（2026-02-01）
 
 ### WSL環境情報
 

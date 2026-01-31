@@ -33,3 +33,14 @@ coverage/
 *.tgz
 .npm
 .claude/settings.local.json
+.claude/plans/
+
+# Sandbox-generated files
+.bash_profile
+.bashrc
+.gitconfig
+.gitmodules
+.profile
+.ripgreprc
+.zprofile
+.zshrc

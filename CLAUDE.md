@@ -19,9 +19,6 @@ Angular → BFF (api-gateway) → task-service / user-service → Oracle XE
 
 ## Commands
 
-> **実行環境**: Claude CodeはWindowsホスト環境で動作するが、npm/nodeコマンドはDevContainer内で実行する必要がある。
-> ホストからは `docker exec nestjs-bff-learning_devcontainer-app-1 bash -c "..."` 形式で実行すること。
-
 ```bash
 # 全サービスの依存関係インストール
 npm install

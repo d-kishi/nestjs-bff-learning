@@ -79,10 +79,10 @@ Phase 4 Angular統合において、E2Eテストの導入範囲を決定する�
 
 ### 技術的影響
 
-- `.mcp.json` にPlaywright MCP設定を追加
 - `.devcontainer/devcontainer.json` にPlaywrightブラウザインストールを追加
 - `frontend/angular-app/e2e/` にテストファイルを配置
 - コンポーネントに `data-testid` 属性を付与
+- E2Eテスト実行: `cd frontend/angular-app && npm run test:e2e`
 
 ## 関連ドキュメント
 

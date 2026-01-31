@@ -987,24 +987,20 @@ cd frontend/angular-app
 npm run test:e2e
 ```
 
-### Playwright MCP連携
+### E2Eテスト実行
 
-`/webapp-testing` スキルでPlaywright MCPを活用：
+CLIでPlaywrightテストを実行：
 
-```
-/webapp-testing を使用して、認証フローのE2Eテストを実行・検証してください。
+```bash
+# E2Eテスト実行（Angular開発サーバーは自動起動）
+cd frontend/angular-app
+npm run test:e2e
 
-## 対象シナリオ
-1. ログイン成功 → ダッシュボード表示
-2. 新規登録成功 → ダッシュボード表示
-3. 未認証時リダイレクト
-4. ログアウト
-5. ログイン状態維持
+# UIモードで実行（デバッグ時）
+npm run test:e2e:ui
 
-## 確認ポイント
-- URL遷移が正しいか
-- localStorageにトークンが保存/削除されるか
-- ユーザー名が表示されるか
+# 特定テストのみ実行
+npx playwright test auth.spec.ts
 ```
 
 ### data-testid属性
