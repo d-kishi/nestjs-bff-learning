@@ -54,6 +54,11 @@
 
 ## 直近の完了事項
 
+- [x] 2026-01-31: Claude Code WSL環境移行（Issue #4完了）
+  - npm版Claude Code・Voltaアンインストール
+  - ネイティブインストール（WSL）
+  - mise導入（Node.jsバージョン管理）
+  - 設定ファイル移行・プラグイン再設定
 - [x] 2026-01-29: BFFパターン学習資料作成
   - `bff-pattern.md` 新規作成（約600行）
   - サービスクライアント実装パターン
@@ -240,17 +245,15 @@
 
 - [x] NestJS学習（完了）
   - 学習資料は `docs/learning/` 配下に作成
-  - 推奨順序:
-    1. ~~デコレータの仕組み（@Get, @Body, @Param等）~~ ✅ 完了
-    2. ~~カスタムデコレータ（@CurrentUserId）~~ ✅ 完了（nestjs-controller.mdに統合）
-    3. ~~DTOのバリデーション（class-validator詳細、複合チェック）~~ ✅ 完了（dto-validation.md）
-    4. ~~Filter / Interceptor（リクエストライフサイクル）~~ ✅ 完了（filter-interceptor.md）
-    5. ~~Guards（認証・認可）~~ ✅ 完了（guards.md）
-    6. ~~TypeORMエンティティ~~ ✅ 完了（typeorm-entity.md）
-    7. ~~サービス間通信（BFFパターン）~~ ✅ 完了（bff-pattern.md）
   - 詳細は `docs/sessions/daily/2026-01-19.md` 参照
+- [x] Claude Code WSL環境移行（Issue #4完了）
+  - miseも導入済み
+  - 詳細は `docs/sessions/daily/2026-01-31.md` 参照
 - [ ] 開発環境モダナイゼーション（Issue #2）
-  - Phase 1: mise導入 + ralph-wiggum学習
+  - **前提条件**: Issue #4完了 ✅
+  - Phase 1: mise導入（DevContainer内）+ ralph-wiggum学習
+  - Phase 2: pnpm移行
+  - Phase 3: Deno + NestJS設定
   - 詳細は `.claude/plans/peaceful-spinning-haven.md` 参照
 - [ ] VSCodeデバッグ設定の動作確認・調整（任意）
   - package.jsonのstart:debugスクリプト（ポート指定）の再設定
@@ -260,4 +263,14 @@
 ### 既知の問題
 
 - ralph-wiggumのstop-hook.shがWindows環境でエディタで開かれる（Issue #1、上流修正待ち）
-- WSL環境移行が必要（Issue #4）- Windows環境でのClaude Code問題解決のため
+- ~~WSL環境移行が必要（Issue #4）~~ → ✅ 完了（2026-01-31）
+
+### WSL環境情報
+
+| 項目 | 値 |
+|------|-----|
+| WSLユーザー | ka837 |
+| Claude Codeパス | ~/.local/bin/claude |
+| 設定ディレクトリ | ~/.claude/ |
+| プロジェクトパス | /mnt/c/Develop/nestjs-bff-learning |
+| Node.js管理 | mise（~/.local/bin/mise） |
