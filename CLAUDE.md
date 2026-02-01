@@ -17,24 +17,39 @@ Angular → BFF (api-gateway) → task-service / user-service → Oracle XE
 - **user-service**: User, UserProfile, Role エンティティ。JWT発行担当
 - 内部通信: X-User-Id, X-User-Roles ヘッダで認証情報を伝播
 
+## Development Environment
+
+ツール管理には[mise](https://mise.jdx.dev/)を使用：
+
+```bash
+# ツールのインストール（mise.tomlに基づく）
+mise install
+
+# 利用可能なツール
+# - node (LTS)
+# - bun (latest)
+# - pnpm (latest)
+```
+
 ## Commands
 
 ```bash
 # 全サービスの依存関係インストール
-npm install
+pnpm install
 
-# 各サービスの起動
-npm run start:task
-npm run start:user
-npm run start:gateway
+# 各サービスの起動（Bun経由）
+pnpm run start:task
+pnpm run start:user
+pnpm run start:gateway
+pnpm run start:angular
 
-# テスト
-npm run test:task          # Unit Test
-npm run test:task:e2e      # API E2E
+# テスト（Bun経由）
+pnpm run test:task          # Unit Test
+pnpm run test:task:e2e      # API E2E
 
 # Lint & Format
-npm run lint
-npm run format
+pnpm run lint
+pnpm run format
 ```
 
 ## NestJS Service Structure
@@ -86,6 +101,8 @@ services/[service-name]/src/
 - **ブランチ**: `feature/US001-task-creation` 形式
 - **コミット**: Conventional Commits（`feat:`, `fix:`, `docs:`, `test:`, `chore:`）
 - **DB**: 開発時はsynchronize: true（マイグレーション不使用）
+- **パッケージマネージャ**: pnpm（workspaces使用）
+- **ランタイム**: Bun（NestJS/Angular両方で使用）
 
 ## Communication Guidelines
 

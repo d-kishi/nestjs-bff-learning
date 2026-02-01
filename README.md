@@ -12,14 +12,15 @@ Node.js（NestJS）によるマイクロサービスAPI開発の学習プロジ�
 
 | レイヤー | 技術 | 備考 |
 |---------|------|------|
-| Frontend | Angular 17+ | Standalone Component推奨 |
-| BFF | NestJS | REST API |
-| Backend Services | NestJS + TypeORM | 各サービス独立したNestJSアプリ |
+| Frontend | Angular 21+ | Standalone Component |
+| BFF | NestJS 11 | REST API |
+| Backend Services | NestJS 11 + TypeORM | 各サービス独立したNestJSアプリ |
 | Database | Oracle Database XE (21c) | 同一インスタンス・別スキーマ構成 |
-| 認証 | Passport + JWT | `@nestjs/passport`, `@nestjs/jwt`, bcrypt |
-| Test | Jest + supertest | Unit Test + API E2E |
-| API Documentation | Swagger | `@nestjs/swagger` |
-| 開発環境 | DevContainer | Docker Compose構成 |
+| 認証 | Passport + JWT | `@nestjs/passport`, `@nestjs/jwt`, bcryptjs |
+| Test | Jest + Vitest | Unit Test + API E2E |
+| Runtime | Bun | 高速なJavaScript/TypeScriptランタイム |
+| Package Manager | pnpm | workspaces構成 |
+| 開発環境 | DevContainer + mise | Docker Compose構成、ツールバージョン管理 |
 
 ## アーキテクチャ
 
@@ -99,69 +100,69 @@ nestjs-bff-learning/
 
 ### コマンド一覧
 
-#### 基本コマンド（npm workspaces）
+#### 基本コマンド（pnpm workspaces + Bun）
 
 ```bash
 # 全サービスの依存関係をインストール
-npm install
+pnpm install
 
-# 各サービスの起動
-npm run start:task      # task-service (port 3001)
-npm run start:user      # user-service (port 3002)
-npm run start:gateway   # api-gateway (port 3000)
-npm run start:angular   # Angular (port 4200)
+# 各サービスの起動（Bun経由）
+pnpm run start:task      # task-service (port 3001)
+pnpm run start:user      # user-service (port 3002)
+pnpm run start:gateway   # api-gateway (port 3000)
+pnpm run start:angular   # Angular (port 4200)
 
-# 各サービスのテスト実行
-npm run test:task       # task-service Unit Test
-npm run test:user       # user-service Unit Test
-npm run test:gateway    # api-gateway Unit Test
+# 各サービスのテスト実行（Bun経由）
+pnpm run test:task       # task-service Unit Test
+pnpm run test:user       # user-service Unit Test
+pnpm run test:gateway    # api-gateway Unit Test
 
 # E2Eテスト
-npm run test:task:e2e   # task-service API E2E
-npm run test:user:e2e   # user-service API E2E
-npm run test:gateway:e2e # api-gateway API E2E
+pnpm run test:task:e2e   # task-service API E2E
+pnpm run test:user:e2e   # user-service API E2E
+pnpm run test:gateway:e2e # api-gateway API E2E
 
 # Lint & Format
-npm run lint            # 全サービスのESLint実行
-npm run format          # 全サービスのPrettier実行
+pnpm run lint            # 全サービスのESLint実行
+pnpm run format          # 全サービスのPrettier実行
 ```
 
 #### NestJS CLIコマンド
 
-NestJS CLIは `nest` コマンドで利用できます（DevContainer内にグローバルインストール済み）。
+NestJS CLIは `bunx nest` コマンドで利用できます（DevContainer内）。
 
 | コマンド | 説明 | 使用例 |
 |---------|------|--------|
-| `nest new` | 新規プロジェクト作成 | `nest new my-service --package-manager npm` |
-| `nest generate` | コード生成（モジュール、コントローラー等） | `nest g resource users` |
-| `nest build` | TypeScriptビルド | `nest build` |
-| `nest start` | アプリケーション起動 | `nest start --watch` |
-| `nest info` | NestJS環境情報表示 | `nest info` |
+| `bunx nest new` | 新規プロジェクト作成 | `bunx nest new my-service --package-manager pnpm` |
+| `bunx nest generate` | コード生成（モジュール、コントローラー等） | `bunx nest g resource users` |
+| `bunx nest build` | TypeScriptビルド | `bunx nest build` |
+| `bunx nest start` | アプリケーション起動 | `bunx nest start --watch` |
+| `bunx nest info` | NestJS環境情報表示 | `bunx nest info` |
 
 **generate サブコマンド（短縮形: `g`）**
 
 ```bash
 # モジュール生成
-nest g module users
+bunx nest g module users
 
 # コントローラー生成
-nest g controller users
+bunx nest g controller users
 
 # サービス生成
-nest g service users
+bunx nest g service users
 
 # CRUD一式生成（推奨）
-nest g resource users
+bunx nest g resource users
 # → module, controller, service, dto, entity を一括生成
 
 # ガード生成
-nest g guard auth/jwt
+bunx nest g guard auth/jwt
 
 # インターセプター生成
-nest g interceptor logging
+bunx nest g interceptor logging
 
 # フィルター生成
-nest g filter http-exception
+bunx nest g filter http-exception
 ```
 
 **各サービスディレクトリで実行**
@@ -169,21 +170,21 @@ nest g filter http-exception
 ```bash
 # task-serviceで新しいリソースを追加する場合
 cd services/task-service
-nest g resource comments --no-spec
+bunx nest g resource comments --no-spec
 ```
 
 #### Angular CLIコマンドとの対比
 
 | 用途 | Angular CLI | NestJS CLI |
 |------|-------------|------------|
-| 新規プロジェクト | `ng new` | `nest new` |
-| コンポーネント/リソース生成 | `ng generate component` | `nest generate resource` |
-| ビルド | `ng build` | `nest build` |
-| 開発サーバー起動 | `ng serve` | `nest start --watch` |
-| テスト実行 | `ng test` | `npm run test` (Jest) |
-| E2Eテスト | `ng e2e` (Playwright) | `npm run test:e2e` (supertest) |
-| Lint | `ng lint` | `npm run lint` (ESLint) |
-| 環境情報表示 | `ng version` | `nest info` |
+| 新規プロジェクト | `bun ng new` | `bunx nest new` |
+| コンポーネント/リソース生成 | `bun ng generate component` | `bunx nest generate resource` |
+| ビルド | `bun ng build` | `bunx nest build` |
+| 開発サーバー起動 | `bun ng serve` | `bunx nest start --watch` |
+| テスト実行 | `bun ng test` | `pnpm run test` (Jest) |
+| E2Eテスト | `bun ng e2e` (Playwright) | `pnpm run test:e2e` (supertest) |
+| Lint | `bun ng lint` | `pnpm run lint` (ESLint) |
+| 環境情報表示 | `bun ng version` | `bunx nest info` |
 
 **生成コマンドの対比**
 
@@ -197,23 +198,23 @@ nest g resource comments --no-spec
 | パイプ | `ng g pipe` | `nest g pipe` |
 | 一括生成 | - | `nest g resource` |
 
-#### 各サービス個別のnpm scripts
+#### 各サービス個別のscripts
 
 **task-service / user-service / api-gateway 共通**
 
 ```bash
 cd services/task-service  # または user-service, api-gateway
 
-npm run start        # 本番モード起動
-npm run start:dev    # 開発モード（ホットリロード）
-npm run start:debug  # デバッグモード
-npm run build        # TypeScriptビルド
-npm run test         # Unit Test実行
-npm run test:watch   # テストウォッチモード
-npm run test:cov     # カバレッジ付きテスト
-npm run test:e2e     # E2Eテスト
-npm run lint         # ESLint実行
-npm run format       # Prettier実行
+bun run start        # 本番モード起動
+bun run start:dev    # 開発モード（ホットリロード）
+bun run start:debug  # デバッグモード
+bun run build        # TypeScriptビルド
+bun run test         # Unit Test実行
+bun run test:watch   # テストウォッチモード
+bun run test:cov     # カバレッジ付きテスト
+bun run test:e2e     # E2Eテスト
+bun run lint         # ESLint実行
+bun run format       # Prettier実行
 ```
 
 **angular-app**
@@ -221,22 +222,22 @@ npm run format       # Prettier実行
 ```bash
 cd frontend/angular-app
 
-npm run start        # 開発サーバー起動 (port 4200)
-npm run build        # 本番ビルド
-npm run test         # Vitest Unit Test
-npm run test:watch   # テストウォッチモード
-npm run test:e2e     # Playwright E2Eテスト
-npm run test:e2e:ui  # Playwright UIモード
+bun run start        # 開発サーバー起動 (port 4200)
+bun run build        # 本番ビルド
+bun run test         # Vitest Unit Test
+bun run test:watch   # テストウォッチモード
+bun run test:e2e     # Playwright E2Eテスト
+bun run test:e2e:ui  # Playwright UIモード
 ```
 
 #### 開発時のサービス起動手順
 
 ```bash
 # 1. 全サービスを起動（別々のターミナルで）
-npm run start:task      # ターミナル1
-npm run start:user      # ターミナル2
-npm run start:gateway   # ターミナル3
-npm run start:angular   # ターミナル4
+pnpm run start:task      # ターミナル1
+pnpm run start:user      # ターミナル2
+pnpm run start:gateway   # ターミナル3
+pnpm run start:angular   # ターミナル4
 
 # 2. ブラウザでアクセス
 # http://localhost:4200 → Angular
@@ -244,7 +245,7 @@ npm run start:angular   # ターミナル4
 
 # E2Eテスト実行時は全サービスが起動している必要があります
 cd frontend/angular-app
-npm run test:e2e
+bun run test:e2e
 ```
 
 ## 開発規約
