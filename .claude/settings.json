@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/dist/index.js userPromptSubmit"
+            "command": "bun .claude/hooks/dist/index.js userPromptSubmit"
           }
         ]
       }

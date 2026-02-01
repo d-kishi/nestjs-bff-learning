@@ -54,6 +54,11 @@
 
 ## 直近の完了事項
 
+- [x] 2026-02-02: Issue #2完了（WSL + Sandbox 環境でのアプリケーション起動対応）
+  - `/tmp/claude` ディレクトリ作成、`.env` ファイル作成
+  - 全サービス起動確認（api-gateway, task-service, user-service, Angular）
+  - VSCode デバッグ設定修正（pnpm 対応、Angular pattern 修正）
+  - Issue #7（localhost アクセス問題）、Issue #8（Swagger 未実装）作成
 - [x] 2026-02-01: Issue #6完了 + Sandbox設定
   - Playwright MCPをSkills + CLIに置き換え（コンテキスト効率改善）
   - `.mcp.json`削除、ドキュメント修正
@@ -254,22 +259,26 @@
 - [x] Claude Code WSL環境移行（Issue #4完了）
   - miseも導入済み
   - 詳細は `docs/sessions/daily/2026-01-31.md` 参照
-- [ ] 開発環境モダナイゼーション（Issue #2）
-  - **前提条件**: Issue #4完了 ✅
-  - Phase 1: mise導入（DevContainer内）+ ralph-wiggum学習
-  - Phase 2: pnpm移行
-  - Phase 3: Deno + NestJS設定
-  - 詳細は `.claude/plans/peaceful-spinning-haven.md` 参照
-- [ ] VSCodeデバッグ設定の動作確認・調整（任意）
-  - package.jsonのstart:debugスクリプト（ポート指定）の再設定
-  - devcontainer.jsonのデバッグポート（9229-9231）追加
-  - 詳細は `docs/sessions/daily/2026-01-06.md` 参照
+- [x] 開発環境モダナイゼーション（Issue #2完了）
+  - pnpm/Bun 移行完了
+  - WSL + Sandbox 環境でのアプリケーション起動対応完了
+  - 詳細は `docs/sessions/daily/2026-02-02.md` 参照
+- [x] VSCodeデバッグ設定の動作確認・調整
+  - `.vscode/launch.json` を pnpm 対応に修正
+  - Debug: Full Stack で全サービス起動確認済み
+- [ ] Issue #7: WSL環境でlocalhostからサービスにアクセスできない
+  - mirrored ネットワークモードへの変更を検討
+- [ ] Issue #8: 全バックエンドサービスにSwagger UIを実装する
+  - `@nestjs/swagger` パッケージのインストールが必要
 
 ### 既知の問題
 
 - ralph-wiggumのstop-hook.shがWindows環境でエディタで開かれる（Issue #1、上流修正待ち）
 - ~~WSL環境移行が必要（Issue #4）~~ → ✅ 完了（2026-01-31）
 - ~~Playwright MCPのコンテキスト消費（Issue #6）~~ → ✅ 完了（2026-02-01）
+- ~~開発環境モダナイゼーション（Issue #2）~~ → ✅ 完了（2026-02-02）
+- WSL環境でlocalhostからサービスにアクセスできない（Issue #7、WSL IP使用で回避可能）
+- 全バックエンドサービスにSwagger UI未実装（Issue #8）
 
 ### WSL環境情報
 

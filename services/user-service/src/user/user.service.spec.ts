@@ -18,10 +18,10 @@ import {
   UserInvalidPasswordException,
   RoleNotFoundException,
 } from '../common/exceptions/business.exception';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
-// bcryptをモック
-jest.mock('bcrypt', () => ({
+// bcryptjsをモック
+jest.mock('bcryptjs', () => ({
   compare: jest.fn(),
   hash: jest.fn(),
 }));

@@ -105,19 +105,24 @@ graph LR
 
 | カテゴリ | 技術 | バージョン | 用途 |
 |---------|------|-----------|------|
-| **Runtime** | Node.js | 20 LTS | JavaScript実行環境 |
+| **Runtime** | Bun | latest | JavaScript/TypeScript実行環境 |
+| **Runtime (fallback)** | Node.js | 20 LTS | 互換性確保 |
+| **Package Manager** | pnpm | latest | パッケージ管理 |
 | **Backend** | NestJS | 11 | APIフレームワーク |
 | **Frontend** | Angular | 21 | SPAフレームワーク |
 | **ORM** | TypeORM | 0.3 | DBアクセス |
 | **Database** | Oracle XE | 21c | RDBMS |
 | **DB Driver** | oracledb | 6.10 | Node.js用Oracleドライバ |
+| **Tool Manager** | mise | latest | ツールバージョン管理 |
 | **Container** | Docker | - | 開発環境仮想化 |
 
-### npm Workspaces 構成
+### pnpm Workspaces 構成
 
 ```
 nestjs-bff-learning/
-├── package.json              # ルート（workspaces定義）
+├── package.json              # ルート
+├── pnpm-workspace.yaml       # workspaces定義
+├── mise.toml                 # ツールバージョン管理
 ├── services/
 │   ├── task-service/         # タスク管理サービス
 │   ├── user-service/         # ユーザー認証サービス
@@ -126,7 +131,7 @@ nestjs-bff-learning/
     └── angular-app/          # Angularアプリ
 ```
 
-npm workspaces により、ルートディレクトリで `npm install` を実行すると全サービスの依存関係が一括インストールされます。
+pnpm workspaces により、ルートディレクトリで `pnpm install` を実行すると全サービスの依存関係が一括インストールされます。scriptsはBun経由で実行されます。
 
 ---
 
@@ -143,7 +148,7 @@ npm workspaces により、ルートディレクトリで `npm install` を実�
 
 ### Dockerfile の要点
 
-Node.jsからOracleに接続するには、**Oracle Instant Client** が必要です：
+Node.jsからOracleに接続するには、**Oracle Instant Client** が必要です。またBunとpnpmも追加：
 
 ```dockerfile
 FROM mcr.microsoft.com/devcontainers/javascript-node:20
@@ -161,8 +166,12 @@ RUN apt-get update && apt-get install -y libaio1t64 wget unzip \
 ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_23_4:$LD_LIBRARY_PATH
 ENV PATH=/opt/oracle/instantclient_23_4:$PATH
 
-# NestJS CLI グローバルインストール
-RUN npm install -g @nestjs/cli
+# Bunインストール（/usr/local に配置して全ユーザーがアクセス可能に）
+ENV BUN_INSTALL="/usr/local"
+RUN curl -fsSL https://bun.sh/install | bash
+
+# pnpmインストール（corepack経由）
+RUN corepack enable && corepack prepare pnpm@latest --activate
 ```
 
 ### docker-compose.yml の要点
@@ -258,9 +267,9 @@ npm install @nestjs/config @nestjs/typeorm typeorm oracledb class-validator clas
 
 ```bash
 # task-serviceと同等 + 認証系パッケージ
-npm install @nestjs/config @nestjs/typeorm typeorm oracledb class-validator class-transformer
-npm install @nestjs/passport @nestjs/jwt passport passport-jwt bcrypt
-npm install -D @types/bcrypt @types/passport-jwt
+pnpm add @nestjs/config @nestjs/typeorm typeorm oracledb class-validator class-transformer
+pnpm add @nestjs/passport @nestjs/jwt passport passport-jwt bcryptjs
+pnpm add -D @types/bcryptjs @types/passport-jwt
 ```
 
 | パッケージ | バージョン | 用途 |
@@ -269,12 +278,12 @@ npm install -D @types/bcrypt @types/passport-jwt
 | `@nestjs/jwt` | ^11.0.2 | JWT生成・検証 |
 | `passport` | ^0.7.0 | 認証ミドルウェア |
 | `passport-jwt` | ^4.0.1 | JWT認証ストラテジー |
-| `bcrypt` | ^6.0.0 | パスワードハッシュ化 |
+| `bcryptjs` | ^3.0.2 | パスワードハッシュ化（Pure JS、Bun互換） |
 
 **なぜこれらが必要か**:
 - `passport`: 認証の標準的なミドルウェア
 - `passport-jwt`: Bearer Token認証の実装
-- `bcrypt`: パスワードの安全な保存（ソルト付きハッシュ）
+- `bcryptjs`: パスワードの安全な保存（ソルト付きハッシュ）。bcryptのPure JS実装でBun互換
 - `@nestjs/jwt`: JWTトークンの発行・署名
 
 ### api-gateway（BFF層）
@@ -321,27 +330,32 @@ ng new angular-app --standalone --routing --style=scss --skip-git --skip-tests
 - NgModuleが不要でシンプル
 - 遅延読み込みが容易
 
-### ルートpackage.json（Workspaces管理）
+### ルートpackage.json（pnpm Workspaces管理）
 
 ```json
 {
-  "workspaces": [
-    "services/*",
-    "frontend/*"
-  ],
   "scripts": {
-    "start:task": "npm run start --workspace=services/task-service",
-    "start:user": "npm run start --workspace=services/user-service",
-    "start:gateway": "npm run start --workspace=services/api-gateway",
-    "start:angular": "npm run start --workspace=frontend/angular-app",
-    "test:task": "npm run test --workspace=services/task-service",
-    "lint": "npm run lint --workspaces --if-present"
+    "start:task": "bun run --cwd services/task-service start:dev",
+    "start:user": "bun run --cwd services/user-service start:dev",
+    "start:gateway": "bun run --cwd services/api-gateway start:dev",
+    "start:angular": "bun run --cwd frontend/angular-app start",
+    "test:task": "bun run --cwd services/task-service test",
+    "lint": "pnpm run -r --if-present lint"
   },
+  "packageManager": "pnpm@10.28.2",
   "devDependencies": {
     "husky": "^9.0.0",
     "lint-staged": "^15.0.0"
   }
 }
+```
+
+ワークスペース定義は `pnpm-workspace.yaml` で管理：
+
+```yaml
+packages:
+  - 'services/*'
+  - 'frontend/*'
 ```
 
 ---
@@ -436,7 +450,7 @@ devcontainer.jsonのpostCreateCommandでブラウザをインストール：
 
 ```json
 {
-  "postCreateCommand": "npm install && CI=1 npx playwright install --with-deps chromium"
+  "postCreateCommand": "git config --global core.autocrlf input && pnpm install && CI=1 bunx playwright install --with-deps chromium"
 }
 ```
 
@@ -447,10 +461,10 @@ devcontainer.jsonのpostCreateCommandでブラウザをインストール：
 cd /workspace/frontend/angular-app
 
 # E2Eテスト実行（バックエンドサービス起動必須）
-npm run test:e2e
+bun run test:e2e
 
 # UIモードで実行（デバッグ用）
-npm run test:e2e:ui
+bun run test:e2e:ui
 ```
 
 ### 前提条件
@@ -474,7 +488,7 @@ browserType.launch: Executable doesn't exist at ...
 **解決策**:
 ```bash
 cd /workspace/frontend/angular-app
-CI=1 npx playwright install --with-deps chromium
+CI=1 bunx playwright install --with-deps chromium
 ```
 
 ---
@@ -591,50 +605,50 @@ VS Codeでプロジェクトを開き、コマンドパレットから：
 ```bash
 # task-service
 cd /workspace/services
-nest new task-service --package-manager npm --skip-git
+bunx nest new task-service --package-manager pnpm --skip-git
 cd task-service
-npm install @nestjs/config @nestjs/typeorm typeorm oracledb class-validator class-transformer
+pnpm add @nestjs/config @nestjs/typeorm typeorm oracledb class-validator class-transformer
 
 # user-service
 cd /workspace/services
-nest new user-service --package-manager npm --skip-git
+bunx nest new user-service --package-manager pnpm --skip-git
 cd user-service
-npm install @nestjs/config @nestjs/typeorm typeorm oracledb class-validator class-transformer
-npm install @nestjs/passport @nestjs/jwt passport passport-jwt bcrypt
-npm install -D @types/bcrypt @types/passport-jwt
+pnpm add @nestjs/config @nestjs/typeorm typeorm oracledb class-validator class-transformer
+pnpm add @nestjs/passport @nestjs/jwt passport passport-jwt bcryptjs
+pnpm add -D @types/bcryptjs @types/passport-jwt
 
 # api-gateway
 cd /workspace/services
-nest new api-gateway --package-manager npm --skip-git
+bunx nest new api-gateway --package-manager pnpm --skip-git
 cd api-gateway
-npm install @nestjs/config @nestjs/axios axios class-validator class-transformer
-npm install @nestjs/passport @nestjs/jwt passport passport-jwt
-npm install -D @types/passport-jwt nock
+pnpm add @nestjs/config @nestjs/axios axios class-validator class-transformer
+pnpm add @nestjs/passport @nestjs/jwt passport passport-jwt
+pnpm add -D @types/passport-jwt nock
 ```
 
 ### Step 7: Angular作成
 
 ```bash
 cd /workspace/frontend
-ng new angular-app --standalone --routing --style=scss --skip-git --skip-tests
+bun ng new angular-app --standalone --routing --style=scss --skip-git --skip-tests
 ```
 
 ### Step 8: ルートpackage.json設定
 
 ```bash
 cd /workspace
-npm init -y
-# workspaces設定とスクリプト追加
+pnpm init
+# pnpm-workspace.yaml作成とスクリプト追加
 ```
 
 ### Step 9: 動作確認
 
 ```bash
 # 各サービス起動
-npm run start:task     # localhost:3001
-npm run start:user     # localhost:3002
-npm run start:gateway  # localhost:3000
-npm run start:angular  # localhost:4200
+pnpm run start:task     # localhost:3001
+pnpm run start:user     # localhost:3002
+pnpm run start:gateway  # localhost:3000
+pnpm run start:angular  # localhost:4200
 ```
 
 ---
